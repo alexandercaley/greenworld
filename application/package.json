@@ -20,7 +20,8 @@
   "keywords": [],
   "description": "",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "pm2": "^3.5.1"
