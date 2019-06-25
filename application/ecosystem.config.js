@@ -1,7 +1,8 @@
 module.exports = {
     apps: [{
         name: 'csc648-team6',
-        script: './index.js'
+        script: './index.js',
+        cwd: "/home/ubuntu/server/application"
     }],
     deploy: {
         production: {
