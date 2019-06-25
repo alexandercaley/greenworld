@@ -4,4 +4,5 @@ to deploy to aws server(or update)
 
 RUN:
 pm2 deploy ecosystem.config.js production
+OR
 npm run-script deploy
