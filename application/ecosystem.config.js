@@ -10,7 +10,7 @@ module.exports = {
             key: '~/.ssh/csc648-team6.pem',
             ref: 'origin/master',
             repo: 'git@github.com:CSC-648-SFSU/csc648-su19-Team06.git',
-            path: '/home/ubuntu/',
+            path: '/home/ubuntu/server',
             'post-deploy': 'npm install && pm2 startOrRestart ecosystem.config.js'
         }
     }
