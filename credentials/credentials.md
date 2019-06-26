@@ -10,7 +10,7 @@
 	chmod 400 ~/.ssh/team6_csc648.pem 
 	
 	# To connect to aws instance
-	SSH Command: ssh -i ~/.ssh/team6_csc648.pem ec2-52-53-193-123.us-west-1.compute.amazonaws.com
+	SSH Command: ssh -i ~/.ssh/team6_csc648.pem ubuntu@ec2-52-53-193-123.us-west-1.compute.amazonaws.com
 
 4.  Database URL or IP and port used.
 
