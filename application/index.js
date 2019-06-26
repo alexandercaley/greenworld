@@ -16,4 +16,8 @@ app.get('/jesus', function(req, res) {
 	res.sendFile(path.join(__dirname+'/public/aboutMe/jesus.html'))
 })
 
+app.get('/audrey', function(req, res) {
+    res.sendFile(path.join(__dirname+'/public/aboutMe/audrey.html'))
+});
+
 app.listen(3000, () => console.log('Server running on port 3000'))
