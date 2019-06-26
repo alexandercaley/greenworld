@@ -1,25 +1,35 @@
-1.
+1.	Server URL or IP
 
 	Public DNS(IPv4)[URL]: ec2-52-53-193-123.us-west-1.compute.amazonaws.com
 	IPv6 Public IP: http://52.53.193.123/
 
-2 & 3.
+2. & 3. SSH username & SSH password or key.
 
 	# change the permission file directroy to where you put the key
+	# or if it's in your .ssh folder, run this.
+	chmod 400 ~/.ssh/team6_csc648.pem 
+	
+	# To connect to aws instance
 	SSH Command: ssh -i ~/.ssh/team6_csc648.pem ec2-52-53-193-123.us-west-1.compute.amazonaws.com
 
-4.  
+4.  Database URL or IP and port used.
+
 	IP:		http://52.53.193.123/
 	Port: 	3306
 
-5.  
+5.  Database username
+
 	Username: testuser
 
-6.
+6.	Database password
+
 	password: team6
 
-7.
+7.	Database name (basically the name that contains all your tables)
+
 	csc648team6
+
+######	INSTRUCTIONS	######
 
 For steps 2 & 3
 
