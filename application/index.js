@@ -24,6 +24,10 @@ app.get('/audrey', function(req, res) {
     res.sendFile(path.join(__dirname+'/public/aboutMe/audrey.html'))
 });
 
+app.get('/alexander', function(req, res) {
+	res.sendFile(path.join(__dirname+'/public/aboutMe/alexander.html'))
+})
+
 app.get('/raz', function(req, res) {
     res.sendFile(path.join(__dirname+'/public/aboutMe/raz.html'))
 });
