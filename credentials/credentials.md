@@ -43,7 +43,7 @@ For steps 4 to 7
 	In mysql workbench, 
 		- create a new connection
 		- Select, Standard(TCP/IP)
-		- Hostname: 52.53.193.123
+		- Hostname: 18.144.73.194
 		- Username: testuser
 		- Port: 3306
 		- Password: team6
