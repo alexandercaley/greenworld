@@ -22,7 +22,7 @@ const port = 4000;
 var connection = mysql.createConnection({
 	host: "localhost",
 
-	//Open port for DataBase
+	//Open port for DB
 	port: 3306,
 
 	// Your username
