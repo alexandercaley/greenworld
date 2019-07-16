@@ -10,7 +10,13 @@ if (!connection) {
         password: 'password',
         database: 'VerticalPrototype'
     });
-    console.log('Connected to the MySQL server.');
+
+    connection.connect((err) => {
+      if (!err)
+      console.log('Connected to the MySQL server!');
+      else
+      console.log('Connection failed \n Error: ' + JSON.stringify(err, undefined, 2));
+    });
 }
 
 
