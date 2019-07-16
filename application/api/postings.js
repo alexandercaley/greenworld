@@ -10,6 +10,7 @@ if (!connection) {
         password: 'password',
         database: 'VerticalPrototype'
     });
+    console.log('Connected to the MySQL server.');
 }
 
 
@@ -19,6 +20,5 @@ router.get('/', function (req, res) {
         res.json(result);
     });
 });
-
 
 module.exports = router;
