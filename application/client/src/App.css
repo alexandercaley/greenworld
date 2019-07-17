@@ -1,4 +1,20 @@
-.App {
+/* :root {
+  --mainDarker: #343a40;
+  --mainGrey: rgba(109, 109, 109);
+  --mainLightGrey: rgba(172, 172, 172);
+  --mainWhite: #fff;
+  --mainBlue: #007bff;
+}
+
+.navbar-toggler:focus {
+  outline: none;
+}
+
+.navbar-toggler {
+  border: none;
+} */
+
+/* .App {
   text-align: center;
 }
 
@@ -42,4 +58,4 @@
 .widget h3 {
   font-size: 60px;
   margin-bottom: 0;
-}
+} */
