@@ -30,18 +30,18 @@ class Category extends Component {
         {this.state.displayMenu ? (
           <ul>
             <li>
-              <a className="active" href="#Create Page">
+              <a className="active" href="#Plastc">
                 Plastc
               </a>
             </li>
             <li>
-              <a href="#Manage Pages">Tree Fall</a>
+              <a href="#Tree Fall">Tree Fall</a>
             </li>
             <li>
-              <a href="#Create Ads">Garbage </a>
+              <a href="#Garbage">Garbage </a>
             </li>
             <li>
-              <a href="#Manage Ads">Water flood </a>
+              <a href="#Water flood">Water flood </a>
             </li>
           </ul>
         ) : null}
