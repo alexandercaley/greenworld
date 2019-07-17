@@ -4,6 +4,7 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 
 router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: true }));
 
 let connection;
 if (!connection) {
@@ -22,7 +23,6 @@ if (!connection) {
     });
 }
 
-
 router.get('/', function (req, res) {
     connection.query("SELECT * FROM VerticalPrototype.postings", function (err, result, fields) {
         if (err) throw err;
@@ -32,16 +32,15 @@ router.get('/', function (req, res) {
 
 router.post('/', function (req, res) {
     console.log("POST!!!!")
-    var jsondata = req.body;
-    var values = [];
+    var {id, location, postType, postStatus, picture} = req.body;
+    console.log(id, postType, postStatus, picture)
 
-    for (var i = 0; i < jsondata.length; i++) {
-        values.push([jsondata[i].id, jsondata[i].location, jsondata[i].postType, jsondata[i].postStatus, jsondata[i].picture]);
-    }
+    let query = "INSERT INTO postings (postType, postStatus, picture) VALUES (?,?,?)"
 
-    connection.query('INSERT INTO members (id, location, postType, postStatus, picture) VALUES ?', [values],
+    connection.query(query, [postType, postStatus, picture],
         function (err, result) {
             if (err) {
+                console.log(err);
                 res.send('Error');
             }
             else {

@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `postings`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `postings` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `location` varchar(100) DEFAULT NULL,
   `postType` varchar(20) DEFAULT NULL,
   `postStatus` varchar(20) DEFAULT NULL,
