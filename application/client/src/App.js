@@ -59,16 +59,16 @@ class App extends Component {
       <div>
         <Router>
           <Navbar />
-          {/* <Switch>
+          <Switch>
             <Route exact path="/home" component={Home} />
             <Route exact path="/news" component={News} />
             <Route exact path="/aboutUs" component={AboutUs} />
             <Route exact path="/post" component={Post} />
             <Route exact path="/category" component={Category} />
-          </Switch> */}
+          </Switch>
         </Router>
-        {/* <button onClick={this.fetchData}>Fetch</button>
-        <button onClick={this.postData}>Post</button> */}
+        <button onClick={this.fetchData}>Fetch</button>
+        <button onClick={this.postData}>Post</button>
       </div>
       // <div className="App">
       //   <Navbar />
