@@ -35,9 +35,9 @@ router.post('/', function (req, res) {
     var {id, location, postType, postStatus, picture} = req.body;
     console.log(id, postType, postStatus, picture)
 
-    let query = "INSERT INTO postings (postType, postStatus, picture) VALUES (?,?,?)"
+    let query = "INSERT INTO postings (location, postType, postStatus, picture) VALUES (?,?,?,?)"
 
-    connection.query(query, [postType, postStatus, picture],
+    connection.query(query, [location, postType, postStatus, picture],
         function (err, result) {
             if (err) {
                 console.log(err);
