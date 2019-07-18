@@ -24,14 +24,6 @@ class ImageLoad extends React.Component {
           imgExtension={[".jpg", ".gif", ".png", ".gif"]}
           maxFileSize={5242880}
         />
-
-        {/* <div className="group">
-          <input
-            type="file"
-            class="form-control-file"
-            id="exampleFormControlFile1"
-          />
-        </div> */}
       </div>
     );
   }

@@ -60,6 +60,7 @@ class App extends Component {
         <Router>
           <Navbar />
           <Switch>
+            <Route exact path="/" component={Home} />
             <Route exact path="/home" component={Home} />
             <Route exact path="/news" component={News} />
             <Route exact path="/aboutUs" component={AboutUs} />
@@ -67,16 +68,9 @@ class App extends Component {
             <Route exact path="/category" component={Category} />
           </Switch>
         </Router>
-        <button onClick={this.fetchData}>Fetch</button>
-        <button onClick={this.postData}>Post</button>
+        {/* <button onClick={this.fetchData}>Fetch</button>
+        <button onClick={this.postData}>Post</button> */}
       </div>
-      // <div className="App">
-      //   <Navbar />
-      //   <header className="App-header">
-      //     <button onClick={this.fetchData}>Fetch</button>
-      //     <button onClick={this.postData}>Post</button>
-      //   </header>
-      // </div>
     );
   }
 }
