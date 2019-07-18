@@ -8,6 +8,7 @@ import Navbar from "./components/layout/Navbar";
 // React Router Import
 import { Switch, Route } from "react-router-dom";
 // Import Pages
+import showPostings from "./components/pages/showPostings"
 import Home from "./components/pages/Home";
 import News from "./components/pages/News";
 import AboutUs from "./components/pages/AboutUs";
@@ -15,6 +16,7 @@ import Post from "./components/pages/Post";
 import Category from "./components/pages/Category";
 
 import { BrowserRouter as Router } from "react-router-dom";
+import showPostingss from "./components/pages/showPostings";
 
 class App extends Component {
   constructor(props) {
@@ -61,6 +63,7 @@ class App extends Component {
           <Navbar />
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/showPostings" component={showPostings} />
             <Route exact path="/home" component={Home} />
             <Route exact path="/news" component={News} />
             <Route exact path="/aboutUs" component={AboutUs} />
