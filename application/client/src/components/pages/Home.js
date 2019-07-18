@@ -9,9 +9,9 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      typeIssue: "",
+      postStatus: "",
       location: "",
-      zipcode: ""
+      postType: ""
       // discription: "
     };
     //   this.handleUploadImage = this.handleUploadImage.bind(this);
@@ -20,13 +20,13 @@ class Home extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    let { typeIssue, location, zipcode } = this.state;
-    console.log(typeIssue, location, zipcode);
+    let { postStatus, location, postType } = this.state;
+    console.log(postStatus, location, postType);
     axios
       .post("/api/postings", {
-        typeIssue,
+        postStatus,
         location,
-        zipcode
+        postType
       })
       .then(res => {
         console.log("hi");
@@ -38,9 +38,9 @@ class Home extends Component {
     console.log();
   };
 
-  changeTypeIssue = e => {
+  changePostStatus = e => {
     let inputIssue = e.target.value;
-    this.setState({ typeIssue: inputIssue });
+    this.setState({ postStatus: inputIssue });
   };
 
   changeLocation = e => {
@@ -48,15 +48,15 @@ class Home extends Component {
     this.setState({ location: inputLocation });
   };
 
-  changeZipcode = e => {
-    let inputZipcode = e.target.value;
-    this.setState({ zipcode: inputZipcode });
+  changePostType = e => {
+    let inputPostType = e.target.value;
+    this.setState({ postType: inputPostType });
   };
 
-  changeTypeIssue = e => {
-    let inputIssue = e.target.value;
-    this.setState({ typeIssue: inputIssue });
-  };
+  // changepostStatus = e => {
+  //   let inputIssue = e.target.value;
+  //   this.setState({ postStatus: inputIssue });
+  // };  
 
   toggle(e) {
     this.setState(prevState => ({
@@ -83,7 +83,7 @@ class Home extends Component {
                 placeholder="Type Issue"
                 name="fullname"
                 type="text"
-                onChange={this.changeTypeIssue}
+                onChange={this.changePostStatus}
                 noValidate
                 // onChange={this.handleChange}
               />
@@ -117,14 +117,14 @@ class Home extends Component {
           <br />
           <div className="two fields">
             <div className="field">
-              <label htmlFor="name">Zipcode</label>
+              <label htmlFor="name">post type</label>
               <br />
               <input
                 // className={formErrors.name.length > 0 ? "error" : null}
-                placeholder=" Zipcode"
-                name="Zipcode"
-                type="zipcode"
-                onChange={this.changeZipcode}
+                placeholder=" post staus"
+                name="post staus"
+                type="post staus"
+                onChange={this.changePostType}
                 noValidate
                 // onChange={this.handleChange}
               />
@@ -144,13 +144,13 @@ class Home extends Component {
               <input
                 // className={formErrors.name.length > 0 ? "error" : null}
                 placeholder=" Detail"
-                name="Zipcode"
-                type="zipcode"
+                name="postType"
+                type="postType"
                 noValidate
                 // onChange={this.handleChange}
               />
             </div>
-          </div> */}
+          </div> */}  
           <br />
           <ImageLoad />
 
