@@ -1,9 +1,12 @@
 const express = require('express')
 const app = express()
-var path = require("path");
 const aboutus = require('./api/aboutus.js');
+const postings = require('./api/postings.js');
+const path = require('path');
 
 app.use(express.static(path.join(__dirname, '/client/build')));
+
+app.use('/api/postings', postings);
 
 // hitting this route will bring us to aboutus page
 app.use('/aboutus', aboutus);
