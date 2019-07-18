@@ -39,8 +39,8 @@ class Home extends Component {
   };
 
   changePostStatus = e => {
-    let inputIssue = e.target.value;
-    this.setState({ postStatus: inputIssue });
+    let inputPostType = e.target.value;
+    this.setState({ postStatus: inputPostType });
   };
 
   changeLocation = e => {
