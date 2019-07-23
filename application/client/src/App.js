@@ -8,15 +8,15 @@ import Navbar from "./components/layout/Navbar";
 // React Router Import
 import { Switch, Route } from "react-router-dom";
 // Import Pages
-import showPostings from "./components/pages/showPostings"
+import showPostings from "./components/pages/showPostings";
 import Home from "./components/pages/Home";
 import News from "./components/pages/News";
 import AboutUs from "./components/pages/AboutUs";
 import Post from "./components/pages/Post";
 import Category from "./components/pages/Category";
+import showPostingss from "./components/pages/showPostings";
 
 import { BrowserRouter as Router } from "react-router-dom";
-import showPostingss from "./components/pages/showPostings";
 
 class App extends Component {
   constructor(props) {
@@ -62,13 +62,12 @@ class App extends Component {
         <Router>
           <Navbar />
           <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/showPostings" component={showPostings} />
             <Route exact path="/home" component={Home} />
             <Route exact path="/news" component={News} />
             <Route exact path="/aboutUs" component={AboutUs} />
             <Route exact path="/post" component={Post} />
             <Route exact path="/category" component={Category} />
+            <Route exact path="/showPostings" component={showPostings} />
           </Switch>
         </Router>
         {/* <button onClick={this.fetchData}>Fetch</button>

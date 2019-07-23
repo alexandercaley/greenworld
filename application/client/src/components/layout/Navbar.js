@@ -1,12 +1,16 @@
 import React from "react";
 import logo from "../../assets/donkey.jpg";
+import "bootstrap/dist/css/bootstrap.min.css";
+// import "./Navbar.css";
 import { Link } from "react-router-dom";
 import Admin from "../Users/Admin";
 class Navbar extends React.Component {
   state = {};
   render() {
     return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-dark">
+      // <div className="Navbar">
+      //   <header className="Navbar-header">
+      <nav className="navbar navbar-expand-lg navbar-light bg-warning">
         <a className="navbar-brand ml-5" href="#">
           {/* <img src={logo} alt="logo" style={{ width: "35px" }} /> */}
           <h1>Team 06</h1>
@@ -88,6 +92,8 @@ class Navbar extends React.Component {
           <Admin />
         </div>
       </nav>
+      //   </header>
+      // </div>
     );
   }
 }
