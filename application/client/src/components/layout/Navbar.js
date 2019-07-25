@@ -3,12 +3,20 @@ import logo from "../../assets/donkey.jpg";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import "./Navbar.css";
 import { Link } from "react-router-dom";
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 import Admin from "../Users/Admin";
+=======
+import UserAuth from "../Users/UserAuth"
+// import SignIn from "../Users/SignIn";
+// import SignUp from "../Users/SignUp";
+
+>>>>>>> a5816c8391a0b59a8de6bfa3e43f5143539d59c5
 class Navbar extends React.Component {
-  state = {};
+
   render() {
     return (
+<<<<<<< HEAD
       // <div className="Navbar">
       //   <header className="Navbar-header">
 =======
@@ -20,9 +28,12 @@ class Navbar extends React.Component {
   render() {
     return (
 >>>>>>> Stashed changes
+=======
+
+>>>>>>> a5816c8391a0b59a8de6bfa3e43f5143539d59c5
       <nav className="navbar navbar-expand-lg navbar-light bg-warning">
+        
         <a className="navbar-brand ml-5" href="#">
-          {/* <img src={logo} alt="logo" style={{ width: "35px" }} /> */}
           <h1>Team 06</h1>
         </a>
         <button
@@ -99,26 +110,9 @@ class Navbar extends React.Component {
               </Link>
             </li>
           </ul>
-
-          <form className="form-inline my-2 my-lg-0">
-            <input
-              className="form-control mr-sm-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button
-              className="btn btn-outline-primary  my-2 my-sm-0"
-              type="submit"
-            >
-              Search
-            </button>
-          </form>
-          <Admin />
+          <UserAuth />
         </div>
       </nav>
-      //   </header>
-      // </div>
     );
   }
 }

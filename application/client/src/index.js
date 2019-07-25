@@ -6,8 +6,23 @@ import * as serviceWorker from "./serviceWorker";
 import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
 
+
+// import redux
+import { createStore, combineReducers } from "redux";
+import { Provider } from "react-redux";
+
+// import reducers
+import loginReducer from "./components/redux/reducers/loginReducer";
+import registerReducer from "./components/redux/reducers/registerReducer";
+import userauthReducer from "./components/redux/reducers/userauthReducer"
+
 // combine reducers
-const rootReducer = combineReducers({});
+const rootReducer = combineReducers({
+  loginReducer,
+  registerReducer,
+  userauthReducer
+});
+
 
 const store = createStore(rootReducer);
 
