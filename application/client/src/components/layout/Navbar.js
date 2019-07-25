@@ -3,16 +3,18 @@ import logo from "../../assets/donkey.jpg";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import "./Navbar.css";
 import { Link } from "react-router-dom";
-import Admin from "../Users/Admin";
+import UserAuth from "../Users/UserAuth"
+// import SignIn from "../Users/SignIn";
+// import SignUp from "../Users/SignUp";
+
 class Navbar extends React.Component {
-  state = {};
+
   render() {
     return (
-      // <div className="Navbar">
-      //   <header className="Navbar-header">
+
       <nav className="navbar navbar-expand-lg navbar-light bg-warning">
+        
         <a className="navbar-brand ml-5" href="#">
-          {/* <img src={logo} alt="logo" style={{ width: "35px" }} /> */}
           <h1>Team 06</h1>
         </a>
         <button
@@ -74,26 +76,9 @@ class Navbar extends React.Component {
               </Link>
             </li>
           </ul>
-
-          <form className="form-inline my-2 my-lg-0">
-            <input
-              className="form-control mr-sm-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button
-              className="btn btn-outline-primary  my-2 my-sm-0"
-              type="submit"
-            >
-              Search
-            </button>
-          </form>
-          <Admin />
+          <UserAuth />
         </div>
       </nav>
-      //   </header>
-      // </div>
     );
   }
 }
