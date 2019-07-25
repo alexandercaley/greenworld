@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
-import logo from "./logo.svg";
 import "./App.css";
 
 import Navbar from "./components/layout/Navbar";
-// import Footer from "./components/layouts/Footer";
-// React Router Import
+
 import { Switch, Route } from "react-router-dom";
 // Import Pages
 import showPostings from "./components/pages/showPostings";
@@ -70,8 +68,6 @@ class App extends Component {
             <Route exact path="/showPostings" component={showPostings} />
           </Switch>
         </Router>
-        {/* <button onClick={this.fetchData}>Fetch</button>
-        <button onClick={this.postData}>Post</button> */}
       </div>
     );
   }
