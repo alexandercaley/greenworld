@@ -3,13 +3,15 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
+import { createStore, combineReducers } from "redux";
+import { Provider } from "react-redux";
 
-// import reduex
+
+// import redux
 import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
 
 // import reducers
-
 import loginReducer from "./components/redux/reducers/loginReducer";
 import registerReducer from "./components/redux/reducers/registerReducer";
 import userauthReducer from "./components/redux/reducers/userauthReducer"
@@ -20,6 +22,7 @@ const rootReducer = combineReducers({
   registerReducer,
   userauthReducer
 });
+
 
 const store = createStore(rootReducer);
 
