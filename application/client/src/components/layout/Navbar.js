@@ -3,6 +3,7 @@ import logo from "../../assets/donkey.jpg";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import "./Navbar.css";
 import { Link } from "react-router-dom";
+<<<<<<< Updated upstream
 import Admin from "../Users/Admin";
 class Navbar extends React.Component {
   state = {};
@@ -10,6 +11,15 @@ class Navbar extends React.Component {
     return (
       // <div className="Navbar">
       //   <header className="Navbar-header">
+=======
+import UserAuth from "../Users/UserAuth";
+// import SignIn from "../Users/SignIn";
+// import SignUp from "../Users/SignUp";
+
+class Navbar extends React.Component {
+  render() {
+    return (
+>>>>>>> Stashed changes
       <nav className="navbar navbar-expand-lg navbar-light bg-warning">
         <a className="navbar-brand ml-5" href="#">
           {/* <img src={logo} alt="logo" style={{ width: "35px" }} /> */}
@@ -64,13 +74,28 @@ class Navbar extends React.Component {
                 Post
               </Link>
             </li>
-
             <li className="nav-item">
               <Link
                 className="nav-link text-white text-uppercase ml-5"
                 to="/category"
               >
                 Category
+              </Link>
+            </li>{" "}
+            <li className="nav-item">
+              <Link
+                className="nav-link text-white text-uppercase ml-5"
+                to="/login"
+              >
+                login
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                className="nav-link text-white text-uppercase ml-5"
+                to="/register"
+              >
+                register
               </Link>
             </li>
           </ul>
