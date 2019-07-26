@@ -4,11 +4,13 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+
+//this loads the .env file in
 const secretKey = process.env.JWT_SECRET;
 const bodyParser = require("body-parser");
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
-//this loads the .env file in
+
 //we need this for secret information that we don't want on our github
 
 
@@ -40,10 +42,9 @@ router.post("/register", function(req, res) {
     result
   ) {
     if (error || result == undefined) {
-  
       return res.status(405).json({ error: "ERR_INSERT_UNDEFINED" });;
     }
-    
+        
     if ( result.length != 0)
       return res.status(404).json({ error: "ERR_USER_ALREADY_EXISTS" });
 
@@ -58,8 +59,7 @@ router.post("/register", function(req, res) {
     bcrypt.genSalt(10, function(err, salt) {
       if(err) console.log(err);
       bcrypt.hash(req.body.password, salt, function(err, hash) {
-        // let queryInsert =
-        //   "INSERT INTO users (username, email, password, firstname, lastname) VALUES (?,?,?,'x','x')";
+
         let queryInsert =
           "INSERT INTO users (username, password, firstname, lastname) VALUES (?,?,?,?)";
 
