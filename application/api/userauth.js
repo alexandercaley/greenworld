@@ -31,10 +31,7 @@ if (!connection) {
 }
 
 router.post("/register", function(req, res) {
-  console.log("hi");
-  console.log(req.body);
   let { username, email, password } = req.body;
-  console.log(username);
   //   const queryCheck = "SELECT * FROM users WHERE username = ? AND email = ?";
   const queryCheck = "SELECT * FROM users WHERE username = ? ";
   connection.query(queryCheck, [username], function(
@@ -42,26 +39,24 @@ router.post("/register", function(req, res) {
     result
   ) {
     if (error || result == undefined) {
-      console.log('error')
+  
       return res.status(405).json({ error: "ERR_INSERT_UNDEFINED" });;
     }
     
-    console.log("line 47");
     if ( result.length != 0)
       return res.status(404).json({ error: "ERR_USER_ALREADY_EXISTS" });
-    console.log("line 49");
+
     if (!req.body.password)
       return res.status(401).json({ error: "ERR_NO_PASSWORD" });
-    console.log("line 52");
+
     if (password.length <= 2 && password)
       return res
         .status(401)
         .json({ error: "password length must be greater than 5" });
-    console.log("line 57");
+
     bcrypt.genSalt(10, function(err, salt) {
       if(err) console.log(err);
       bcrypt.hash(req.body.password, salt, function(err, hash) {
-        console.log("line 63");
         // let queryInsert =
         //   "INSERT INTO users (username, email, password, firstname, lastname) VALUES (?,?,?,'x','x')";
         let queryInsert =
@@ -76,17 +71,16 @@ router.post("/register", function(req, res) {
           lastname: result.lastname,
           create_date: result.create_date
         };
-        console.log("78")
+
         let token = jwt.sign(payload, secretKey, {
           expiresIn: "4h"
         });
-        console.log("82")
+
         connection.query(
           queryInsert,
           [req.body.username, hash, req.body.firstname, req.body.lastname],
           function(error, user) {
-            if (error) {
-              console.log("89")
+            if (error) {      
               res.send(error);
             } else {
               res.json({
