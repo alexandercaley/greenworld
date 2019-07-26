@@ -30,6 +30,7 @@ if (!connection) {
   });
 }
 
+// Register a user with password encryption.
 router.post("/register", function(req, res) {
   let { username, email, password } = req.body;
   //   const queryCheck = "SELECT * FROM users WHERE username = ? AND email = ?";
@@ -94,6 +95,48 @@ router.post("/register", function(req, res) {
           }
         );
       });
+    });
+  });
+});
+
+router.post('/login', function(req, res) {
+  console.log('Line 57');
+  console.log(req.body);
+  const query = 'SELECT * FROM users WHERE username = ? ';
+
+  connection.query(query, [req.body.username], function(
+    error,
+    result,
+    body
+  ) {
+    console.log('RESULT!!' + JSON.stringify(result[0].id));
+    let data = result[0];
+    console.log('DATA!!!' + data);
+
+    if (!result) return res.status(404).json({ error: 'user not found' });
+
+    if (!bcrypt.compareSync(req.body.password, result[0].password))
+      return res.status(401).json({ error: 'incorrect password ' });
+
+    let payload = {
+      isLoggedIn: true,
+      _id: data.id,
+      username: data.username,
+      // email: data.email,
+      firstname: data.firstname,
+      lastname: data.lastname,
+      create_date: data.create_date
+    };
+
+    let token = jwt.sign({ data: payload }, secretKey, {
+      expiresIn: '4h'
+    });
+
+    return res.json({
+      message: 'successfuly authenticated',
+      token: token,
+      bool: true,
+      result: result
     });
   });
 });
