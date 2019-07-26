@@ -1,10 +1,10 @@
 const mysql = require("mysql");
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const secretKey = process.env.JWT_SECRET;
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 //this loads the .env file in
@@ -32,7 +32,9 @@ if (!connection) {
 router.post("/register", function(req, res) {
   console.log("hi");
   console.log(req.body);
-//   const queryCheck = "SELECT * FROM users WHERE username = ? AND email = ?";
+  let { username, email } = req.body;
+  console.log(username, email);
+  //   const queryCheck = "SELECT * FROM users WHERE username = ? AND email = ?";
   const queryCheck = "SELECT * FROM users WHERE username = ? AND email = ?";
   connection.query(queryCheck, [req.body.username, req.body.email], function(
     error,
@@ -54,13 +56,13 @@ router.post("/register", function(req, res) {
         // let queryInsert =
         //   "INSERT INTO users (username, email, password, firstname, lastname) VALUES (?,?,?,'x','x')";
         let queryInsert =
-        "INSERT INTO users (username, password, firstname, lastname) VALUES (?,?,?,'x','x')";
+          "INSERT INTO users (username, password, firstname, lastname) VALUES (?,?,'x','x')";
 
         let payload = {
           isLoggedIn: true,
           _id: result._id,
           username: result.username,
-        //   email: result.email,
+          //   email: result.email,
           firstname: result.firstname,
           lastname: result.lastname,
           create_date: result.create_date
