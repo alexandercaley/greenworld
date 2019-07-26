@@ -3,34 +3,13 @@ import logo from "../../assets/donkey.jpg";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import "./Navbar.css";
 import { Link } from "react-router-dom";
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-import Admin from "../Users/Admin";
-=======
 import UserAuth from "../Users/UserAuth"
-// import SignIn from "../Users/SignIn";
-// import SignUp from "../Users/SignUp";
 
->>>>>>> a5816c8391a0b59a8de6bfa3e43f5143539d59c5
+
 class Navbar extends React.Component {
 
   render() {
     return (
-<<<<<<< HEAD
-      // <div className="Navbar">
-      //   <header className="Navbar-header">
-=======
-import UserAuth from "../Users/UserAuth";
-// import SignIn from "../Users/SignIn";
-// import SignUp from "../Users/SignUp";
-
-class Navbar extends React.Component {
-  render() {
-    return (
->>>>>>> Stashed changes
-=======
-
->>>>>>> a5816c8391a0b59a8de6bfa3e43f5143539d59c5
       <nav className="navbar navbar-expand-lg navbar-light bg-warning">
         
         <a className="navbar-brand ml-5" href="#">
