@@ -12,7 +12,7 @@ app.use('/api/postings', postings);
 // hitting this route will bring us to aboutus page
 app.use('/aboutus', aboutus);
 
-app.use('/userauth', userauth);
+app.use('/api/userauth', userauth);
 
 // this will be the homepage.
 app.get('/', function(req,res) {
