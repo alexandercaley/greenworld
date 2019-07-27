@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-import logo from "./logo.svg";
 import "./App.css";
 
 import Navbar from "./components/layout/Navbar";
@@ -14,7 +13,7 @@ import News from "./components/pages/News";
 import AboutUs from "./components/pages/AboutUs";
 import Post from "./components/pages/Post";
 // import Category from "./components/pages/Category";
-import showPostingss from "./components/pages/showPostings";
+// import showPostingss from "./components/pages/showPostings";
 
 import { BrowserRouter as Router } from "react-router-dom";
 
