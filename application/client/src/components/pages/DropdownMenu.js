@@ -1,20 +1,28 @@
 import React, { Component } from "react";
+// import { Dropdown } from "react-bootstrap";
+// import Dropdown from "react-dropdown";
+// import "./DropdownMenu.css";
 
-class Category extends Component {
+// const options = ["one", "two", "three"];
+
+class DropdownMenu extends Component {
   constructor() {
     super();
+
     this.state = {
       displayMenu: false
     };
     this.showDropdownMenu = this.showDropdownMenu.bind(this);
     this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
   }
+
   showDropdownMenu(event) {
     event.preventDefault();
     this.setState({ displayMenu: true }, () => {
       document.addEventListener("click", this.hideDropdownMenu);
     });
   }
+
   hideDropdownMenu() {
     this.setState({ displayMenu: false }, () => {
       document.removeEventListener("click", this.hideDropdownMenu);
@@ -22,26 +30,36 @@ class Category extends Component {
   }
   render() {
     return (
-      <div className="dropdown" style={{ background: "red", width: "150px" }}>
+      <div className="dropdown" style={{ background: "red", width: "200px" }}>
         <div className="button" onClick={this.showDropdownMenu}>
           {" "}
-          {"Item Category ^"}
+          My Setting{" "}
         </div>
+
         {this.state.displayMenu ? (
           <ul>
             <li>
-              <a className="active" href="#Plastc">
-                Plastc
+              <a className="active" href="#Create Page">
+                Create Page
               </a>
             </li>
             <li>
-              <a href="#Tree Fall">Tree Fall</a>
+              <a href="#Manage Pages">Manage Pages</a>
             </li>
             <li>
-              <a href="#Garbage">Garbage </a>
+              <a href="#Create Ads">Create Ads</a>
             </li>
             <li>
-              <a href="#Water flood">Water flood </a>
+              <a href="#Manage Ads">Manage Ads</a>
+            </li>
+            <li>
+              <a href="#Activity Logs">Activity Logs</a>
+            </li>
+            <li>
+              <a href="#Setting">Setting</a>
+            </li>
+            <li>
+              <a href="#Log Out">Log Out</a>
             </li>
           </ul>
         ) : null}
@@ -50,4 +68,4 @@ class Category extends Component {
   }
 }
 
-export default Category;
+export default DropdownMenu;

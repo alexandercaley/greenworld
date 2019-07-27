@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-
 import axios from "axios";
-
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import ImageLoad from "./ImageLoad";
-import Item from "./Item";
 
 class showPostingss extends Component {
   constructor(props) {
@@ -39,7 +34,7 @@ class showPostingss extends Component {
               <td>
                 <div>
                   <p>{id}</p>
-                  <img src={`${id}`}/>
+                  <img src={`${id}`} />
                   <p>{location}</p>
                 </div>
               </td>

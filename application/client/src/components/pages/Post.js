@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 
 import axios from "axios";
-
-// import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { Link } from "react-router-dom";
 import ImageLoad from "./ImageLoad";
 
@@ -153,10 +151,7 @@ class Post extends Component {
               />
             </div>
           </div> */}
-          <br />
-          <Link to="/showPostings">
-            Click Here to check posted items in database
-          </Link>
+
           <ImageLoad />
 
           <br />
