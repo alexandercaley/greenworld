@@ -13,7 +13,6 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 //we need this for secret information that we don't want on our github
 
-
 let connection;
 if (!connection) {
   connection = mysql.createConnection({
@@ -109,6 +108,13 @@ router.post('/login', function(req, res) {
     result,
     body
   ) {
+
+    if(result[0] == undefined) {
+      return res.json({
+        message: 'ERR_CANNOT_FIND'
+      });
+    }
+
     console.log('RESULT!!' + JSON.stringify(result[0].id));
     let data = result[0];
     console.log('DATA!!!' + data);
@@ -133,7 +139,7 @@ router.post('/login', function(req, res) {
     });
 
     return res.json({
-      message: 'successfuly authenticated',
+      message: 'LOGIN_SUCCESS',
       token: token,
       bool: true,
       result: result
