@@ -122,7 +122,7 @@ router.post('/login', function(req, res) {
     if (!result) return res.status(404).json({ error: 'user not found' });
 
     if (!bcrypt.compareSync(req.body.password, result[0].password))
-      return res.status(401).json({ error: 'incorrect password ' });
+      return res.status(401).json({ error: 'ERR_INCORRECT_PASS' });
 
     let payload = {
       isLoggedIn: true,
