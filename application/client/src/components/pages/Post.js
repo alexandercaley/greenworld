@@ -1,15 +1,19 @@
 import React, { Component } from "react";
 
-// import axios from "axios";
+import axios from "axios";
 
 // import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Link } from "react-router-dom";
 import ImageLoad from "./ImageLoad";
 
 class Post extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      description: null
+      postStatus: "",
+      location: "",
+      postType: ""
+      // discription: "
     };
     //   this.handleUploadImage = this.handleUploadImage.bind(this);
     this.toggle = this.toggle.bind(this);
@@ -17,7 +21,44 @@ class Post extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    let { postStatus, location, postType } = this.state;
+    console.log(postStatus, location, postType);
+    axios
+      .post("/api/postings", {
+        postStatus,
+        location,
+        postType
+      })
+      .then(res => {
+        console.log("hi");
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    console.log();
   };
+
+  checkPostings = () => {};
+
+  changePostStatus = e => {
+    let inputPostType = e.target.value;
+    this.setState({ postStatus: inputPostType });
+  };
+
+  changeLocation = e => {
+    let inputLocation = e.target.value;
+    this.setState({ location: inputLocation });
+  };
+
+  changePostType = e => {
+    let inputPostType = e.target.value;
+    this.setState({ postType: inputPostType });
+  };
+
+  // changepostStatus = e => {
+  //   let inputIssue = e.target.value;
+  //   this.setState({ postStatus: inputIssue });
+  // };
 
   toggle(e) {
     this.setState(prevState => ({
@@ -44,6 +85,7 @@ class Post extends Component {
                 placeholder="Type Issue"
                 name="fullname"
                 type="text"
+                onChange={this.changePostStatus}
                 noValidate
                 // onChange={this.handleChange}
               />
@@ -63,6 +105,7 @@ class Post extends Component {
                 placeholder=" Location"
                 name="name"
                 type="Lacation"
+                onChange={this.changeLocation}
                 noValidate
                 // onChange={this.handleChange}
               />
@@ -76,13 +119,14 @@ class Post extends Component {
           <br />
           <div className="two fields">
             <div className="field">
-              <label htmlFor="name">Zipcode</label>
+              <label htmlFor="name">post type</label>
               <br />
               <input
                 // className={formErrors.name.length > 0 ? "error" : null}
-                placeholder=" Zipcode"
-                name="Zipcode"
-                type="zipcode"
+                placeholder=" post staus"
+                name="post staus"
+                type="post staus"
+                onChange={this.changePostType}
                 noValidate
                 // onChange={this.handleChange}
               />
@@ -94,7 +138,7 @@ class Post extends Component {
           </div>
 
           <br />
-          <div className="two fields">
+          {/* <div className="two fields">
             <div className="field">
               <label htmlFor="name">Discription</label>
 
@@ -102,19 +146,17 @@ class Post extends Component {
               <input
                 // className={formErrors.name.length > 0 ? "error" : null}
                 placeholder=" Detail"
-                name="Zipcode"
-                type="zipcode"
+                name="postType"
+                type="postType"
                 noValidate
                 // onChange={this.handleChange}
               />
-
-              {/* {formErrors.name.length > 0 && (
-              <Span className="errorMessage">{formErrors.name}</Span>
-            )} */}
             </div>
-          </div>
-
+          </div> */}
           <br />
+          <Link to="/showPostings">
+            Click Here to check posted items in database
+          </Link>
           <ImageLoad />
 
           <br />
