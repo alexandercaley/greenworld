@@ -13,14 +13,12 @@ import News from "./components/pages/News";
 import AboutUs from "./components/pages/AboutUs";
 import Post from "./components/pages/Post";
 import Category from "./components/pages/Category";
-import ModalCard from "./components/pages/ModalCard";
 
 import { BrowserRouter as Router } from "react-router-dom";
-import Login from "./components/Users/Login"
-import Register from "./components/Users/Register"
+import Login from "./components/Users/Login";
+import Register from "./components/Users/Register";
 
 class App extends Component {
-
   render() {
     return (
       <div>
