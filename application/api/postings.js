@@ -12,7 +12,7 @@ if (!connection) {
         host: 'localhost',
         user: 'root',
         password: 'password',
-        database: 'VerticalPrototype'
+        database: 'csc648_team6'
     });
 
     connection.connect((err) => {
@@ -55,7 +55,7 @@ if (!connection) {
 // }
 
 router.get('/', function (req, res) {
-    connection.query("SELECT * FROM VerticalPrototype.postings", function (err, result, fields) {
+    connection.query("SELECT * FROM csc648_team6.postings", function (err, result, fields) {
         if (err) throw err;
         res.json(result);
     });
@@ -69,12 +69,12 @@ router.get('/', function (req, res) {
 
 router.post('/', function (req, res) {
     console.log("POST!!!!")
-    var {id, location, postType, postStatus, picture} = req.body;
-    console.log(id, postType, postStatus, picture)
+    var {users_registration_id, address, description, picture, status, date_witnessed, topic} = req.body;
+    console.log(users_registration_id, address, description, picture, status, date_witnessed, topic)
 
-    let query = "INSERT INTO postings (location, postType, postStatus, picture) VALUES (?,?,?,?)"
+    let query = "INSERT INTO postings (users_registration_id, address, description, picture, status, date_witnessed, topic) VALUES (?,?,?,?,?,?,?)"
 
-    connection.query(query, [location, postType, postStatus, picture],
+    connection.query(query, [users_registration_id, address, description, picture, status, date_witnessed, topic],
         function (err, result) {
             if (err) {
                 console.log(err);
