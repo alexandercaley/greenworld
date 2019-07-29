@@ -33,6 +33,7 @@ if (!connection) {
 
 // Register a user with password encryption.
 router.post("/register", function(req, res) {
+  console.log(req.body)
   let { username, email, password } = req.body;
   //   const queryCheck = "SELECT * FROM users WHERE username = ? AND email = ?";
   const queryCheck = "SELECT * FROM users WHERE username = ? ";
@@ -40,20 +41,19 @@ router.post("/register", function(req, res) {
     error,
     result
   ) {
-    if (error || result == undefined) {
-      return res.status(405).json({ error: "ERR_INSERT_UNDEFINED" });;
-    }
+    if (error || result == undefined) 
+      return res.json({ message: "ERR_INSERT_UNDEFINED" });;
         
     if ( result.length != 0)
-      return res.status(404).json({ error: "ERR_USER_ALREADY_EXISTS" });
+      return res.json({ message: "ERR_USER_ALREADY_EXISTS" });
 
     if (!req.body.password)
-      return res.status(401).json({ error: "ERR_NO_PASSWORD" });
+      return res.json({ message: "ERR_NO_PASSWORD" });
 
     if (password.length <= 2 && password)
       return res
         .status(401)
-        .json({ error: "password length must be greater than 5" });
+        .json({ error: "ERR_PASSWORD_LESS_THAN_5" });
 
     bcrypt.genSalt(10, function(err, salt) {
       if(err) console.log(err);

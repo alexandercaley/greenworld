@@ -30,7 +30,7 @@ const registerReducer = (state = INITIAL_STATE, action) => {
     case "FORM_NOT_FULLFILLED":
       return {
         ...state,
-        FORM_NOT_FULLFILLED: false
+        FORM_NOT_FULLFILLED: true
       };
     case "REGISTERED":
       return {

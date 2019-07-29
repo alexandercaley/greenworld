@@ -18,11 +18,11 @@ class Login extends Component {
     };
     console.log(obj);
     axios
-      .post("/userauth/Login", obj)
+      .post("/userauth/login", obj)
       .then(res => {
         console.log(res);
-        let data = res.data;
-        if (data === "OK") {
+        let message = res.data.message;
+        if (message === "LOGIN_SUCCESS") {
 
           let validate = {
             USER_NOT_FOUND: false,
@@ -31,11 +31,13 @@ class Login extends Component {
             INCORRECT_USERNAME_OR_PASSWORD: false
           }
           this.props.validateStatus(validate);
-          
+          localStorage.setItem('token', res.data.token);
+          console.log(localStorage)
           // put somet path here where you want to redirect after loging in 
           const path = "/";
+          console.log(this.props.history);
           this.props.history.push(path);
-        } else if (data === "USER_NOT_FOUND") {
+        } else if (message === "USER_NOT_FOUND") {
 
           let notFound = {
             USER_NOT_FOUND: true,
@@ -45,7 +47,7 @@ class Login extends Component {
           }
 
           this.props.validateStatus(notFound);
-        } else if (data === "INCORRECT_USERNAME_OR_PASSWORD") {
+        } else if (message === "INCORRECT_USERNAME_OR_PASSWORD") {
 
           let incorrectData = {
             USER_NOT_FOUND: false,
