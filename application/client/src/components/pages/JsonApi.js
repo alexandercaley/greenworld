@@ -27,18 +27,18 @@ class JsonApi extends Component {
       });
   }
   render() {
-    var { isLoaded, data } = this.state;
+    var { data } = this.state;
     return (
-      <div>
+      <React.Fragment>
         Json API used to fetch data
         <ul>
-          {data.map(data => (
-            <li key={data.id}>
-              Name: {data.name} | Email: {data.email}
+          {data.map(i => (
+            <li key={i.id}>
+              Name: {i.name} | Email: {i.email}
             </li>
           ))}
         </ul>
-      </div>
+      </React.Fragment>
     );
   }
 }

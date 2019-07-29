@@ -41,23 +41,6 @@ class Home extends Component {
     // error: ""
   };
 
-  async getRecipes() {
-    try {
-      const data = await fetch(this.state.url);
-      const jsonData = await data.json();
-      if (jsonData.recipes.length === 0) {
-        this.setState(() => {
-          return { error: `No results match your search` };
-        });
-      } else {
-        this.setState(() => {
-          return { recipes: jsonData.recipes };
-        });
-      }
-    } catch (erro) {
-      console.log(erro);
-    }
-  }
   displayPage = index => {
     switch (index) {
       case 0:
@@ -72,7 +55,6 @@ class Home extends Component {
           <ProductsList
             recipes={this.state.recipes}
             handleDetails={this.handleDetails}
-            value={this.state.search}
             handleChange={this.handleChange}
             handleSubmit={this.handleSubmit}
             error={this.state.error}
@@ -122,77 +104,72 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <React.Fragment>
-          {this.displayPage(this.state.pageIndex)}
-        </React.Fragment>
-
         <Container className="mt-2">
           <Row>
-            <Col lg={8} md={8} xs={8}>
-              <Card body outline color="secondary" className="mb-2">
-                <JsonApi />
-              </Card>
-            </Col>
-            <Col lg={8} md={8} xs={8}>
-              <Card body outline color="secondary" className="mb-2">
-                <DropdownMenu />
+            <div className="container my-6">
+              <Dropdown>
+                <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                  Filter
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item href="#/Park">Park</Dropdown.Item>
+                  <Dropdown.Item href="#/Zipcode">Zip code</Dropdown.Item>
+                  <Dropdown.Item href="#/city">city</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
+            <React.Fragment>
+              {this.displayPage(this.state.pageIndex)}
+            </React.Fragment>
+            {/* <React.Fragment>
+              <Col lg={8} md={8} xs={8}>
+                <Card body outline color="secondary" className="mb-2">
+                  <JsonApi />
+                </Card>
+              </Col>
+              <Col lg={8} md={8} xs={8}>
+                <Card body outline color="secondary" className="mb-2">
+                  <DropdownMenu />
 
-                <br />
-                <FirstArrayExample />
+                  <br />
+                  <FirstArrayExample />
 
-                <Link to="/showPostings">
-                  Click Here to check posted items in database
-                </Link>
-                <br />
-              </Card>
-            </Col>
+                  <Link to="/showPostings">
+                    Click Here to check posted items in database
+                  </Link>
+                  <br />
+                </Card>
+              </Col>
 
-            <Col lg={8} md={8} xs={8}>
-              <Card body outline color="secondary" className="mb-2">
-                <img src={washington} alt="logo" style={{ width: "300px" }} />{" "}
-                <CardBody>
-                  <CardText> washington Park detail goes here</CardText>
-                </CardBody>
-                <CardFooter>
-                  <small className="text-muted text-center">
-                    Should include washington Park Map
-                  </small>
-                  <div style={{ height: "50vh", width: "100%" }}>
-                    <GoogleMapReact
-                      bootstrapURLKeys={{
-                        key: `AIzaSyBUHdcZt1CDRo9chaTXDHda-Wkj4HFh7yE`
-                      }}
-                      defaultCenter={this.props.center}
-                      defaultZoom={this.props.zoom}
-                    >
-                      <AnyReactComponent
-                        lat={59.955413}
-                        lng={30.337844}
-                        text="My Marker"
-                      />
-                    </GoogleMapReact>
-                  </div>
-                </CardFooter>
-              </Card>
-            </Col>
-
-            <Col lg={8} md={8} xs={8}>
-              <Card body outline color="secondary" className="mb-2">
-                <img
-                  src={glenCanyonPark}
-                  alt="logo"
-                  style={{ width: "300px" }}
-                />{" "}
-                <CardBody>
-                  <CardText> glenCanyonPark details goes here</CardText>
-                </CardBody>
-                <CardFooter>
-                  <small className="text-muted text-center">
-                    Should include glenCanyonPark Map
-                  </small>
-                </CardFooter>
-              </Card>
-            </Col>
+              <Col lg={8} md={8} xs={8}>
+                <Card body outline color="secondary" className="mb-2">
+                  <img src={washington} alt="logo" style={{ width: "300px" }} />{" "}
+                  <CardBody>
+                    <CardText> washington Park detail goes here</CardText>
+                  </CardBody>
+                  <CardFooter>
+                    <small className="text-muted text-center">
+                      Should include washington Park Map
+                    </small>
+                    <div style={{ height: "50vh", width: "100%" }}>
+                      <GoogleMapReact
+                        bootstrapURLKeys={{
+                          key: `AIzaSyBUHdcZt1CDRo9chaTXDHda-Wkj4HFh7yE`
+                        }}
+                        defaultCenter={this.props.center}
+                        defaultZoom={this.props.zoom}
+                      >
+                        <AnyReactComponent
+                          lat={59.955413}
+                          lng={30.337844}
+                          text="My Marker"
+                        />
+                      </GoogleMapReact>
+                    </div>
+                  </CardFooter>
+                </Card>
+              </Col>
+            </React.Fragment> */}
           </Row>
         </Container>
       </div>

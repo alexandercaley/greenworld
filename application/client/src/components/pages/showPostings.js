@@ -36,6 +36,9 @@ class showPostingss extends Component {
                   <p>{id}</p>
                   <img src={`${id}`} />
                   <p>{location}</p>
+                  <p>{postType}</p>
+                  <p>{postStatus}</p>
+                  <p>{picture}</p>
                 </div>
               </td>
             </tr>

@@ -2,13 +2,7 @@ import React, { Component } from "react";
 
 class Products extends Component {
   render() {
-    const {
-      image_url,
-      title,
-      // source_url,
-      recipe_id,
-      publisher
-    } = this.props.recipe;
+    const { image_url, title, recipe_id, publisher } = this.props.recipe;
 
     const { handleDetails } = this.props;
 
@@ -28,7 +22,7 @@ class Products extends Component {
                 Posted by{publisher}
               </h6>
             </div>
-            <div className="card-footer text-center">
+            <div className="card-footer text-cen">
               <button
                 type="button"
                 className="btn btn-primary text-capitalize"
