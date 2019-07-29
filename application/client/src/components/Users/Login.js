@@ -21,7 +21,11 @@ class Login extends Component {
       .post("/userauth/login", obj)
       .then(res => {
         console.log(res);
+
+        // Handle code based on message response from backend
         let message = res.data.message;
+
+        // Handle if login was successful
         if (message === "LOGIN_SUCCESS") {
 
           let validate = {
@@ -37,7 +41,9 @@ class Login extends Component {
           const path = "/";
           console.log(this.props.history);
           this.props.history.push(path);
-        } else if (message === "USER_NOT_FOUND") {
+        } 
+        // If cannot find user 
+        else if (message === "USER_NOT_FOUND") {
 
           let notFound = {
             USER_NOT_FOUND: true,
@@ -47,7 +53,9 @@ class Login extends Component {
           }
 
           this.props.validateStatus(notFound);
-        } else if (message === "INCORRECT_USERNAME_OR_PASSWORD") {
+        } 
+        // If username or password was incorrect.
+        else if (message === "INCORRECT_USERNAME_OR_PASSWORD") {
 
           let incorrectData = {
             USER_NOT_FOUND: false,
