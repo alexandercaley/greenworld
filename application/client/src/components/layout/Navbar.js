@@ -8,8 +8,12 @@ import UserAuth from "../Users/UserAuth"
 
 class Navbar extends React.Component {
 
+  // Logout function
+  // Basically just clear localstorage
   logout = async () => {
     try {
+      // Async await so we to make sure token gets removed before
+      // performing any other tasks
       console.log(localStorage);
       await localStorage.removeItem('token');
       console.log(localStorage);
