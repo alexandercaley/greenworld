@@ -72,7 +72,10 @@ class Post extends Component {
     return (
       <div>
         { curToken == null && <p> You must login before you can post anything </p> }
-        { curToken == null ? <Login /> :
+        {/* We pass in the route to props for Login because login has a feature
+        to detect any incoming routes to redirect back to that page
+        after logging in  */}
+        { curToken == null ? <Login route="/post" /> :
           <div
           className="ui form segment text-center"
           onSubmit={this.handleSubmit}
