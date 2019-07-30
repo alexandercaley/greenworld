@@ -39,8 +39,24 @@ class Login extends Component {
           console.log(localStorage)
           // put somet path here where you want to redirect after loging in 
           const path = "/";
-          console.log(this.props.history);
-          this.props.history.push(path);
+          console.log(this.props.router);
+          // if(this.props.history == undefined) {
+          //   let history = [path];
+          //   this.props.history = history;
+          //   console.log(this.props.history)
+          //   this.props.history.push(path);
+          // } else {
+          //   this.props.history.push(path);
+          // }
+          if(this.props.router == undefined) {
+            let router = [path];
+            this.props.router = router;
+            console.log(this.props.router)
+            this.props.router.push(path);
+          } else {
+            this.props.router.push(path);
+          }
+          
         } 
         // If cannot find user 
         else if (message === "USER_NOT_FOUND") {
@@ -85,7 +101,6 @@ class Login extends Component {
     } = this.props;
     return (
       <div>
-        {!LOOGEDIN && (
           <Form
             noValidate
             validated={validated}
@@ -108,8 +123,6 @@ class Login extends Component {
             {USER_NOT_FOUND && <p className="errorHandler">User not found</p>}
             <Button type="submit">Login</Button>
           </Form>
-        )}
-        {/* {LOOGEDIN && <div className="App"> <Animation /></div>} */}
       </div>
     );
   }

@@ -5,6 +5,7 @@ import axios from "axios";
 // import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { Link } from "react-router-dom";
 import ImageLoad from "./ImageLoad";
+import Login from "../Users/Login"
 
 class Post extends Component {
   constructor(props) {
@@ -67,9 +68,12 @@ class Post extends Component {
   }
 
   render() {
+    let curToken = localStorage.getItem("token");
     return (
       <div>
-        <div
+        { curToken == null && <p> You must login before you can post anything </p> }
+        { curToken == null ? <Login /> :
+          <div
           className="ui form segment text-center"
           onSubmit={this.handleSubmit}
           noValidate
@@ -154,9 +158,9 @@ class Post extends Component {
             </div>
           </div> */}
           <br />
-          <Link to="/showPostings">
+          {/* <Link to="/showPostings">
             Click Here to check posted items in database
-          </Link>
+          </Link> */}
           <ImageLoad />
 
           <br />
@@ -164,6 +168,8 @@ class Post extends Component {
             Submit Issue
           </button>
         </div>
+        }
+        
       </div>
     );
   }

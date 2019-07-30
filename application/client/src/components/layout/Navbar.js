@@ -5,7 +5,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 import UserAuth from "../Users/UserAuth"
 
-
 class Navbar extends React.Component {
 
   // Logout function
