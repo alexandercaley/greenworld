@@ -8,6 +8,19 @@ import UserAuth from "../Users/UserAuth"
 
 class Navbar extends React.Component {
 
+  logout = async () => {
+    try {
+      console.log(localStorage);
+      await localStorage.removeItem('token');
+      console.log(localStorage);
+      console.log("Logged out");
+    } catch (error) {
+      // Error saving data
+      console.log("===Error Line 16 Navbar.js===");
+      console.log(error);
+    }
+  };
+
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-warning">
@@ -86,6 +99,15 @@ class Navbar extends React.Component {
                 to="/register"
               >
                 register
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                className="nav-link text-white text-uppercase ml-5"
+                to="/"
+                onClick={this.logout}
+              >
+                Logout
               </Link>
             </li>
           </ul>
