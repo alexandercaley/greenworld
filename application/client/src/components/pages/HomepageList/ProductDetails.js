@@ -8,7 +8,7 @@ export default class RecipeDetails extends Component {
   render() {
     const {
       image_url,
-      publisher,
+      detailpublisher,
       source_url,
       title,
       enviroment
@@ -31,7 +31,7 @@ export default class RecipeDetails extends Component {
               <div className="col-10 mx-auto col-md-6 my-3">
                 <h6 className="text-uppercase">{title}</h6>
                 <h6 className="text-warning text-capitalize text-slanted">
-                  provided by {publisher}
+                  provided by {detailpublisher}
                 </h6>
 
                 <ul className="list-group mt-4">

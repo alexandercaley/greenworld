@@ -20,26 +20,35 @@ import {
 } from "reactstrap";
 import GoogleMapReact from "google-map-react";
 import JsonApi from "./JsonApi";
-import { recipes } from "./HomepageList/tempList";
+// import { recipes } from "./HomepageList/tempList";
 import ProductsList from "./HomepageList/ProductsList";
 import ProductDetails from "./HomepageList/ProductDetails";
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 class Home extends Component {
-  state = {
-    recipes: recipes,
-    url:
-      "https://www.food2fork.com/api/search?key=7cd3e527ad66caa92734088cb37f9732",
-    base_url:
-      "https://www.food2fork.com/api/search?key=7cd3e527ad66caa92734088cb37f9732",
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [],
+      details_id: 1,
+      pageIndex: 1
+    };
+  }
 
-    details_id: 35375,
-    pageIndex: 1
-    // search: "",
-    // query: "&q=",
-    // error: ""
-  };
+  componentDidMount() {
+    axios
+      .get("/api/postings")
+      .then(res => {
+        console.log(res.data);
+        this.setState({
+          data: res.data
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   displayPage = index => {
     switch (index) {
@@ -53,7 +62,7 @@ class Home extends Component {
       case 1:
         return (
           <ProductsList
-            recipes={this.state.recipes}
+            recipes={this.state.data}
             handleDetails={this.handleDetails}
             handleChange={this.handleChange}
             handleSubmit={this.handleSubmit}
@@ -75,32 +84,7 @@ class Home extends Component {
       pageIndex: index
     });
   };
-  handleChange = e => {
-    this.setState(
-      {
-        search: e.target.value
-      },
-      () => {}
-    );
-  };
-  handleSubmit = e => {
-    e.preventDefault();
-    const { base_url, query, search } = this.state;
-    this.setState(
-      () => {
-        return {
-          url: `${base_url}${query}${search}`,
-          search: ""
-        };
-      },
-      () => {
-        this.getRecipes();
-      }
-    );
-  };
-  newMethod() {
-    console.log(this.state.search);
-  }
+
   render() {
     return (
       <div>
