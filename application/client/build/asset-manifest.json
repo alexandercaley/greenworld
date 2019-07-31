@@ -1,4 +1,5 @@
 {
+
   "main.css": "/static/css/main.41b14df7.chunk.css",
   "main.js": "/static/js/main.6729d57a.chunk.js",
   "main.js.map": "/static/js/main.6729d57a.chunk.js.map",
@@ -15,4 +16,5 @@
   "static/media/UploadIcon.svg": "/static/media/UploadIcon.1cedb6e9.svg",
   "static/media/glenCanyonPark.jpg": "/static/media/glenCanyonPark.bb066623.jpg",
   "static/media/washingtonSquare.jpg": "/static/media/washingtonSquare.5628756b.jpg"
+
 }
