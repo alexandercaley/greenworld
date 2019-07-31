@@ -8,18 +8,6 @@ import Login from "../Users/Login";
 import { updateForm } from "../redux/actions/postAction";
 
 class Post extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     postStatus: "",
-  //     location: "",
-  //     postType: ""
-  //     // discription: "
-  //   };
-  //   //   this.handleUploadImage = this.handleUploadImage.bind(this);
-  //   this.toggle = this.toggle.bind(this);
-  // }
-
   handleSubmit = e => {
     e.preventDefault();
     let { postStatus, location, postType } = this.state;
@@ -42,21 +30,15 @@ class Post extends Component {
   checkPostings = () => {};
 
   // e is the even of the input text field
+  // we use the name of the textfield for the key
+  // and the value of textfield for the value
   changeTextField = e => {
-    console.log(e.target.name)
     let typeIssue = { [e.target.name]: e.target.value };
     this.props.updateForm(typeIssue);
   };
 
-  toggle(e) {
-    this.setState(prevState => ({
-      modal: !prevState.modal
-    }));
-  }
-
   render() {
     let curToken = localStorage.getItem("token");
-
     return (
       <div>
         {curToken == null && (
@@ -87,10 +69,6 @@ class Post extends Component {
                   noValidate
                   onChange={this.changeTextField}
                 />
-
-                {/* {formErrors.name.length > 0 && (
-              <Span className="errorMessage">{formErrors.name}</Span>
-            )} */}
               </div>
             </div>
             <br />
@@ -99,15 +77,12 @@ class Post extends Component {
                 <label htmlFor="name">Location</label>
                 <br />
                 <input
-                  // className={formErrors.name.length > 0 ? "error" : null}
                   placeholder=" Location"
                   name="location"
                   type="location"
                   onChange={this.changeTextField}
                   noValidate
-                  // onChange={this.handleChange}
                 />
-
                 {/* {formErrors.name.length > 0 && (
               <Span className="errorMessage">{formErrors.name}</Span>
             )} */}
@@ -128,36 +103,11 @@ class Post extends Component {
                   noValidate
                   // onChange={this.handleChange}
                 />
-
-                {/* {formErrors.name.length > 0 && (
-              <Span className="errorMessage">{formErrors.name}</Span>
-            )} */}
               </div>
             </div>
-
             <br />
-            {/* <div className="two fields">
-            <div className="field">
-              <label htmlFor="name">Discription</label>
-
-              <br />
-              <input
-                // className={formErrors.name.length > 0 ? "error" : null}
-                placeholder=" Detail"
-                name="postType"
-                type="postType"
-                noValidate
-                // onChange={this.handleChange}
-              />
-            </div>
-          </div> */}
             <br />
-            {/* <Link to="/showPostings">
-            Click Here to check posted items in database
-          </Link> */}
-            {/* <UploadingImage /> */}
             <DraggableUploader />
-
             <br />
             <button className="submit button" onClick={this.handleSubmit}>
               Submit Issue
