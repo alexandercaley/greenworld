@@ -2,10 +2,10 @@ import React, { Component } from "react";
 
 import axios from "axios";
 
-// import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { Link } from "react-router-dom";
-import ImageLoad from "./ImageLoad";
+import DraggableUploader from "./DraggableUploader";
 import Login from "../Users/Login"
+import updateForm from "../redux/postActions";
 
 class Post extends Component {
   constructor(props) {
@@ -69,6 +69,7 @@ class Post extends Component {
 
   render() {
     let curToken = localStorage.getItem("token");
+    
     return (
       <div>
         { curToken == null && <p> You must login before you can post anything </p> }
@@ -164,7 +165,8 @@ class Post extends Component {
           {/* <Link to="/showPostings">
             Click Here to check posted items in database
           </Link> */}
-          <ImageLoad />
+          {/* <UploadingImage /> */}
+          <DraggableUploader />
 
           <br />
           <button className="submit button" onClick={this.handleSubmit}>
@@ -178,4 +180,27 @@ class Post extends Component {
   }
 }
 
-export default Post;
+// import action functions
+// can also import different actions from different files
+const mapStateToProps = (state) => {
+  let { 
+    postStatus,
+    location,
+    postType
+  } = state.postReducer;
+  return {
+    postStatus,
+    location,
+    postType
+  };
+}
+
+const mapDispatchToProps = {
+  updateForm
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withRouter(Post));
+// export default Post;

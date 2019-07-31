@@ -4,7 +4,6 @@ import axios from "axios";
 
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { Link } from "react-router-dom";
-import ImageLoad from "./ImageLoad";
 
 class Home extends Component {
   render() {

@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-
 import axios from "axios";
-
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import ImageLoad from "./ImageLoad";
-import Item from "./Item";
 
 class showPostingss extends Component {
   constructor(props) {

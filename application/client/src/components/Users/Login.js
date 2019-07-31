@@ -38,7 +38,7 @@ class Login extends Component {
           this.props.validateStatus(validate);
           localStorage.setItem('token', res.data.token);
           console.log(localStorage)
-          
+
           let path = "";
 
           // put somet path here where you want to redirect after loging in 
@@ -140,6 +140,8 @@ const mapStateToProps = (state) => {
     REDIRECT,
     ROUTE
   } = state.loginReducer;
+  console.log(state.loginReducer)
+  console.log(state.registerReducer)
   console.log(state);
   return {
     username,
@@ -153,6 +155,8 @@ const mapStateToProps = (state) => {
   };
 }
 
+// import action functions
+// can also import different actions from different files
 const mapDispatchToProps = {
   validateStatus,
   reRouteAfterCompleteLogin
