@@ -75,6 +75,7 @@ class DraggableUploader extends Component {
 
   updateLoadedFile(oldFile, newFile) {
     this.setState(prevState => {
+      console.log("======"+prevState+"======");
       const loadedFiles = [...prevState.loadedFiles];
       _.find(loadedFiles, (file, idx) => {
         if (file == oldFile) loadedFiles[idx] = newFile;
@@ -86,9 +87,9 @@ class DraggableUploader extends Component {
     return newFile;
   }
 
-  onUpload = () => {
-    const { loadedFiles, fd } = this.state;
-    console.log("ON UPLOAD...");
+  // onUpload = () => {
+    // const { loadedFiles, fd } = this.state;
+    // console.log("ON UPLOAD...");
 
     // loadedFiles.map((file, idx) => {
     //   console.log("Updating...");
@@ -98,30 +99,30 @@ class DraggableUploader extends Component {
     //     isUploading: true
     //   });
 
-    //   axios.post('/upload', fd)
-    //     .then(res => {
-    //       console.log(res);
-    //       let filename = res.data;
-    //       axios.get('/')
-    //         .then(res => {
-    //           console.log('hi');
-    //           console.log(res);
-    //           let diagnosis = res.data.diagnosis
-    //           let confidence = res.data.confidence
-    //           // this.setState({
-    //           //   dataObject: {
-    //           //     Confidence: confidence,
-    //           //     Diagnosis: diagnosis,
-    //           //     Patient_ID: '1',
-    //           //   }
-    //           // })
-    //         })
-    //     })
-    //     .catch(err => {
-    //       console.log(err);
-    //     })
+      // axios.post('/upload', fd)
+      //   .then(res => {
+      //     console.log(res);
+      //     let filename = res.data;
+      //     axios.get('/')
+      //       .then(res => {
+      //         console.log('hi');
+      //         console.log(res);
+      //         let diagnosis = res.data.diagnosis
+      //         let confidence = res.data.confidence
+      //         // this.setState({
+      //         //   dataObject: {
+      //         //     Confidence: confidence,
+      //         //     Diagnosis: diagnosis,
+      //         //     Patient_ID: '1',
+      //         //   }
+      //         // })
+      //       })
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //   })
 
-    //   //Simulate a REAL WEB SERVER DOING IMAGE UPLOADING
+      //Simulate a REAL WEB SERVER DOING IMAGE UPLOADING
     //   setTimeout(() => {
     //     //Get it back to it's original State
     //     this.updateLoadedFile(newFile, {
@@ -131,7 +132,7 @@ class DraggableUploader extends Component {
     //   }, 3000);
 
     // });
-  };
+  // };
 
   render() {
     const { loadedFiles } = this.state;
@@ -199,5 +200,24 @@ class DraggableUploader extends Component {
     );
   }
 }
+
+// import action functions
+// can also import different actions from different files
+// const mapStateToProps = state => {
+//   let { postStatus, location, postType } = state.postReducer;
+//   return {
+//     loadedFiles: [],
+//     fd: ""
+//   };
+// };
+
+// const mapDispatchToProps = {
+//   updateForm
+// };
+
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(withRouter(DraggableUploader));
 
 export default DraggableUploader;

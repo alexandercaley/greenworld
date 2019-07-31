@@ -10,21 +10,25 @@ import { updateForm } from "../redux/actions/postAction";
 class Post extends Component {
   handleSubmit = e => {
     e.preventDefault();
-    let { postStatus, location, postType } = this.state;
+    // turn submit to true
+    let { postStatus, location, postType, fd, loadedFiles } = this.props;
     console.log(postStatus, location, postType);
-    axios
-      .post("/api/postings", {
-        postStatus,
-        location,
-        postType
-      })
-      .then(res => {
-        console.log("hi");
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    console.log();
+    // axios
+    //   .post("/api/postings", {
+    //     postStatus,
+    //     location,
+    //     postType,
+    //     loadedFiles,
+    //     fd
+    //   })
+    //   .then(res => {
+    //     console.log("hi");
+    //     // clear postReducer store
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
+    // console.log();
   };
 
   checkPostings = () => {};
@@ -122,11 +126,13 @@ class Post extends Component {
 // import action functions
 // can also import different actions from different files
 const mapStateToProps = state => {
-  let { postStatus, location, postType } = state.postReducer;
+  let { postStatus, location, postType, fd, loadedFiles } = state.postReducer;
   return {
     postStatus,
     location,
-    postType
+    postType,
+    fd,
+    loadedFiles
   };
 };
 
