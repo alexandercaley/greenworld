@@ -43,29 +43,10 @@ class Post extends Component {
 
   // e is the even of the input text field
   changeTextField = e => {
-    let typeIssue = { typeIssue: e.target.value };
+    console.log(e.target.name)
+    let typeIssue = { [e.target.name]: e.target.value };
     this.props.updateForm(typeIssue);
   };
-
-  // changePostStatus = e => {
-  //   let inputPostType = e.target.value;
-  //   // this.setState({ postStatus: inputPostType });
-  // };
-
-  // changeLocation = e => {
-  //   let inputLocation = e.target.value;
-  //   this.setState({ location: inputLocation });
-  // };
-
-  // changePostType = e => {
-  //   let inputPostType = e.target.value;
-  //   this.setState({ postType: inputPostType });
-  // };
-
-  // changepostStatus = e => {
-  //   let inputIssue = e.target.value;
-  //   this.setState({ postStatus: inputIssue });
-  // };
 
   toggle(e) {
     this.setState(prevState => ({
@@ -101,7 +82,7 @@ class Post extends Component {
                 <input
                   // className={formErrors.name.length > 0 ? "error" : null}
                   placeholder="Type Issue"
-                  name="fullname"
+                  name="postType"
                   type="text"
                   noValidate
                   onChange={this.changeTextField}
@@ -120,8 +101,8 @@ class Post extends Component {
                 <input
                   // className={formErrors.name.length > 0 ? "error" : null}
                   placeholder=" Location"
-                  name="name"
-                  type="Lacation"
+                  name="location"
+                  type="location"
                   onChange={this.changeTextField}
                   noValidate
                   // onChange={this.handleChange}
@@ -141,7 +122,7 @@ class Post extends Component {
                 <input
                   // className={formErrors.name.length > 0 ? "error" : null}
                   placeholder=" post staus"
-                  name="post staus"
+                  name="postStatus"
                   type="post staus"
                   onChange={this.changeTextField}
                   noValidate
