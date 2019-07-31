@@ -55,7 +55,7 @@ var connection = mysql.createConnection({
 // }
 
 router.get('/', function (req, res) {
-    connection.query("SELECT * FROM VerticalPrototype.postings", function (err, result, fields) {
+    connection.query("SELECT * FROM csc648team6.postings", function (err, result, fields) {
         if (err) throw err;
         res.json(result);
     });
