@@ -1,10 +1,10 @@
 const mysql = require("mysql");
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 
-router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({ extended: true }));
+// router.use(bodyParser.json());
+// router.use(bodyParser.urlencoded({ extended: true }));
 
 let connection;
 if (!connection) {
@@ -37,7 +37,6 @@ if (!connection) {
 // 	database: "csc648team6"
 // });
 
-
 // if (!connection) {
 //     connection = mysql.createConnection({
 //         host: '13.56.149.124',
@@ -54,11 +53,13 @@ if (!connection) {
 //     });
 // }
 
+
 router.get('/', function (req, res) {
     connection.query("SELECT * FROM VerticalPrototype.postings", function (err, result, fields) {
         if (err) throw err;
         res.json(result);
     });
+
 });
 // router.get('/', function (req, res) {
 //     connection.query("SELECT * FROM csc648team6.postings", function (err, result, fields) {
@@ -67,24 +68,26 @@ router.get('/', function (req, res) {
 //     });
 // });
 
-router.post('/', function (req, res) {
-    console.log("POST!!!!")
-    var {id, location, postType, postStatus, picture} = req.body;
-    console.log(id, postType, postStatus, picture)
+router.post("/", function(req, res) {
+  console.log("POST!!!!");
+  var { id, location, postType, postStatus, picture } = req.body;
+  console.log(id, postType, postStatus, picture);
 
-    let query = "INSERT INTO postings (location, postType, postStatus, picture) VALUES (?,?,?,?)"
+  let query =
+    "INSERT INTO postings (location, postType, postStatus, picture) VALUES (?,?,?,?)";
 
-    connection.query(query, [location, postType, postStatus, picture],
-        function (err, result) {
-            if (err) {
-                console.log(err);
-                res.send('Error');
-            }
-            else {
-                console.log('success');
-                res.send('Success');
-            }
-        });
+  connection.query(query, [location, postType, postStatus, picture], function(
+    err,
+    result
+  ) {
+    if (err) {
+      console.log(err);
+      res.send("Error");
+    } else {
+      console.log("success");
+      res.send("Success");
+    }
+  });
 });
 
 module.exports = router;

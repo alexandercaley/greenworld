@@ -33,9 +33,9 @@ li:hover {
 }
 .button {
   width: 178px;
-  height: 18px;
+  height: 30px;
   background-color: #ff3232;
-  padding: 12px;
+  padding: 1px;
   border-radius: 5px;
   font-weight: bold;
   color: white;
@@ -48,5 +48,5 @@ li:hover {
   border: 10px solid;
   border-color: white transparent transparent transparent;
   right: 6px;
-  top: 18px;
+  top: 10px;
 }
