@@ -1,26 +1,25 @@
-import React from "react";
+import React, { Component } from "react";
 
 import { AnchorButton, Intent, ProgressBar } from "@blueprintjs/core";
 
 import _ from "lodash";
-
 import { Icon } from "react-icons-kit";
-import { remove } from 'react-icons-kit/fa/remove';
-import './assets/DraggableUploader.scss'
-import axios from 'axios'
-class DraggableUploader extends Component {
 
+import { remove } from "react-icons-kit/fa/remove";
+import "./assets/DraggableUploader.scss";
+
+class DraggableUploader extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loadedFiles: [],
-      fd: '',
-      confidence: '',
-      diagnosis: '',
+      fd: "",
+      confidence: "",
+      diagnosis: ""
       // dataObject: {
       //   Patient_ID: '',
       //   Confidence: '',
-      //   Diagnosis: '',        
+      //   Diagnosis: '',
       // },
     };
   }
@@ -30,43 +29,40 @@ class DraggableUploader extends Component {
     let fd = new FormData();
     console.log(fd);
     let fileReader = new FileReader();
-    fd.append('image', file, file.name)
-    this.setState({ fd: fd })
+    fd.append("image", file, file.name);
+    this.setState({ fd: fd });
     fileReader.onload = () => {
       console.log("IMAGE LOADED: ", fileReader.result);
       const file = {
         data: fileReader.result,
         isUploading: false
-      }
+      };
       //Add file
       this.addLoadedFile(file);
-    }
+    };
 
     fileReader.onabort = () => {
       alert("Reading Aborted");
-    }
+    };
 
     fileReader.onerror = () => {
       alert("Reading ERROR!");
-    }
+    };
 
     fileReader.readAsDataURL(file);
   }
 
   addLoadedFile(file) {
-    this.setState((prevState) => ({
-      loadedFiles: [
-        ...prevState.loadedFiles,
-        file
-      ]
+    this.setState(prevState => ({
+      loadedFiles: [...prevState.loadedFiles, file]
     }));
   }
 
   removeLoadedFile(file) {
     //Remove file from the State
-    this.setState((prevState) => {
+    this.setState(prevState => {
       let loadedFiles = prevState.loadedFiles;
-      let newLoadedFiles = _.filter(loadedFiles, (ldFile) => {
+      let newLoadedFiles = _.filter(loadedFiles, ldFile => {
         return ldFile != file;
       });
       return { loadedFiles: newLoadedFiles };
@@ -78,14 +74,11 @@ class DraggableUploader extends Component {
   }
 
   updateLoadedFile(oldFile, newFile) {
-    this.setState((prevState) => {
-
+    this.setState(prevState => {
       const loadedFiles = [...prevState.loadedFiles];
       _.find(loadedFiles, (file, idx) => {
-        if (file == oldFile)
-          loadedFiles[idx] = newFile;
-      }
-      );
+        if (file == oldFile) loadedFiles[idx] = newFile;
+      });
 
       return { loadedFiles };
     });
@@ -93,10 +86,9 @@ class DraggableUploader extends Component {
     return newFile;
   }
 
-  onUpload  = () => {
+  onUpload = () => {
     const { loadedFiles, fd } = this.state;
-    console.log('ON UPLOAD...')
-     
+    console.log("ON UPLOAD...");
 
     // loadedFiles.map((file, idx) => {
     //   console.log("Updating...");
@@ -139,7 +131,7 @@ class DraggableUploader extends Component {
     //   }, 3000);
 
     // });
-  }
+  };
 
   render() {
     const { loadedFiles } = this.state;
@@ -150,37 +142,40 @@ class DraggableUploader extends Component {
         style={{
           display: "flex",
           flexDirection: "column"
-        }}>
+        }}
+      >
         <div className="sub-header">Drag an Image</div>
         <div className="draggable-container">
           <input
             type="file"
             id="file-browser-input"
             name="file-browser-input"
-            ref={input => this.fileInput = input}
-            onDragOver={(e) => {
+            ref={input => (this.fileInput = input)}
+            onDragOver={e => {
               e.preventDefault();
               e.stopPropagation();
             }}
-            onDrop={this
-              .onFileLoad
-              .bind(this)}
-            onChange={this
-              .onFileLoad
-              .bind(this)} />
+            onDrop={this.onFileLoad.bind(this)}
+            onChange={this.onFileLoad.bind(this)}
+          />
           <div className="files-preview-container ip-scrollbar">
             {loadedFiles.map((file, idx) => {
-              return <div className="file" key={idx}>
-                <img src={file.data} />
-                <div className="container">
-                  <span className="progress-bar">
-                    {file.isUploading && <ProgressBar />}
-                  </span>
-                  <span className="remove-btn" onClick={() => this.removeLoadedFile(file)}>
-                    <Icon icon={remove} size={19} />
-                  </span>
+              return (
+                <div className="file" key={idx}>
+                  <img src={file.data} />
+                  <div className="container">
+                    <span className="progress-bar">
+                      {file.isUploading && <ProgressBar />}
+                    </span>
+                    <span
+                      className="remove-btn"
+                      onClick={() => this.removeLoadedFile(file)}
+                    >
+                      <Icon icon={remove} size={19} />
+                    </span>
+                  </div>
                 </div>
-              </div>
+              );
             })}
           </div>
           <div className="helper-text">Drag and Drop Images Here</div>
@@ -189,7 +184,8 @@ class DraggableUploader extends Component {
               text="Browse"
               intent={Intent.PRIMARY}
               minimal={true}
-              onClick={() => this.fileInput.click()} />
+              onClick={() => this.fileInput.click()}
+            />
           </div>
         </div>
         {/* <AnchorButton
