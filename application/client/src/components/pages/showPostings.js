@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-
 import axios from "axios";
-
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import ImageLoad from "./ImageLoad";
-import Item from "./Item";
 
 class showPostingss extends Component {
   constructor(props) {
@@ -33,14 +28,19 @@ class showPostingss extends Component {
     return (
       <div>
         {this.state.data.map(i => {
-          let { id, location, postType, postStatus, picture } = i;
+          // let { id, location, postType, postStatus, picture } = i;
+          let { id, location, postType } = i;
+
           return (
             <tr key={i} className="row">
               <td>
                 <div>
                   <p>{id}</p>
-                  <img src={`${id}`}/>
+                  <img src={`${id}`} />
                   <p>{location}</p>
+                  <p>{postType}</p>
+                  {/* <p>{postStatus}</p>
+                  <p>{picture}</p> */}
                 </div>
               </td>
             </tr>
