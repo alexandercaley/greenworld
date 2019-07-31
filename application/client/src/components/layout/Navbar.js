@@ -190,7 +190,6 @@ class Navbar extends React.Component {
               </Link>
             </li>
           </ul>
-          <UserAuth />
         </div>
       </nav>
     );
