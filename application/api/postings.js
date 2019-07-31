@@ -69,8 +69,8 @@ router.get('/', function (req, res) {
 
 router.post('/', function (req, res) {
     console.log("POST!!!!")
-    var {users_registration_id, address, description, picture, status, date_witnessed, topic} = req.body;
-    console.log(users_registration_id, address, description, picture, status, date_witnessed, topic)
+    var {users_id, street, city, state, zipcode, description, picture, status, date_witnessed, topic, long, lat} = req.body;
+    console.log(users_id, street, city, state, zipcode, description, picture, status, date_witnessed, topic, long, lat)
 
     let query = "INSERT INTO postings (users_id, street, city, state, zipcode, description, picture, status, date_witnessed, topic, long, lat) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"
 
