@@ -11,24 +11,23 @@
 //   handleSubmit = e => {
 //     e.preventDefault();
 //     // turn submit to true
-//     let { postStatus, location, postType, fd, loadedFiles } = this.props;
+//     let { postStatus, location, postType } = this.props;
+//     console.log(this.props.postStatus)
 //     console.log(postStatus, location, postType);
-//     // axios
-//     //   .post("/api/postings", {
-//     //     postStatus,
-//     //     location,
-//     //     postType,
-//     //     loadedFiles,
-//     //     fd
-//     //   })
-//     //   .then(res => {
-//     //     console.log("hi");
-//     //     // clear postReducer store
-//     //   })
-//     //   .catch(err => {
-//     //     console.log(err);
-//     //   });
-//     // console.log();
+//     axios
+//       .post("/api/postings", {
+//         postStatus,
+//         location,
+//         postType
+//       })
+//       .then(res => {
+//         console.log("hi");
+//         // clear postReducer store
+//       })
+//       .catch(err => {
+//         console.log(err);
+//       });
+//     console.log();
 //   };
 
 //   checkPostings = () => {};
@@ -126,13 +125,13 @@
 // // import action functions
 // // can also import different actions from different files
 // const mapStateToProps = state => {
-//   let { postStatus, location, postType, fd, loadedFiles } = state.postReducer;
+//   let { postStatus, location, postType } = state.postReducer;
+//   console.log(postStatus, location, postType)
 //   return {
 //     postStatus,
 //     location,
 //     postType,
-//     fd,
-//     loadedFiles
+
 //   };
 // };
 
@@ -144,7 +143,9 @@
 //   mapStateToProps,
 //   mapDispatchToProps
 // )(withRouter(Post));
-// // export default Post;
+
+
+// export default Post;
 
 import React, { Component } from "react";
 
@@ -180,15 +181,17 @@ class Post extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    let { postStatus, location, postType, loadedFiles, fd } = this.state;
-    console.log(postStatus, location, postType);
+    let { postStatus, location, postType, loadedFiles } = this.state;
+    console.log("==================================");
+
+    console.log(postStatus, location, postType, loadedFiles);
+    // console.log(fd.values());
+    // fd.append("image")
     axios
       .post("/api/postings", {
         postStatus,
         location,
         postType,
-        loadedFiles,
-        fd
       })
       .then(res => {
         console.log("hi");
@@ -226,7 +229,6 @@ class Post extends Component {
       modal: !prevState.modal
     }));
   }
-
 
   onFileLoad(e) {
     const file = e.currentTarget.files[0];
@@ -427,7 +429,7 @@ class Post extends Component {
                   />
                 </div>
               </div>
-            
+
             </div>
 
             <br />

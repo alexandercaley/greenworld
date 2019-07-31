@@ -99,28 +99,28 @@ class DraggableUploader extends Component {
         isUploading: true
       });
 
-      axios.post('/upload', fd)
-        .then(res => {
-          console.log(res);
-          let filename = res.data;
-          axios.get('/')
-            .then(res => {
-              console.log('hi');
-              console.log(res);
-              let diagnosis = res.data.diagnosis
-              let confidence = res.data.confidence
-              // this.setState({
-              //   dataObject: {
-              //     Confidence: confidence,
-              //     Diagnosis: diagnosis,
-              //     Patient_ID: '1',
-              //   }
-              // })
-            })
-        })
-        .catch(err => {
-          console.log(err);
-        })
+      // axios.post('/upload', fd)
+      //   .then(res => {
+      //     console.log(res);
+      //     let filename = res.data;
+      //     axios.get('/')
+      //       .then(res => {
+      //         console.log('hi');
+      //         console.log(res);
+      //         let diagnosis = res.data.diagnosis
+      //         let confidence = res.data.confidence
+      //         // this.setState({
+      //         //   dataObject: {
+      //         //     Confidence: confidence,
+      //         //     Diagnosis: diagnosis,
+      //         //     Patient_ID: '1',
+      //         //   }
+      //         // })
+      //       })
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //   })
 
       // Simulate a REAL WEB SERVER DOING IMAGE UPLOADING
       setTimeout(() => {
