@@ -33,7 +33,7 @@ if (!connection) {
 
 // Register a user with password encryption.
 router.post("/register", function(req, res) {
-  let { username, password} = req.body;
+  let { username, password, email, firstName, lastName, admin} = req.body;
   //   const queryCheck = "SELECT * FROM users WHERE username = ? AND email = ?";
   const queryCheck = "SELECT * FROM csc648_team6.users_registration WHERE username = ? ";
   connection.query(queryCheck, [username], function(
@@ -60,7 +60,7 @@ router.post("/register", function(req, res) {
       bcrypt.hash(req.body.password, salt, function(err, hash) {
 
         let queryInsert =
-          "INSERT INTO csc648_team6.users_registration (username, password) VALUES (?,?)";
+          "INSERT INTO csc648_team6.users_registration (username, password, email, firstName, lastName, admin) VALUES (?,?,?,?,?,?)";
 
         let payload = {
           isLoggedIn: true,
