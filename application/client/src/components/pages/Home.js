@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Dropdown } from "react-bootstrap";
+import { Dropdown, Navbar } from "react-bootstrap";
 import glenCanyonPark from "./assets/glenCanyonPark.jpg";
 import washington from "./assets/washingtonSquare.jpg";
 
@@ -20,35 +20,54 @@ import {
 } from "reactstrap";
 import GoogleMapReact from "google-map-react";
 import JsonApi from "./JsonApi";
-// import { recipes } from "./HomepageList/tempList";
+import ProductSearch from "../pages/HomepageList/ProductSearch";
 import ProductsList from "./HomepageList/ProductsList";
 import ProductDetails from "./HomepageList/ProductDetails";
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+      state = {
       data: [],
-      details_id: 1,
-      pageIndex: 1
+      dataFiller: [],
+      details_id: 35382,
+      pageIndex: 1,
+      search:'',
+      query:""
     };
-  }
+  
+  
+    async getProduct() {
+      try {
+        const response = await axios.get("/api/postings")
+        .then(res => {console.log(res.data);
 
-  componentDidMount() {
-    axios
-      .get("/api/postings")
-      .then(res => {
-        console.log(res.data);
         this.setState({
-          data: res.data
+          data:res.data
+          
         });
       })
-      .catch(err => {
-        console.log(err);
-      });
+      } catch(error) {
+        console.log(error);
+
+      }
+    }
+
+  componentDidMount() {
+    this.getProduct();
   }
+  //   axios
+  //     .get("/api/postings")
+  //     .then(res => {
+  //       console.log(res.data);
+  //       this.setState({
+  //         data: res.data
+  //       });
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // }
 
   displayPage = index => {
     switch (index) {
@@ -62,13 +81,21 @@ class Home extends Component {
       case 1:
         return (
           <ProductsList
-            recipes={this.state.data}
             handleDetails={this.handleDetails}
+            value={this.state.search}
             handleChange={this.handleChange}
             handleSubmit={this.handleSubmit}
             error={this.state.error}
           />
         );
+        // case 2:
+        //   return(
+        //     <Navbar
+        //     value={this.state.search}
+        //     handleChange={this.handleChange}
+        //     handleSubmit={this.handleSubmit}
+        //     />
+        //   );
       default:
     }
   };
@@ -84,6 +111,30 @@ class Home extends Component {
       pageIndex: index
     });
   };
+
+  handleChange = (e) => {
+   // console.log("handle change");
+   this.setState({
+     search:e.target.value
+   },
+   ()=> {
+   console.log(this.state.search);
+    }
+  );
+};
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const{dataFiller,query,search} = this.state;
+    this.setState(()=>{
+      return {data:`${dataFiller}${query}${search}`, search:""}
+    }, () => {
+      this.getProduct();
+      console.log("handle submit");
+      })
+    };
+  
+  
 
   render() {
     return (
@@ -105,55 +156,6 @@ class Home extends Component {
             <React.Fragment>
               {this.displayPage(this.state.pageIndex)}
             </React.Fragment>
-            {/* <React.Fragment>
-              <Col lg={8} md={8} xs={8}>
-                <Card body outline color="secondary" className="mb-2">
-                  <JsonApi />
-                </Card>
-              </Col>
-              <Col lg={8} md={8} xs={8}>
-                <Card body outline color="secondary" className="mb-2">
-                  <DropdownMenu />
-
-                  <br />
-                  <FirstArrayExample />
-
-                  <Link to="/showPostings">
-                    Click Here to check posted items in database
-                  </Link>
-                  <br />
-                </Card>
-              </Col>
-
-              <Col lg={8} md={8} xs={8}>
-                <Card body outline color="secondary" className="mb-2">
-                  <img src={washington} alt="logo" style={{ width: "300px" }} />{" "}
-                  <CardBody>
-                    <CardText> washington Park detail goes here</CardText>
-                  </CardBody>
-                  <CardFooter>
-                    <small className="text-muted text-center">
-                      Should include washington Park Map
-                    </small>
-                    <div style={{ height: "50vh", width: "100%" }}>
-                      <GoogleMapReact
-                        bootstrapURLKeys={{
-                          key: `AIzaSyBUHdcZt1CDRo9chaTXDHda-Wkj4HFh7yE`
-                        }}
-                        defaultCenter={this.props.center}
-                        defaultZoom={this.props.zoom}
-                      >
-                        <AnyReactComponent
-                          lat={59.955413}
-                          lng={30.337844}
-                          text="My Marker"
-                        />
-                      </GoogleMapReact>
-                    </div>
-                  </CardFooter>
-                </Card>
-              </Col>
-            </React.Fragment> */}
           </Row>
         </Container>
       </div>

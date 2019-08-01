@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { detailrecipe } from "./tempDetails";
+
+
+
 export default class RecipeDetails extends Component {
   state = {
     recipe: detailrecipe
