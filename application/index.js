@@ -12,8 +12,8 @@ app.use('/api/postings', postings);
 app.use('/aboutus', aboutus);
 
 // this will be the homepage.
-app.get('/', function(req,res) {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+app.get('/*', function(req,res) {
+    res.sendFile(path.join(__dirname, './client/build', 'index.html'));
 });
 
 app.listen(3000, () => console.log('Server running on port 3000'))

@@ -3,14 +3,15 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 // import "./Navbar.css";
 import { Link } from "react-router-dom";
-import Admin from "../Users/Admin";
+import UserAuth from "../Users/UserAuth"
 
-// import DropdownMenu from "../pages/DropdownMenu";
+
 class Navbar extends React.Component {
-  state = {};
+
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-warning">
+        
         <a className="navbar-brand ml-5" href="#">
           <h1>Team 06</h1>
         </a>
