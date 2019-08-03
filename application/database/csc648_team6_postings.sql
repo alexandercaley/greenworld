@@ -27,26 +27,30 @@ DROP TABLE IF EXISTS `postings`;
 CREATE TABLE `postings` (
   `post_id` int(11) NOT NULL AUTO_INCREMENT,
   `users_id` int(11) NOT NULL,
-  `street` varchar(50) NOT NULL,
-  `city` varchar(45) NOT NULL,
-  `state` varchar(45) NOT NULL,
-  `zipcode` varchar(45) NOT NULL,
-  `description` varchar(300) NOT NULL,
+  `street` varchar(50) NOT NULL DEFAULT ' ',
+  `city` varchar(45) NOT NULL DEFAULT ' ',
+  `state` varchar(45) NOT NULL DEFAULT ' ',
+  `zipcode` varchar(45) NOT NULL DEFAULT ' ',
+  `description` varchar(300) NOT NULL DEFAULT ' ',
   `picture` text NOT NULL,
-  `status` varchar(20) NOT NULL,
+  `status` varchar(20) NOT NULL DEFAULT 'Pending',
   `date_witnessed` date NOT NULL,
   `date_posted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `topic` varchar(20) NOT NULL,
-  `long` decimal(25,15) NOT NULL,
-  `lat` decimal(25,15) NOT NULL,
+  `long` decimal(25,15) NOT NULL DEFAULT '0.000000000000000',
+  `lat` decimal(25,15) NOT NULL DEFAULT '0.000000000000000',
   PRIMARY KEY (`post_id`),
   KEY `users_id` (`users_id`),
   KEY `street` (`street`),
   KEY `city` (`city`),
   KEY `state` (`state`),
   KEY `zipcode` (`zipcode`),
+  KEY `status` (`status`),
+  KEY `topic` (`topic`),
+  CONSTRAINT `status` FOREIGN KEY (`status`) REFERENCES `statuses` (`status`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `topic` FOREIGN KEY (`topic`) REFERENCES `topics` (`topic`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `users_id` FOREIGN KEY (`users_id`) REFERENCES `users_registration` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -58,4 +62,4 @@ CREATE TABLE `postings` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-31 12:08:07
+-- Dump completed on 2019-08-02 18:02:20
