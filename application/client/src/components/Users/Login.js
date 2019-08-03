@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Form, Col, Button } from "react-bootstrap";
-import { validateStatus } from "../redux/actions/loginAction";
+import { withRouter } from "react-router-dom";
+import { validateStatus, reRouteAfterCompleteLogin } from "../redux/actions/loginAction";
 import axios from "axios";
 
 class Login extends Component {
   
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
     console.log(event.target.children[0]);
@@ -18,11 +19,15 @@ class Login extends Component {
     };
     console.log(obj);
     axios
-      .post("/userauth/Login", obj)
+      .post("/userauth/login", obj)
       .then(res => {
         console.log(res);
-        let data = res.data;
-        if (data === "OK") {
+
+        // Handle code based on message response from backend
+        let message = res.data.message;
+
+        // Handle if login was successful
+        if (message === "LOGIN_SUCCESS") {
 
           let validate = {
             USER_NOT_FOUND: false,
@@ -31,11 +36,25 @@ class Login extends Component {
             INCORRECT_USERNAME_OR_PASSWORD: false
           }
           this.props.validateStatus(validate);
-          
+          localStorage.setItem('token', res.data.token);
+          console.log(localStorage)
+
+          let path = "";
+
           // put somet path here where you want to redirect after loging in 
-          const path = "/";
-          this.props.history.push(path);
-        } else if (data === "USER_NOT_FOUND") {
+          if(this.props.ROUTE != undefined) {
+            path =  this.props.ROUTE;
+            console.log(path);
+            console.log(this.props.history);
+            this.props.history.push(path);
+          } else {
+            path = "/";
+            this.props.history.push(path);
+            console.log(path);
+          } 
+        } 
+        // If cannot find user 
+        else if (message === "USER_NOT_FOUND") {
 
           let notFound = {
             USER_NOT_FOUND: true,
@@ -45,7 +64,9 @@ class Login extends Component {
           }
 
           this.props.validateStatus(notFound);
-        } else if (data === "INCORRECT_USERNAME_OR_PASSWORD") {
+        } 
+        // If username or password was incorrect.
+        else if (message === "INCORRECT_USERNAME_OR_PASSWORD") {
 
           let incorrectData = {
             USER_NOT_FOUND: false,
@@ -64,6 +85,12 @@ class Login extends Component {
 
   componentDidMount() {
     console.log("hi");
+    console.log(this.props.route)
+
+    // get route passed from post page route
+    // We do this so we can redirect back to post page
+    let route = this.props.route
+    this.props.reRouteAfterCompleteLogin(this.props.route);
   }
 
   render() {
@@ -75,7 +102,6 @@ class Login extends Component {
     } = this.props;
     return (
       <div>
-        {!LOOGEDIN && (
           <Form
             noValidate
             validated={validated}
@@ -98,8 +124,6 @@ class Login extends Component {
             {USER_NOT_FOUND && <p className="errorHandler">User not found</p>}
             <Button type="submit">Login</Button>
           </Form>
-        )}
-        {/* {LOOGEDIN && <div className="App"> <Animation /></div>} */}
       </div>
     );
   }
@@ -112,8 +136,12 @@ const mapStateToProps = (state) => {
     validated,
     LOOGEDIN,
     USER_NOT_FOUND,
-    INCORRECT_USERNAME_OR_PASSWORD 
+    INCORRECT_USERNAME_OR_PASSWORD,
+    REDIRECT,
+    ROUTE
   } = state.loginReducer;
+  console.log(state.loginReducer)
+  console.log(state.registerReducer)
   console.log(state);
   return {
     username,
@@ -122,14 +150,19 @@ const mapStateToProps = (state) => {
     LOOGEDIN,
     USER_NOT_FOUND,
     INCORRECT_USERNAME_OR_PASSWORD,
+    REDIRECT,
+    ROUTE
   };
 }
 
+// import action functions
+// can also import different actions from different files
 const mapDispatchToProps = {
   validateStatus,
+  reRouteAfterCompleteLogin
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Login);
+)(withRouter(Login));

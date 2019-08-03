@@ -12,8 +12,6 @@ import Home from "./components/pages/Home";
 import News from "./components/pages/News";
 import AboutUs from "./components/pages/AboutUs";
 import Post from "./components/pages/Post";
-// import Category from "./components/pages/Category";
-// import showPostingss from "./components/pages/showPostings";
 
 import { BrowserRouter as Router } from "react-router-dom";
 import Login from "./components/Users/Login";

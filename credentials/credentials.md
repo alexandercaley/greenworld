@@ -1,7 +1,7 @@
 1.	Server URL or IP
 
-	Public DNS(IPv4)[URL]: http://ec2-18-144-73-194.us-west-1.compute.amazonaws.com/
-	IPv6 Public IP: http://18.144.73.194/
+	Public DNS(IPv4)[URL]: http://ec2-13-56-194-238.us-west-1.compute.amazonaws.com/
+	IPv6 Public IP: http://13.56.194.238/
 
 2. & 3. SSH username & SSH password or key.
 
@@ -10,11 +10,11 @@
 	chmod 400 ~/.ssh/team6_csc648.pem 
 	
 	# To connect to aws instance
-	SSH Command: ssh -i ~/.ssh/team6_csc648.pem ubuntu@ec2-18-144-73-194.us-west-1.compute.amazonaws.com
+	SSH Command: ssh -i ~/.ssh/team6_csc648.pem ubuntu@ec2-13-56-194-238.us-west-1.compute.amazonaws.com
 
 4.  Database URL or IP and port used.
 
-	IP:		http://18.144.73.194/
+	IP:		http://13.56.194.238/
 	Port: 	3306
 
 5.  Database username
@@ -43,7 +43,7 @@ For steps 4 to 7
 	In mysql workbench, 
 		- create a new connection
 		- Select, Standard(TCP/IP)
-		- Hostname: 18.144.73.194
+		- Hostname: 13.56.194.238
 		- Username: testuser
 		- Port: 3306
 		- Password: team6

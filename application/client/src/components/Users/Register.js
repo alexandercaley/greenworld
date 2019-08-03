@@ -17,6 +17,7 @@ class Register extends Component {
     let username = event.target.children[0].children[2].children[1].value;
     let password = event.target.children[0].children[3].children[1].value;
 
+    // check if names have spacing
     if (
       username.includes(" ") ||
       firstName.includes(" ") ||
@@ -35,41 +36,54 @@ class Register extends Component {
       return 0;
     }
 
+    // split into arrays to guarentee no spacing
     let firstName1 = firstName.split(" ");
     let lastName1 = lastName.split(" ");
     let username1 = username.split(" ");
     let password1 = password.split(" ");
-
+    
+    // check if any fields are empty
+    // If any field is empty change state in registerReducer of formNotFullfilled to true
     if (
-      firstName1 === "" ||
-      lastName1 === "" ||
-      username1 === "" ||
-      password1 === ""
+      firstName1[0] === "" ||
+      lastName1[0] === "" ||
+      username1[0] === "" ||
+      password1[0] === ""
     ) {
+      console.log(password1)
       this.props.formNotFullfilled();
     } else {
       let obj = {
-        firstName: firstName,
-        lastName: lastName,
+        firstname: firstName,
+        lastname: lastName,
         username: username,
         password: password
       };
 
       axios
-        .post("/userauth/Register", obj)
+        .post("/userauth/register", obj)
         .then(res => {
-          let data = res.data;
-          if (data === "OK"){
-            this.props.registered();
-            const path = "/login";
-            this.props.history.push(path);          
-          }
-          else if (data === "USER_ALREADY_EXISTS") {
-            this.props.userAlreadyExists();
-          }
+          
+          // if(res.data.error) {
+          //   let error = res.data.error;
+          //   if(error === "USER_ALREADY_EXISTS")            
+          // }
+          // if(res.data.message) {
+            let message = res.data.message;
+            if(message === "REGISTER_SUCCESS"){
+              this.props.registered();
+              const path = "/login";
+              this.props.history.push(path);          
+            } else if(message === "USER_ALREADY_EXISTS") {
+              console.log("user already exists");
+            } else if(message === "ERR_NO_PASSWORD") {
+              console.log("handle no password error")
+            }
+          // }
+
         })
         .catch(err => {
-          console.log(err);
+          console.log(err.message);
         });
     }
   }

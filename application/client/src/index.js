@@ -12,12 +12,14 @@ import { Provider } from "react-redux";
 import loginReducer from "./components/redux/reducers/loginReducer";
 import registerReducer from "./components/redux/reducers/registerReducer";
 import userauthReducer from "./components/redux/reducers/userauthReducer"
+import postReducer from "./components/redux/reducers/postReducer"
 
 // combine reducers
 const rootReducer = combineReducers({
   loginReducer,
   registerReducer,
-  userauthReducer
+  userauthReducer,
+  postReducer
 });
 
 
