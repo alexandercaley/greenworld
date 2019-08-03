@@ -189,7 +189,9 @@ class Navbar extends React.Component {
                 Logout
               </Link>
             </li>
+            
           </ul>
+          <UserAuth/>
         </div>
       </nav>
     );

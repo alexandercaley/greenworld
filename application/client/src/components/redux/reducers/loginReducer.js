@@ -2,7 +2,7 @@ const INITIAL_STATE = {
   username: "",
   password: "",
   validated: false,
-  LOOGEDIN: false,
+  LOGGEDIN: false,
   USER_NOT_FOUND: false,
   INCORRECT_USERNAME_OR_PASSWORD: false,
   // REDIRECT: false,
@@ -14,14 +14,14 @@ const loginReducer = (state = INITIAL_STATE, action) => {
     case "VALIDATE":
       let {
         validated,
-        LOOGEDIN,
+        LOGGEDIN,
         USER_NOT_FOUND,
         INCORRECT_USERNAME_OR_PASSWORD
       } = action.validate;
       return {
         ...state,
         validated: validated,
-        LOOGEDIN: LOOGEDIN,
+        LOGGEDIN: LOGGEDIN,
         USER_NOT_FOUND: USER_NOT_FOUND,
         INCORRECT_USERNAME_OR_PASSWORD: INCORRECT_USERNAME_OR_PASSWORD
       };
@@ -32,6 +32,12 @@ const loginReducer = (state = INITIAL_STATE, action) => {
         // REDIRECT: true,
         ROUTE: route
       }
+    case "LOGGOUT":
+      return {
+        ...state,
+        LOGGEDIN: false
+      }
+      console.log("logout action");
     default:
       return state;
   }

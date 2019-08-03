@@ -32,7 +32,7 @@ class Login extends Component {
           let validate = {
             USER_NOT_FOUND: false,
             validated: true,
-            LOOGEDIN: true,
+            LOGGEDIN: true,
             INCORRECT_USERNAME_OR_PASSWORD: false
           }
           this.props.validateStatus(validate);
@@ -59,7 +59,7 @@ class Login extends Component {
           let notFound = {
             USER_NOT_FOUND: true,
             validated: false,
-            LOOGEDIN: false,
+            LOGGEDIN: false,
             INCORRECT_USERNAME_OR_PASSWORD: false
           }
 
@@ -71,7 +71,7 @@ class Login extends Component {
           let incorrectData = {
             USER_NOT_FOUND: false,
             validated: false,
-            LOOGEDIN: false,
+            LOGGEDIN: false,
             INCORRECT_USERNAME_OR_PASSWORD: true
           }
 
@@ -96,7 +96,7 @@ class Login extends Component {
   render() {
     const {
       validated,
-      LOOGEDIN,
+      LOGGEDIN,
       INCORRECT_USERNAME_OR_PASSWORD,
       USER_NOT_FOUND
     } = this.props;
@@ -134,7 +134,7 @@ const mapStateToProps = (state) => {
     username,
     password,
     validated,
-    LOOGEDIN,
+    LOGGEDIN,
     USER_NOT_FOUND,
     INCORRECT_USERNAME_OR_PASSWORD,
     REDIRECT,
@@ -147,7 +147,7 @@ const mapStateToProps = (state) => {
     username,
     password,
     validated,
-    LOOGEDIN,
+    LOGGEDIN,
     USER_NOT_FOUND,
     INCORRECT_USERNAME_OR_PASSWORD,
     REDIRECT,
