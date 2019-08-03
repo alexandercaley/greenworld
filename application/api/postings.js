@@ -6,36 +6,36 @@ const bodyParser = require('body-parser');
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 
-// let connection;
-// if (!connection) {
-//     connection = mysql.createConnection({
-//         host: 'localhost',
-//         user: 'root',
-//         password: 'password',
-//         database: 'VerticalPrototype'
-//     });
+let connection;
+if (!connection) {
+    connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: 'password',
+        database: 'VerticalPrototype'
+    });
 
-//     connection.connect((err) => {
-//         if (!err)
-//             console.log('Connected to the MySQL server!');
-//         else
-//             console.log('Connection failed \n Error: ' + JSON.stringify(err, undefined, 2));
-//     });
-// }
+    connection.connect((err) => {
+        if (!err)
+            console.log('Connected to the MySQL server!');
+        else
+            console.log('Connection failed \n Error: ' + JSON.stringify(err, undefined, 2));
+    });
+}
 
-var connection = mysql.createConnection({
-	host: "13.56.194.238",
+// var connection = mysql.createConnection({
+// 	host: "13.56.194.238",
 
-	// Your port; if not 3306
-	port: 3306,
+// 	// Your port; if not 3306
+// 	port: 3306,
 
-	// Your username
-	user: "testuser",
+// 	// Your username
+// 	user: "testuser",
 
-	// Your password
-	password: "team6",
-	database: "csc648team6"
-});
+// 	// Your password
+// 	password: "team6",
+// 	database: "csc648team6"
+// });
 
 
 // if (!connection) {
@@ -55,7 +55,7 @@ var connection = mysql.createConnection({
 // }
 
 router.get('/', function (req, res) {
-    connection.query("SELECT * FROM csc648team6.postings", function (err, result, fields) {
+    connection.query("SELECT * FROM postings", function (err, result, fields) {
         if (err) throw err;
         res.json(result);
     });
