@@ -12,3 +12,10 @@ export const reRouteAfterCompleteLogin = route => {
     route
   }
 }
+
+// Re routes based on given route after logging in
+export const logout = () => {
+  return {
+    type: "LOGOUT",
+  }
+}

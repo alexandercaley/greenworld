@@ -326,6 +326,7 @@ class Post extends Component {
 
   render() {
     let curToken = localStorage.getItem("token");
+    console.log(curToken)
     const { loadedFiles } = this.state;
     console.log(loadedFiles);
     return (

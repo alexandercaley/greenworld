@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Route, withRouter, Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import { clickLogin, clickRegister } from "../redux/actions/userauthAction";
+import { logout } from "../redux/actions/loginAction";
 import ReactDOM from "react-dom";
 
 class UserAuth extends Component {
@@ -18,42 +19,38 @@ class UserAuth extends Component {
     console.log("clicked register");
   };
 
-  componentDidMount() {
-    console.log(this.props.login);
-  }
-
-  // render() {
-  //   let { login, register } = this.props;
-  //   console.log(login);
-  //   return (
-  //     <div className="userAuth">
-  //       {(login && <Link to={"/login"}></Link> ) || (
-  //         <Button id="loginButton" onClick={this.loginButton}>
-  //           Login
-  //           <Link to={"/login"}></Link>
-  //         </Button>
-  //       )}
-  //       {register || (
-  //         <Button id="registerButton" onClick={this.registerButton}>
-  //           Register
-  //         </Button>
-  //       )}
-  //     </div>
-  //   );
-  // }
+  logoutButton = async () => {
+    try {
+      // Async await so we to make sure token gets removed before
+      // performing any other tasks
+      await localStorage.removeItem('token');
+      this.props.history.push("/");
+    } catch (error) {
+      // Error saving data
+      console.log(error);
+    }
+  };
+  
   render() {
-    let { login, register } = this.props;
-    console.log(login);
+    let curToken = localStorage.getItem("token");
+    console.log();
     return (
       <div className="userAuth">
-        <Button id="loginButton" onClick={this.loginButton}>
-          Login
-          <Link to={"/login"} />
-        </Button>
-
-        <Button id="registerButton" onClick={this.registerButton}>
-          Register
-        </Button>
+        {curToken && (
+          <Button id="loginButton" onClick={this.logoutButton}>
+            Logout
+          </Button>
+        )}
+        {!curToken && (
+          <Button id="loginButton" onClick={this.loginButton}>
+            Login
+          </Button>
+        )}
+        {!curToken && (
+          <Button id="registerButton" onClick={this.registerButton}>
+            Register
+          </Button>
+        )}
       </div>
     );
   }
@@ -61,15 +58,18 @@ class UserAuth extends Component {
 
 const mapStateToProps = state => {
   let { login, register } = state.userauthReducer;
+  let { LOGGEDIN } = state.loginReducer;
   return {
     login,
-    register
+    register,
+    LOGGEDIN
   };
 };
 
 const mapDispatchToProps = {
   clickLogin,
-  clickRegister
+  clickRegister,
+  logout
 };
 
 export default connect(
