@@ -128,18 +128,28 @@ class Home extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const{data,search} = this.state;
-   // console.log(dataFiller);
-    this.setState(()=>{
-      return {data:`${data}${search}`, search:""}
+    var searchFilter = data.filter(function(x) {
+      return x.postType.toLowerCase().includes(search.toLowerCase()) 
+    })
+    // function searchFilter(search) {
+    //   return function(x) {
+    //     return x.location.toLowerCase().includes(search.toLowerCase()) || x.postType.toLowerCase().includes(search.toLowerCase());;
 
-    }, () => {
-      console.log("before get product");
-      console.log(this.state);
-      this.getProduct();
-      console.log("handle submit");
-      })
+    //   }
+    // }
+    console.log(searchFilter);
+    this.setState(()=>{
+      return {data: searchFilter, search}
+
+    // }, () => {
+    //   console.log(searchFilter);
+    //   console.log(this.state);
+    //   this.getProduct();
+    //   console.log("handle submit");
+    //   })
+    // };
+    })
     };
-  
   
 
   render() {
