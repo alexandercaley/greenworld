@@ -3,9 +3,10 @@ import React, {Component} from "react";
 export default class ProductSearch extends Component {
 
     render() {
-        const {value, 
-            handleSubmit, 
-            handleChange} = this.props
+        const {
+        value, 
+        handleSubmit, 
+        handleChange} = this.props
 
         return(
         

@@ -11,11 +11,11 @@ import ProductSearch from "../pages/HomepageList/ProductSearch";
 class Navbar extends React.Component {
 
   render() {
-    // const {
-    //   value,
-    //   handleSubmit,
-    //   handleChange
-    // } = this.props;
+    const {
+      value,
+      handleSubmit,
+      handleChange
+    } = this.props;
 
     return (
       <React.Fragment>
@@ -77,11 +77,11 @@ class Navbar extends React.Component {
             </ul>
 
             {/* <DropdownMenu /> */}
-            {/* <ProductSearch
+            <ProductSearch
             value={value}
             handleChange={handleChange}
             handleSubmit={handleSubmit}
-            /> */}
+            />
 
           <Admin />
         </div>

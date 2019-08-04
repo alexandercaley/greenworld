@@ -29,17 +29,18 @@ const AnyReactComponent = ({ text }) => <div>{text}</div>;
 class Home extends Component {
       state = {
       data: [],
-      dataFiller: [],
+     // dataFiller: [],
       details_id: 35382,
       pageIndex: 1,
-      search:'',
-      query:""
+      search:''
+   //   query:""
     };
   
   
     async getProduct() {
       try {
-        const response = await axios.get("/api/postings")
+        const filler = await fetch(this.state.data);
+        const res = await axios.get("/api/postings")
         .then(res => {console.log(res.data);
 
         this.setState({
@@ -81,6 +82,7 @@ class Home extends Component {
       case 1:
         return (
           <ProductsList
+            dataSearch = {this.state.data}
             handleDetails={this.handleDetails}
             value={this.state.search}
             handleChange={this.handleChange}
@@ -125,10 +127,13 @@ class Home extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const{dataFiller,query,search} = this.state;
+    const{data,search} = this.state;
+   // console.log(dataFiller);
     this.setState(()=>{
-      return {data:`${dataFiller}${query}${search}`, search:""}
+      return {data:`${data}${search}`, search:""}
+
     }, () => {
+      console.log("before get product");
       this.getProduct();
       console.log("handle submit");
       })

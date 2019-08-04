@@ -4,30 +4,30 @@ import ProductSearch from "../HomepageList/ProductSearch";
 import axios from "axios";
 
 export default class ProductsList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    data: []
-    };
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //   data: []
+  //   };
+  // }
 
-  async getProduct() {
-    try {
-      const response = await axios.get("/api/postings")
-      .then(res => {console.log(res.data);
-      this.setState({
-        data:res.data
-      });
-    })
-    } catch(error) {
-      console.log(error);
+//   async getProduct() {
+//     try {
+//       const response = await axios.get("/api/postings")
+//       .then(res => {console.log(res.data);
+//       this.setState({
+//         data:res.data
+//       });
+//     })
+//     } catch(error) {
+//       console.log(error);
 
-    }
-  }
+//     }
+//   }
 
-componentDidMount() {
-  this.getProduct();
-}
+// componentDidMount() {
+//   this.getProduct();
+// }
 
   // componentDidMount() {
   //   axios
@@ -45,11 +45,15 @@ componentDidMount() {
 
   render() {
     const { 
+     // dataSearch,
       handleDetails, 
       value,
       handleSubmit,
       handleChange,
       error } = this.props;
+      const {
+        dataSearch
+      } = this.state;
 
     return (
       <div>
@@ -67,7 +71,8 @@ componentDidMount() {
               {error ? (
                 <h1 className="text-danger text-center">{error}</h1>
               ) : (
-                this.state.data.map(i => {
+                dataSearch.map(i => {
+                let {id, location, postType } = i;
                   return (
                     <Products
                       key={i.recipe_id}
