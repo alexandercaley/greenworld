@@ -82,7 +82,7 @@ class Home extends Component {
       case 1:
         return (
           <ProductsList
-            dataSearch = {this.state.data}
+            recipes = {this.state.data}
             handleDetails={this.handleDetails}
             value={this.state.search}
             handleChange={this.handleChange}
@@ -134,6 +134,7 @@ class Home extends Component {
 
     }, () => {
       console.log("before get product");
+      console.log(this.state);
       this.getProduct();
       console.log("handle submit");
       })

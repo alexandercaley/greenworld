@@ -45,15 +45,12 @@ export default class ProductsList extends Component {
 
   render() {
     const { 
-     // dataSearch,
+      recipes,
       handleDetails, 
       value,
       handleSubmit,
       handleChange,
       error } = this.props;
-      const {
-        dataSearch
-      } = this.state;
 
     return (
       <div>
@@ -71,8 +68,8 @@ export default class ProductsList extends Component {
               {error ? (
                 <h1 className="text-danger text-center">{error}</h1>
               ) : (
-                dataSearch.map(i => {
-                let {id, location, postType } = i;
+                recipes.map(i => {
+             //   let {id, location, postType } = i;
                   return (
                     <Products
                       key={i.recipe_id}
