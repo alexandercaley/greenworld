@@ -11,9 +11,14 @@ export default class ProductDetails extends Component {
     zoom: 11
   };
 
+  async componentDidMount() {
+    console.log(this.props.id);
+  }
+
   render() {
     const { id, location, picture, postType } = this.props;
     const { handleIndex } = this.props;
+
     return (
       <div>
         <React.Fragment>
@@ -46,7 +51,7 @@ export default class ProductDetails extends Component {
                   <Marker
                     lat={37.774929}
                     lng={-122.419416}
-                    // name="My Marker"
+                    name="My Marker"
                     color="red"
                   />
                 </GoogleMapReact>

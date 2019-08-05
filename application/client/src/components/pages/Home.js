@@ -1,57 +1,122 @@
 import React, { Component } from "react";
-import Products from "./HomepageList/Products";
+import { Dropdown, Navbar } from "react-bootstrap";
 
 import axios from "axios";
+import { Container, Row } from "reactstrap";
 
-const footerStyle = {
-  backgroundColor: "#184E68",
-  fontSize: "15px",
-  color: "white",
-  borderTop: "1px solid #E7E7E7",
-  textAlign: "center",
-  padding: "10px",
-  position: "fixed",
-  left: "0",
-  bottom: "0",
-  height: "50px",
-  width: "100%"
-};
-
-const phantomStyle = {
-  display: "block",
-  padding: "20px",
-  height: "60px",
-  width: "100%"
-};
-
-function Footer({ children }) {
-  return (
-    <div>
-      <div style={phantomStyle} />
-      <div style={footerStyle}>{children}</div>
-    </div>
-  );
-}
+import ProductsList from "./HomepageList/ProductsList";
+import ProductDetails from "./HomepageList/ProductDetails";
 
 class Home extends Component {
-  componentDidMount() {
-    axios
-      .get("/api/postings")
-      .then(res => {
+  state = {
+    data: [],
+
+    details_id: 35382,
+    pageIndex: 1,
+    search: ""
+  };
+
+  async getProduct() {
+    try {
+      //const filler = await fetch(this.state.data);
+      const res = await axios.get("/api/postings").then(res => {
         console.log(res.data);
+
         this.setState({
           data: res.data
         });
-      })
-      .catch(err => {
-        console.log(err);
       });
+    } catch (error) {
+      console.log(error);
+    }
   }
+
+  componentDidMount() {
+    this.getProduct();
+  }
+
+  displayPage = index => {
+    switch (index) {
+      case 0:
+        return (
+          <ProductDetails
+            id={this.state.details_id}
+            handleIndex={this.handleIndex}
+          />
+        );
+      case 1:
+        return (
+          <ProductsList
+            recipes={this.state.data}
+            handleDetails={this.handleDetails}
+            value={this.state.search}
+            handleChange={this.handleChange}
+            handleSubmit={this.handleSubmit}
+            error={this.state.error}
+          />
+        );
+      default:
+    }
+  };
+
+  handleIndex = index => {
+    this.setState({
+      pageIndex: index
+    });
+  };
+  handleDetails = (index, id) => {
+    this.setState({
+      details_id: id,
+      pageIndex: index
+    });
+  };
+
+  handleChange = e => {
+    // console.log("handle change");
+    this.setState(
+      {
+        search: e.target.value
+      },
+      () => {
+        console.log(this.state.search);
+      }
+    );
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    const { data, search } = this.state;
+    var searchFilter = data.filter(function(x) {
+      return x.postType.toLowerCase().includes(search.toLowerCase());
+    });
+    console.log(searchFilter);
+    this.setState(() => {
+      return { data: searchFilter, search };
+    });
+  };
 
   render() {
     return (
       <div>
-        <Products />
+        <Container className="mt-2">
+          <Row>
+            <div className="container my-6">
+              <Dropdown>
+                <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                  Filter
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item href="#/Park">Park</Dropdown.Item>
+                  <Dropdown.Item href="#/Zipcode">Zip code</Dropdown.Item>
+                  <Dropdown.Item href="#/city">city</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
+            <React.Fragment>
+              {this.displayPage(this.state.pageIndex)}
+            </React.Fragment>
+          </Row>
+        </Container>
       </div>
     );
   }
