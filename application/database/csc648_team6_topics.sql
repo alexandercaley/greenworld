@@ -36,7 +36,7 @@ CREATE TABLE `topics` (
 
 LOCK TABLES `topics` WRITE;
 /*!40000 ALTER TABLE `topics` DISABLE KEYS */;
-INSERT INTO `topics` VALUES ('Air'),('Garbage'),('Hazardous Waste'),('Water');
+INSERT INTO `topics` VALUES ('Air'),('Garbage'),('Hazardous Waste'),('Natural Hazard'),('Other'),('Water');
 /*!40000 ALTER TABLE `topics` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-08-02 18:03:31
+-- Dump completed on 2019-08-04 23:30:15
