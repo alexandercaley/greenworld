@@ -6,6 +6,10 @@ export default class ProductDetails extends Component {
     recipe: detailrecipe
   };
 
+  async componentDidMount() {
+    console.log(this.props.id);
+  }
+
   render() {
     const {
       image_url,
@@ -15,6 +19,8 @@ export default class ProductDetails extends Component {
       enviroment
     } = this.state.recipe;
     const { handleIndex } = this.props;
+
+
     return (
       <div>
         <React.Fragment>

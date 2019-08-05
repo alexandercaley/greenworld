@@ -5,27 +5,20 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 import UserAuth from "../Users/UserAuth"
 
+import ProductSearch from "../pages/HomepageList/ProductSearch";
+
+// import DropdownMenu from "../pages/DropdownMenu";
 class Navbar extends React.Component {
 
-  // Logout function
-  // Basically just clear localstorage
-  logout = async () => {
-    try {
-      // Async await so we to make sure token gets removed before
-      // performing any other tasks
-      console.log(localStorage);
-      await localStorage.removeItem('token');
-      console.log(localStorage);
-      console.log("Logged out");
-    } catch (error) {
-      // Error saving data
-      console.log("===Error Line 16 Navbar.js===");
-      console.log(error);
-    }
-  };
-
   render() {
+    const {
+      value,
+      handleSubmit,
+      handleChange
+    } = this.props;
+
     return (
+      <React.Fragment>
       <nav className="navbar navbar-expand-lg navbar-light bg-warning">
         
         <a className="navbar-brand ml-5" href="#">
@@ -68,6 +61,7 @@ class Navbar extends React.Component {
           <UserAuth/>
         </div>
       </nav>
+      </React.Fragment>
     );
   }
 }
