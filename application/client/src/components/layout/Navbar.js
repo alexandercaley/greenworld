@@ -1,9 +1,9 @@
 import React from "react";
+import logo from "../../assets/donkey.jpg";
 import "bootstrap/dist/css/bootstrap.min.css";
-
 // import "./Navbar.css";
 import { Link } from "react-router-dom";
-import Admin from "../Users/Admin";
+import UserAuth from "../Users/UserAuth"
 
 import ProductSearch from "../pages/HomepageList/ProductSearch";
 
@@ -20,10 +20,10 @@ class Navbar extends React.Component {
     return (
       <React.Fragment>
       <nav className="navbar navbar-expand-lg navbar-light bg-warning">
+        
         <a className="navbar-brand ml-5" href="#">
           <h1>Team 06</h1>
         </a>
-
         <button
           className="navbar-toggler"
           type="button"
@@ -39,52 +39,26 @@ class Navbar extends React.Component {
         </button>
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <div className="div-inline my-2 my-lg-0">
-            <ul className="navbar-nav m-auto">
-              <li className="nav-item active">
-                <Link
-                  className="nav-link text-white text-uppercase ml-5"
-                  to="/home"
-                >
-                  Home
-                  <i className="fas fa-home" />
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className="nav-link text-white text-uppercase ml-5"
-                  to="/ShowPostings"
-                >
-                  ShowPostings
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className="nav-link text-white text-uppercase ml-5"
-                  to="/aboutUs"
-                >
-                  About Us
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className="nav-link text-white text-uppercase ml-5"
-                  to="/post"
-                >
-                  Post
-                </Link>
-              </li>
-            </ul>
-
-            {/* <DropdownMenu /> */}
-            <ProductSearch
-            value={value}
-            handleChange={handleChange}
-            handleSubmit={handleSubmit}
-            />
-
-          <Admin />
-        </div>
+          <ul className="navbar-nav m-auto">
+            <li className="nav-item active">
+              <Link
+                className="nav-link text-white text-uppercase ml-5"
+                to="/home"
+              >
+                Home
+                <i className="fas fa-home" />
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                className="nav-link text-white text-uppercase ml-5"
+                to="/post"
+              >
+                Post
+              </Link>
+            </li>            
+          </ul>
+          <UserAuth/>
         </div>
       </nav>
       </React.Fragment>

@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Form, Col, Button } from "react-bootstrap";
-import { validateStatus } from "../redux/actions/loginAction";
+import { withRouter } from "react-router-dom";
+import { validateStatus, reRouteAfterCompleteLogin } from "../redux/actions/loginAction";
 import axios from "axios";
 
 class Login extends Component {
   
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault();
     event.stopPropagation();
     console.log(event.target.children[0]);
@@ -31,16 +32,26 @@ class Login extends Component {
           let validate = {
             USER_NOT_FOUND: false,
             validated: true,
-            LOOGEDIN: true,
+            LOGGEDIN: true,
             INCORRECT_USERNAME_OR_PASSWORD: false
           }
           this.props.validateStatus(validate);
           localStorage.setItem('token', res.data.token);
           console.log(localStorage)
+
+          let path = "";
+
           // put somet path here where you want to redirect after loging in 
-          const path = "/";
-          console.log(this.props.history);
-          this.props.history.push(path);
+          if(this.props.ROUTE != undefined) {
+            path =  this.props.ROUTE;
+            console.log(path);
+            console.log(this.props.history);
+            this.props.history.push(path);
+          } else {
+            path = "/";
+            this.props.history.push(path);
+            console.log(path);
+          } 
         } 
         // If cannot find user 
         else if (message === "USER_NOT_FOUND") {
@@ -48,7 +59,7 @@ class Login extends Component {
           let notFound = {
             USER_NOT_FOUND: true,
             validated: false,
-            LOOGEDIN: false,
+            LOGGEDIN: false,
             INCORRECT_USERNAME_OR_PASSWORD: false
           }
 
@@ -60,7 +71,7 @@ class Login extends Component {
           let incorrectData = {
             USER_NOT_FOUND: false,
             validated: false,
-            LOOGEDIN: false,
+            LOGGEDIN: false,
             INCORRECT_USERNAME_OR_PASSWORD: true
           }
 
@@ -74,18 +85,23 @@ class Login extends Component {
 
   componentDidMount() {
     console.log("hi");
+    console.log(this.props.route)
+
+    // get route passed from post page route
+    // We do this so we can redirect back to post page
+    let route = this.props.route
+    this.props.reRouteAfterCompleteLogin(this.props.route);
   }
 
   render() {
     const {
       validated,
-      LOOGEDIN,
+      LOGGEDIN,
       INCORRECT_USERNAME_OR_PASSWORD,
       USER_NOT_FOUND
     } = this.props;
     return (
       <div>
-        {!LOOGEDIN && (
           <Form
             noValidate
             validated={validated}
@@ -108,8 +124,6 @@ class Login extends Component {
             {USER_NOT_FOUND && <p className="errorHandler">User not found</p>}
             <Button type="submit">Login</Button>
           </Form>
-        )}
-        {/* {LOOGEDIN && <div className="App"> <Animation /></div>} */}
       </div>
     );
   }
@@ -120,26 +134,35 @@ const mapStateToProps = (state) => {
     username,
     password,
     validated,
-    LOOGEDIN,
+    LOGGEDIN,
     USER_NOT_FOUND,
-    INCORRECT_USERNAME_OR_PASSWORD 
+    INCORRECT_USERNAME_OR_PASSWORD,
+    REDIRECT,
+    ROUTE
   } = state.loginReducer;
+  console.log(state.loginReducer)
+  console.log(state.registerReducer)
   console.log(state);
   return {
     username,
     password,
     validated,
-    LOOGEDIN,
+    LOGGEDIN,
     USER_NOT_FOUND,
     INCORRECT_USERNAME_OR_PASSWORD,
+    REDIRECT,
+    ROUTE
   };
 }
 
+// import action functions
+// can also import different actions from different files
 const mapDispatchToProps = {
   validateStatus,
+  reRouteAfterCompleteLogin
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Login);
+)(withRouter(Login));

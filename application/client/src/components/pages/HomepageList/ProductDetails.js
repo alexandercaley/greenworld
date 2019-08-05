@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { detailrecipe } from "./tempDetails";
 
-
-
-export default class RecipeDetails extends Component {
+export default class ProductDetails extends Component {
   state = {
     recipe: detailrecipe
   };
