@@ -1,9 +1,14 @@
 import React, { Component } from "react";
-import { detailrecipe } from "./tempDetails";
+import GoogleMapReact from "google-map-react";
+import Marker from "./Marker";
 
 export default class ProductDetails extends Component {
-  state = {
-    recipe: detailrecipe
+  static defaultProps = {
+    location: {
+      lat: 37.774929,
+      lng: -122.419416
+    },
+    zoom: 11
   };
 
   async componentDidMount() {
@@ -11,49 +16,49 @@ export default class ProductDetails extends Component {
   }
 
   render() {
-    const {
-      image_url,
-      detailpublisher,
-      source_url,
-      title,
-      enviroment
-    } = this.state.recipe;
+    const { id, location, picture, postType } = this.props;
     const { handleIndex } = this.props;
-
 
     return (
       <div>
         <React.Fragment>
+          <button
+            className="btn btn-warning text-capitalize mb-5"
+            onClick={() => handleIndex(1)}
+          >
+            back to home page
+          </button>
           <div className="container">
             <div className="row">
               <div className="col-10 mx-auto col-md-6 my-3">
-                <button
-                  className="btn btn-warning text-capitalize mb-5"
-                  onClick={() => handleIndex(1)}
-                >
-                  back to home page
-                </button>
-                <img src={image_url} className="d-block w-100" alt="recipe" />
+                <img
+                  // src={picture}
+                  className="img-card-top"
+                  alt="recipe"
+                  style={{ height: "14rem" }}
+                />
               </div>
-              <div className="col-10 mx-auto col-md-6 my-3">
-                <h6 className="text-uppercase">{title}</h6>
-                <h6 className="text-warning text-capitalize text-slanted">
-                  provided by {detailpublisher}
-                </h6>
-
-                <ul className="list-group mt-4">
-                  <h2 className="mt-3 mb-4">Details</h2>
-                  {enviroment.map((item, index) => {
-                    return (
-                      <li key={index} className="list-group-item text-slanted">
-                        {item}
-                      </li>
-                    );
-                  })}
-                  <h6 className="text-warning text-capitalize text-slanted">
-                    source {source_url}
-                  </h6>
-                </ul>
+              <div style={{ height: "50vh", width: "100%" }}>
+                <GoogleMapReact
+                  bootstrapURLKeys={{
+                    key: `AIzaSyBUHdcZt1CDRo9chaTXDHda-Wkj4HFh7yE`
+                    //Google API key
+                    // AIzaSyBUHdcZt1CDRo9chaTXDHda-Wkj4HFh7yE
+                  }}
+                  defaultCenter={this.props.location}
+                  defaultZoom={this.props.zoom}
+                >
+                  <Marker
+                    lat={37.774929}
+                    lng={-122.419416}
+                    name="My Marker"
+                    color="red"
+                  />
+                </GoogleMapReact>
+              </div>
+              <div className="card-body text-capitalized">
+                <h6>id: {id}</h6>
+                <h6>other details goes here</h6>
               </div>
             </div>
           </div>
