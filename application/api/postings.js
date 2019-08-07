@@ -24,7 +24,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
 // }
 
 var connection = mysql.createConnection({
-	host: "13.56.194.238",
+	host: "18.144.30.72",
 
 	// Your port; if not 3306
 	port: 3306,
