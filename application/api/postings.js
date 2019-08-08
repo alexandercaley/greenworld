@@ -1,26 +1,30 @@
 const mysql = require("mysql");
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
+const fs = require("fs");
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 
 let connection;
 if (!connection) {
-    connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'password',
-        database: 'VerticalPrototype'
-    });
+  connection = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "password",
+    database: "VerticalPrototype"
+  });
 
-    connection.connect((err) => {
-        if (!err)
-            console.log('Connected to the MySQL server!');
-        else
-            console.log('Connection failed \n Error: ' + JSON.stringify(err, undefined, 2));
-    });
+  connection.connect(err => {
+    if (!err) console.log("Connected to the MySQL server!");
+    else
+      console.log(
+        "Connection failed \n Error: " + JSON.stringify(err, undefined, 2)
+      );
+  });
 }
 
 // var connection = mysql.createConnection({
@@ -36,7 +40,6 @@ if (!connection) {
 // 	password: "team6",
 // 	database: "csc648team6"
 // });
-
 
 // if (!connection) {
 //     connection = mysql.createConnection({
@@ -54,11 +57,11 @@ if (!connection) {
 //     });
 // }
 
-router.get('/', function (req, res) {
-    connection.query("SELECT * FROM postings", function (err, result, fields) {
-        if (err) throw err;
-        res.json(result);
-    });
+router.get("/", function(req, res) {
+  connection.query("SELECT * FROM postings", function(err, result, fields) {
+    if (err) throw err;
+    res.json(result);
+  });
 });
 // router.get('/', function (req, res) {
 //     connection.query("SELECT * FROM csc648team6.postings", function (err, result, fields) {
@@ -67,25 +70,36 @@ router.get('/', function (req, res) {
 //     });
 // });
 
-router.post('/', function (req, res) {
-    console.log("POST!!!!")
-    var {id, location, postType, postStatus, picture} = req.body;
-    console.log(req.body)
-    console.log(id, postType, postStatus, picture)
+// Postings into database from post form
+router.post("/", upload.single("file"), function(req, res, next) {
+    // Gerry M.
+    // ID variable does not have value when posting
+    // Picture also does not have value
+    var { id, location, postType, postStatus, picture, fd } = req.body;
 
-    let query = "INSERT INTO postings (location, postType, postStatus, picture) VALUES (?,?,?,?)"
+    console.log(req.file);
 
-    connection.query(query, [location, postType, postStatus, picture],
-        function (err, result) {
-            if (err) {
-                console.log(err);
-                res.send('Error');
-            }
-            else {
-                console.log('success');
-                res.send('Success');
-            }
-        });
+    let query =
+        "INSERT INTO postings (location, postType, postStatus, picture) VALUES (?,?,?,?)";
+
+    connection.query(query, [location, postType, postStatus, picture], function(
+        err,
+        result
+    ) {
+        if (err) {
+        console.log(err);
+
+        // Gerry M.
+        // Messages must be in caps
+        res.send("Error");
+        } else {
+        console.log("success");
+
+        // Gerry M.
+        // Messages must be in caps
+        res.send("Success");
+        }
+    });
 });
 
 module.exports = router;

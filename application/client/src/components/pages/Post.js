@@ -1,152 +1,3 @@
-// import React, { Component } from "react";
-
-// import axios from "axios";
-// import { connect } from "react-redux";
-// import { withRouter } from "react-router-dom";
-// import DraggableUploader from "./DraggableUploader";
-// import Login from "../Users/Login";
-// import { updateForm } from "../redux/actions/postAction";
-
-// class Post extends Component {
-//   handleSubmit = e => {
-//     e.preventDefault();
-//     // turn submit to true
-//     let { postStatus, location, postType } = this.props;
-//     console.log(this.props.postStatus)
-//     console.log(postStatus, location, postType);
-//     axios
-//       .post("/api/postings", {
-//         postStatus,
-//         location,
-//         postType
-//       })
-//       .then(res => {
-//         console.log("hi");
-//         // clear postReducer store
-//       })
-//       .catch(err => {
-//         console.log(err);
-//       });
-//     console.log();
-//   };
-
-//   checkPostings = () => {};
-
-//   // e is the even of the input text field
-//   // we use the name of the textfield for the key
-//   // and the value of textfield for the value
-//   changeTextField = e => {
-//     let typeIssue = { [e.target.name]: e.target.value };
-//     this.props.updateForm(typeIssue);
-//   };
-
-//   render() {
-//     let curToken = localStorage.getItem("token");
-//     return (
-//       <div>
-//         {curToken == null && (
-//           <p> You must login before you can post anything </p>
-//         )}
-//         {/* We pass in the route to props for Login because login has a feature
-//         to detect any incoming routes to redirect back to that page
-//         after logging in  */}
-//         {curToken == null ? (
-//           <Login route="/post" />
-//         ) : (
-//           <div
-//             className="ui form segment text-center"
-//             onSubmit={this.handleSubmit}
-//             noValidate
-//           >
-//             <h3 className="text-center text-info">Post Any Issue</h3>
-//             <br />
-//             <div className="two fields">
-//               <div className="field">
-//                 <label htmlFor="name">Type Issue</label>
-//                 <br />
-//                 <input
-//                   // className={formErrors.name.length > 0 ? "error" : null}
-//                   placeholder="Type Issue"
-//                   name="postType"
-//                   type="text"
-//                   noValidate
-//                   onChange={this.changeTextField}
-//                 />
-//               </div>
-//             </div>
-//             <br />
-//             <div className="two fields">
-//               <div className="field">
-//                 <label htmlFor="name">Location</label>
-//                 <br />
-//                 <input
-//                   placeholder=" Location"
-//                   name="location"
-//                   type="location"
-//                   onChange={this.changeTextField}
-//                   noValidate
-//                 />
-//                 {/* {formErrors.name.length > 0 && (
-//               <Span className="errorMessage">{formErrors.name}</Span>
-//             )} */}
-//               </div>
-//             </div>
-
-//             <br />
-//             <div className="two fields">
-//               <div className="field">
-//                 <label htmlFor="name">post type</label>
-//                 <br />
-//                 <input
-//                   // className={formErrors.name.length > 0 ? "error" : null}
-//                   placeholder=" post staus"
-//                   name="postStatus"
-//                   type="post staus"
-//                   onChange={this.changeTextField}
-//                   noValidate
-//                   // onChange={this.handleChange}
-//                 />
-//               </div>
-//             </div>
-//             <br />
-//             <br />
-//             <DraggableUploader />
-//             <br />
-//             <button className="submit button" onClick={this.handleSubmit}>
-//               Submit Issue
-//             </button>
-//           </div>
-//         )}
-//       </div>
-//     );
-//   }
-// }
-
-// // import action functions
-// // can also import different actions from different files
-// const mapStateToProps = state => {
-//   let { postStatus, location, postType } = state.postReducer;
-//   console.log(postStatus, location, postType)
-//   return {
-//     postStatus,
-//     location,
-//     postType,
-
-//   };
-// };
-
-// const mapDispatchToProps = {
-//   updateForm
-// };
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(withRouter(Post));
-
-
-// export default Post;
-
 import React, { Component } from "react";
 
 import axios from "axios";
@@ -203,26 +54,25 @@ class Post extends Component {
       postType: "",
       loadedFiles: [],
       fd: "",
+      file: ""
       // discription: "
     };
     //   this.handleUploadImage = this.handleUploadImage.bind(this);
     // this.toggle = this.toggle.bind(this);
   }
 
+  // When user submits issue
   handleSubmit = e => {
     e.preventDefault();
-    let { postStatus, location, postType, loadedFiles } = this.state;
-    console.log("==================================");
+    let { postStatus, location, postType, loadedFiles, file,fd } = this.state;
 
-    console.log(postStatus, location, postType, loadedFiles);
-    // console.log(fd.values());
-    // fd.append("image")
-    axios
-      .post("/api/postings", {
-        postStatus,
-        location,
-        postType,
-      })
+    // specify we are sending form data fd
+    axios({
+      method: "post",
+      url: "/api/postings",
+      data: fd,
+      config: { headers: { "Content-Type": "multipart/form-data" } }
+    })
       .then(res => {
         console.log("hi");
       })
@@ -231,8 +81,6 @@ class Post extends Component {
       });
     console.log();
   };
-
-  checkPostings = () => { };
 
   changePostStatus = e => {
     let inputPostType = e.target.value;
@@ -249,11 +97,6 @@ class Post extends Component {
     this.setState({ postType: inputPostType });
   };
 
-  // changepostStatus = e => {
-  //   let inputIssue = e.target.value;
-  //   this.setState({ postStatus: inputIssue });
-  // };
-
   toggle(e) {
     this.setState(prevState => ({
       modal: !prevState.modal
@@ -263,10 +106,9 @@ class Post extends Component {
   onFileLoad(e) {
     const file = e.currentTarget.files[0];
     let fd = new FormData();
-    console.log(fd);
     let fileReader = new FileReader();
-    fd.append("image", file, file.name);
-    this.setState({ fd: fd });
+    fd.append("file", file);
+    this.setState({ fd: fd, file: file });
     console.log(fd);
     fileReader.onload = () => {
       console.log("IMAGE LOADED: ", fileReader.result);
@@ -312,7 +154,7 @@ class Post extends Component {
 
   updateLoadedFile(oldFile, newFile) {
     this.setState(prevState => {
-      console.log("======"+prevState+"======");
+      console.log("======" + prevState + "======");
       const loadedFiles = [...prevState.loadedFiles];
       _.find(loadedFiles, (file, idx) => {
         if (file == oldFile) loadedFiles[idx] = newFile;
@@ -326,7 +168,7 @@ class Post extends Component {
 
   render() {
     let curToken = localStorage.getItem("token");
-    console.log(curToken)
+    console.log(curToken);
     const { loadedFiles } = this.state;
     console.log(loadedFiles);
     return (
@@ -401,7 +243,6 @@ class Post extends Component {
                   noValidate
                   // onChange={this.handleChange}
                 />
-
               </div>
             </div>
 
@@ -460,7 +301,6 @@ class Post extends Component {
                   />
                 </div>
               </div>
-
             </div>
 
             <br />
