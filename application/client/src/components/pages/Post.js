@@ -64,6 +64,8 @@ class Post extends Component {
     // this.toggle = this.toggle.bind(this);
   }
 
+  // austin tsang
+  // get users geo location
   getLocation = () => {
     let options = {
       enableHighAccuracy: true,
@@ -75,6 +77,7 @@ class Post extends Component {
 
   }
 
+  // success function getCurrentPosition 
   success = (pos) => {
     let crd = pos.coords;
 
@@ -82,12 +85,9 @@ class Post extends Component {
       latitude: crd.latitude,
       longitude: crd.longitude
     })
-    console.log('Your current position is:');
-    console.log(`Latitude : ${crd.latitude}`);
-    console.log(`Longitude: ${crd.longitude}`);
-    console.log(`More or less ${crd.accuracy} meters.`);
   }
 
+  // Error function for getCurrentPosition parameter
   error = (err) => {
     console.warn(`ERROR(${err.code}): ${err.message}`);
   }
@@ -96,7 +96,11 @@ class Post extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    let { postStatus, location, postType, loadedFiles, file, fd } = this.state;
+    let { postStatus, location, postType, loadedFiles, file, fd, latitude, longitude } = this.state;
+    fd.append('latitude', latitude)
+    fd.append('longtude', longitude)
+    fd.append('postStatus', postStatus)
+    fd.append('postType', postType)
 
     // specify we are sending form data fd
     axios({
@@ -141,9 +145,8 @@ class Post extends Component {
     let fd = new FormData();
     let fileReader = new FileReader();
     fd.append("file", file);
-    this.setState({ fd: fd, file: file });
+    this.setState({ fd: fd});
     fileReader.onload = () => {
-      console.log("IMAGE LOADED: ", fileReader.result);
       const file = {
         data: fileReader.result,
         isUploading: false
