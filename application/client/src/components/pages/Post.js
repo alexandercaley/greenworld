@@ -14,6 +14,7 @@ import "./assets/DraggableUploader.scss";
 import { Link } from "react-router-dom";
 // import ImageLoad from "./ImageLoad";
 import Login from "../Users/Login";
+import { GEOLOCATION } from "@blueprintjs/icons/lib/esm/generated/iconNames";
 
 const footerStyle = {
   backgroundColor: "#184E68",
@@ -54,17 +55,48 @@ class Post extends Component {
       postType: "",
       loadedFiles: [],
       fd: "",
-      file: ""
+      file: "",
+      latitude: "",
+      longitude: "",
       // discription: "
     };
     //   this.handleUploadImage = this.handleUploadImage.bind(this);
     // this.toggle = this.toggle.bind(this);
   }
 
+  getLocation = () => {
+    let options = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0
+    };
+
+    navigator.geolocation.getCurrentPosition(this.success, this.error, options)
+
+  }
+
+  success = (pos) => {
+    let crd = pos.coords;
+
+    this.setState({
+      latitude: crd.latitude,
+      longitude: crd.longitude
+    })
+    console.log('Your current position is:');
+    console.log(`Latitude : ${crd.latitude}`);
+    console.log(`Longitude: ${crd.longitude}`);
+    console.log(`More or less ${crd.accuracy} meters.`);
+  }
+
+  error = (err) => {
+    console.warn(`ERROR(${err.code}): ${err.message}`);
+  }
+
   // When user submits issue
   handleSubmit = e => {
     e.preventDefault();
-    let { postStatus, location, postType, loadedFiles, file,fd } = this.state;
+
+    let { postStatus, location, postType, loadedFiles, file, fd } = this.state;
 
     // specify we are sending form data fd
     axios({
@@ -103,13 +135,13 @@ class Post extends Component {
     }));
   }
 
+  // Utilizing formData to get image from user
   onFileLoad(e) {
     const file = e.currentTarget.files[0];
     let fd = new FormData();
     let fileReader = new FileReader();
     fd.append("file", file);
     this.setState({ fd: fd, file: file });
-    console.log(fd);
     fileReader.onload = () => {
       console.log("IMAGE LOADED: ", fileReader.result);
       const file = {
@@ -168,9 +200,7 @@ class Post extends Component {
 
   render() {
     let curToken = localStorage.getItem("token");
-    console.log(curToken);
-    const { loadedFiles } = this.state;
-    console.log(loadedFiles);
+    const { loadedFiles, longitude, latitude } = this.state;
     return (
       <div>
         {curToken == null && (
@@ -194,7 +224,7 @@ class Post extends Component {
                 <label htmlFor="name">Type Issue</label>
                 <br />
                 <input
-                  // className={formErrors.name.length > 0 ? "error" : null}
+
                   placeholder="Type Issue"
                   name="fullname"
                   type="text"
@@ -203,9 +233,6 @@ class Post extends Component {
                   // onChange={this.handleChange}
                 />
 
-                {/* {formErrors.name.length > 0 && (
-              <Span className="errorMessage">{formErrors.name}</Span>
-            )} */}
               </div>
             </div>
             <br />
@@ -213,19 +240,10 @@ class Post extends Component {
               <div className="field">
                 <label htmlFor="name">Location</label>
                 <br />
-                <input
-                  // className={formErrors.name.length > 0 ? "error" : null}
-                  placeholder=" Location"
-                  name="name"
-                  type="Lacation"
-                  onChange={this.changeLocation}
-                  noValidate
-                  // onChange={this.handleChange}
-                />
-
-                {/* {formErrors.name.length > 0 && (
-              <Span className="errorMessage">{formErrors.name}</Span>
-            )} */}
+                <button onClick={this.getLocation}> Add location</button>
+                <br />
+                Longitude: {longitude != "" && longitude }<br/>
+                Latitude: {latitude != "" && latitude }             
               </div>
             </div>
 
