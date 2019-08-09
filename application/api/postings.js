@@ -65,18 +65,18 @@ router.get("/", function(req, res) {
 });
 // router.get('/', function (req, res) {
 //     connection.query("SELECT * FROM csc648team6.postings", function (err, result, fields) {
-//         if (err) throw err;
+//         if (err) throw err;p
 //         res.json(result);
 //     });
 // });
 
 // Postings into database from post form
-router.post("/", upload.single("file"), function(req, res, next) {
+router.post("/", upload.single("imageFile"), function(req, res, next) {
     // Gerry M.
     // ID variable does not have value when posting
     // Picture also does not have value
     var { id, location, postType, postStatus, picture, fd } = req.body;
-
+    console.log(req.body);
     console.log(req.file);
 
     let query =
