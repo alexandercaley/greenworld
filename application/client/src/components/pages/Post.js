@@ -133,7 +133,7 @@ class Post extends Component {
     axios({
       method: "post",
       url: "/api/postings",
-      data: fd,
+      data: formData,
       config: { headers: { "Content-Type": "multipart/form-data" } }
     })
       .then(res => {
@@ -286,6 +286,7 @@ class Post extends Component {
                   value={this.state.issueType}
                   onChange={this.changeIssueType}
                 >
+                  <option value=""></option>
                   <option value="Air">Air</option>
                   <option value="Water">Water</option>
                   <option value="Garbage">Garbage</option>
