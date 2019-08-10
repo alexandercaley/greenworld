@@ -41,7 +41,7 @@ export const removeAllLoadedFile = () => {
 
 export const resetReducer = () => {
   return {
-    type: "RESET"
+    type: "RESET_REDUCER"
   }
 }
 

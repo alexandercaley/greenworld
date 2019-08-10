@@ -65,6 +65,7 @@ class PostForm extends Component {
     } = this.props;
     console.log(latitude, longitude);
     console.log(imageFile);
+    let username = localStorage.getItem('username');
     let formData = new FormData();
     formData.append("imageFile", imageFile);
     formData.append("latitude", latitude);
@@ -74,6 +75,7 @@ class PostForm extends Component {
     formData.append("state", state);
     formData.append("zipcode", zipcode);
     formData.append("issueType", issueType);
+    formData.append("username", username);
 
     // specify we are sending form data
     axios({
@@ -114,7 +116,6 @@ class PostForm extends Component {
       locationError,
       geoLocationIsLoading
     } = this.props;
-    console.log(locationError == "");
     return (
       <div>
         <div

@@ -33,23 +33,21 @@ const postReducer = (state = INITIAL_STATE, action) => {
         keyName = key;
         value = fieldToChange[key];
       }  
-      console.log(keyName, value);
+      
       return {
         ...state,
         [keyName]: value
       };  
     case "LOAD_IMAGE":
       let newImage = action.newImage;
-      console.log(newImage);
-      // console.log([...state.loadedFiles, newImage]);
+
       return {
         ...state,
-        // loadedFiles: [...state.loadedFiles, newImage],
         imageFile: newImage
       };
     case "UPDATE_GEOLOCATION":
       let { latitude, longitude } = action.location;
-      console.log(latitude, longitude);
+      
       return {
         ...state,
         latitude: latitude,
@@ -57,7 +55,7 @@ const postReducer = (state = INITIAL_STATE, action) => {
       };
     case "ADD_TO_IMAGE_LIST":
       let imageToAdd = action.imageToAdd;
-      console.log(imageToAdd);
+      
       return {
         ...state,
         loadedFiles: [...state.loadedFiles, imageToAdd]
@@ -84,7 +82,7 @@ const postReducer = (state = INITIAL_STATE, action) => {
         ...state,
         geoLocationIsLoading: false,
       }
-    case "RESET":
+    case "RESET_REDUCER":
       return {
         postStatus: "",
         location: "",
