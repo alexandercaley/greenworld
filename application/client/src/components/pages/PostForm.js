@@ -8,7 +8,7 @@ import {
   errGetLocation,
   resetReducer,
   isLoading,
-  doneLoading,
+  doneLoading
 } from "../redux/actions/postAction";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
@@ -23,7 +23,7 @@ class PostForm extends Component {
       maximumAge: 0
     };
 
-    this.props.isLoading()
+    this.props.isLoading();
 
     // dont perform anything until get coordinates
     await navigator.geolocation.getCurrentPosition(
@@ -45,6 +45,7 @@ class PostForm extends Component {
   // Error function for getCurrentPosition parameter
   error = err => {
     // set error if no geolaction here
+    this.props.errGetLocation();
     console.warn(`ERROR(${err.code}): ${err.message}`);
   };
 
@@ -206,9 +207,10 @@ class PostForm extends Component {
             <div className="field">
               <label htmlFor="name">Location</label>
               <br />
-              <button onClick={this.getLocation}> Add location</button>              
+              <button onClick={this.getLocation}> Add location</button>
               <br />
-              {locationError != "" && "there was an error getting your location" }
+              {locationError != "" &&
+                "there was an error getting your location"}
               <br />
               {geoLocationIsLoading && "Getting location..."}
               <br />
@@ -273,7 +275,7 @@ const mapDispatchToProps = {
   errGetLocation,
   resetReducer,
   isLoading,
-  doneLoading,
+  doneLoading
 };
 
 export default connect(

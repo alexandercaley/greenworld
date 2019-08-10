@@ -12,10 +12,9 @@ export const setGeoLocation = location => {
   }
 }
 
-export const errGetLocation = err => {
+export const errGetLocation = () => {
   return {
     type: "ERR_GET_LOCATION",
-    err
   }
 }
 

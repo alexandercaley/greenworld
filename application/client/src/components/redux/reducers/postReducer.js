@@ -14,7 +14,7 @@ const INITIAL_STATE = {
   issueType: "",
   description: "",
   imageFile: "",
-  locationError: "",
+  locationError: false,
   geoLocationIsLoading: false,
 };
 
@@ -66,7 +66,7 @@ const postReducer = (state = INITIAL_STATE, action) => {
     case "ERR_GET_LOCATION":
       return {
         ...state,
-        locationError: "ERR_GET_LOCATION"
+        locationError: true
       }
 
     case "ADD_TO_IMAGE_LIST":
