@@ -2,17 +2,16 @@ import React, { Component } from "react";
 import axios from "axios";
 import _ from "lodash";
 import ImageUpload from "./ImageUpload";
-import "./assets/DraggableUploader.scss";
 import {
   updateForm,
   setGeoLocation,
   errGetLocation,
-  resetReducer
+  resetReducer,
+  isLoading,
+  doneLoading,
 } from "../redux/actions/postAction";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-
-import Login from "../Users/Login";
 
 class PostForm extends Component {
   // austin tsang
@@ -23,6 +22,8 @@ class PostForm extends Component {
       timeout: 5000,
       maximumAge: 0
     };
+
+    this.props.isLoading()
 
     // dont perform anything until get coordinates
     await navigator.geolocation.getCurrentPosition(
@@ -38,6 +39,7 @@ class PostForm extends Component {
     // will handle the coordinates like latitude and longitude.
     let crd = pos.coords;
     this.props.setGeoLocation(crd);
+    this.props.doneLoading();
   };
 
   // Error function for getCurrentPosition parameter
@@ -100,19 +102,18 @@ class PostForm extends Component {
   };
 
   render() {
-    let curToken = localStorage.getItem("token");
     let {
       issueType,
       longitude,
       latitude,
-      loadedFiles,
       street,
       city,
       state,
       zipcode,
-      errGetLocation
+      locationError,
+      geoLocationIsLoading
     } = this.props;
-    console.log(loadedFiles);
+    console.log(locationError == "");
     return (
       <div>
         <div
@@ -205,15 +206,17 @@ class PostForm extends Component {
             <div className="field">
               <label htmlFor="name">Location</label>
               <br />
-              <button onClick={this.getLocation}> Add location</button>
+              <button onClick={this.getLocation}> Add location</button>              
+              <br />
+              {locationError != "" && "there was an error getting your location" }
+              <br />
+              {geoLocationIsLoading && "Getting location..."}
               <br />
               Longitude: {longitude != "" && longitude}
               <br />
               Latitude: {latitude != "" && latitude}
             </div>
           </div>
-          <br />
-          <br />
           <br />
           <ImageUpload />
           <br />
@@ -242,7 +245,9 @@ const mapStateToProps = postState => {
     zipcode,
     issueType,
     description,
-    imageFile
+    imageFile,
+    locationError,
+    geoLocationIsLoading
   } = postState.postReducer;
   return {
     postStatus,
@@ -256,7 +261,9 @@ const mapStateToProps = postState => {
     zipcode,
     issueType,
     description,
-    imageFile
+    imageFile,
+    locationError,
+    geoLocationIsLoading
   };
 };
 
@@ -264,7 +271,9 @@ const mapDispatchToProps = {
   updateForm,
   setGeoLocation,
   errGetLocation,
-  resetReducer
+  resetReducer,
+  isLoading,
+  doneLoading,
 };
 
 export default connect(

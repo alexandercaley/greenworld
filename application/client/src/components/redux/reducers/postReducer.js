@@ -14,7 +14,8 @@ const INITIAL_STATE = {
   issueType: "",
   description: "",
   imageFile: "",
-  locationError: ""
+  locationError: "",
+  geoLocationIsLoading: false,
 };
 
 // Post reducer
@@ -73,6 +74,16 @@ const postReducer = (state = INITIAL_STATE, action) => {
         ...state,
         loadedFiles: []
       };
+    case "GEO_LOCATION_LOADING":
+      return{
+        ...state,
+        geoLocationIsLoading: true,
+      };
+    case "GEO_LOCATION_DONE_LOADING":
+      return {
+        ...state,
+        geoLocationIsLoading: false,
+      }
     case "RESET":
       return {
         postStatus: "",
@@ -90,7 +101,8 @@ const postReducer = (state = INITIAL_STATE, action) => {
         issueType: "",
         description: "",
         imageFile: "",
-        locationError: ""     
+        locationError: "",
+        geoLocationIsLoading: false, 
       }
     default:
       return state;

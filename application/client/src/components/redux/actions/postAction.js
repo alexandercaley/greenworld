@@ -45,3 +45,14 @@ export const resetReducer = () => {
     type: "RESET"
   }
 }
+
+export const isLoading = () => {
+  return {
+    type: "GEO_LOCATION_LOADING"
+  }
+}
+export const doneLoading = () => {
+  return {
+    type: "GEO_LOCATION_DONE_LOADING"
+  }
+}
