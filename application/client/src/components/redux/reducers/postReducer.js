@@ -1,14 +1,3 @@
-import _ from "lodash";
-
-// const INITIAL_STATE = {
-//   postStatus: "",
-//   location: "",
-//   postType: "",
-//   loadedFiles: [],
-//   fd: ""
-//   // submitButtonClicked: false
-// };
-
 const INITIAL_STATE = {
   postStatus: "",
   location: "",
@@ -84,6 +73,25 @@ const postReducer = (state = INITIAL_STATE, action) => {
         ...state,
         loadedFiles: []
       };
+    case "RESET":
+      return {
+        postStatus: "",
+        location: "",
+        postType: "",
+        loadedFiles: [],
+        fd: "",
+        file: "",
+        latitude: "",
+        longitude: "",
+        street: "",
+        city: "",
+        state: "",
+        zipcode: "",
+        issueType: "",
+        description: "",
+        imageFile: "",
+        locationError: ""     
+      }
     default:
       return state;
   }

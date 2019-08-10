@@ -39,3 +39,9 @@ export const removeAllLoadedFile = () => {
   }
 
 }
+
+export const resetReducer = () => {
+  return {
+    type: "RESET"
+  }
+}
