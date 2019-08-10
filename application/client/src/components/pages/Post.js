@@ -9,12 +9,21 @@ import { Icon } from "react-icons-kit";
 
 import { remove } from "react-icons-kit/fa/remove";
 import "./assets/DraggableUploader.scss";
+import {
+  fieldToChange,
+  newImage,
+  addToImageList,
+  addLoadedFile,
+  updateForm,
+  setGeoLocation,
+  errGetLocation,
+  removeAllLoadedFile,
+  onFileLoad
+} from "../redux/actions/postAction";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
-// import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { Link } from "react-router-dom";
-// import ImageLoad from "./ImageLoad";
 import Login from "../Users/Login";
-import { GEOLOCATION } from "@blueprintjs/icons/lib/esm/generated/iconNames";
 
 const footerStyle = {
   backgroundColor: "#184E68",
@@ -64,7 +73,7 @@ class Post extends Component {
       zipcode: "",
       issueType: "",
       description: "",
-      imageFile: "",
+      imageFile: ""
     };
     //   this.handleUploadImage = this.handleUploadImage.bind(this);
     // this.toggle = this.toggle.bind(this);
@@ -92,32 +101,37 @@ class Post extends Component {
   success = pos => {
     let crd = pos.coords;
 
-    this.setState({
-      latitude: crd.latitude,
-      longitude: crd.longitude
-    });
+    this.props.setGeoLocation(crd);
+
+    // this.setState({
+    //   latitude: crd.latitude,
+    //   longitude: crd.longitude
+    // });
   };
 
   // Error function for getCurrentPosition parameter
   error = err => {
+    // set error if no geolaction here
     console.warn(`ERROR(${err.code}): ${err.message}`);
   };
 
   // When user submits issue
   handleSubmit = e => {
     e.preventDefault();
-
-    let {
-      city,
-      street,
-      state,
-      zipcode,
-      fd,
-      latitude,
-      longitude,
-      issueType,
-      imageFile,
-    } = this.state;
+    console.log(this.props);
+    // let {
+    //   city,
+    //   street,
+    //   state,
+    //   zipcode,
+    //   fd,
+    //   // latitude,
+    //   // longitude,
+    //   issueType,
+    //   imageFile
+    // } = this.state;
+    let { latitude, longitude, imageFile, zipcode, street, city, issueType, state } = this.props;
+    console.log(latitude, longitude);
     console.log(this.state);
     let formData = new FormData();
     formData.append("imageFile", imageFile);
@@ -138,14 +152,22 @@ class Post extends Component {
     })
       .then(res => {
         this.state.fd.forEach(key => {
-          fd.delete(key);
+          formData.delete(key);
         });
-        this.setState(this.baseState)
+        this.setState(this.baseState);
       })
       .catch(err => {
         console.log(err);
       });
     console.log();
+  };
+
+  // One function handles all input changnes
+  handleChangeInput = e => {
+    console.log(e.target.value);
+    let input = { [e.target.name]: e.target.value };
+    console.log(input);
+    this.props.updateForm(input);
   };
 
   // Change state based on input fields
@@ -186,8 +208,8 @@ class Post extends Component {
 
   changeDescription = e => {
     let inputDescription = e.target.description;
-    this.setState({ description: inputDescription})
-  }
+    this.setState({ description: inputDescription });
+  };
 
   toggle(e) {
     this.setState(prevState => ({
@@ -200,8 +222,9 @@ class Post extends Component {
     const imageFile = e.currentTarget.files[0];
     let fd = new FormData();
     let fileReader = new FileReader();
-    fd.append("file", imageFile);
-    this.setState({ fd: fd, imageFile: imageFile });
+    // fd.append("file", imageFile);
+    // this.setState({ fd: fd, imageFile: imageFile });
+    this.props.onFileLoad(imageFile);
     fileReader.onload = () => {
       const file = {
         data: fileReader.result,
@@ -223,43 +246,54 @@ class Post extends Component {
   }
 
   addLoadedFile(file) {
-    this.setState(prevState => ({
-      loadedFiles: [...prevState.loadedFiles, file]
-    }));
+    // this.setState(prevState => ({
+    //   loadedFiles: [...prevState.loadedFiles, file]
+    // }));
+    this.props.addLoadedFile(file);
   }
 
   removeLoadedFile(file) {
     //Remove file from the State
-    this.setState(prevState => {
-      let loadedFiles = prevState.loadedFiles;
-      let newLoadedFiles = _.filter(loadedFiles, ldFile => {
-        return ldFile != file;
-      });
-      return { loadedFiles: newLoadedFiles };
-    });
+    // this.setState(prevState => {
+    //   let loadedFiles = prevState.loadedFiles;
+    //   let newLoadedFiles = _.filter(loadedFiles, ldFile => {
+    //     return ldFile != file;
+    //   });
+    //   return { loadedFiles: newLoadedFiles };
+    // });
+    this.props.removeAllLoadedFile();
   }
 
   removeAllLoadedFile() {
     this.setState({ loadedFiles: [] });
   }
 
-  updateLoadedFile(oldFile, newFile) {
-    this.setState(prevState => {
-      console.log("======" + prevState + "======");
-      const loadedFiles = [...prevState.loadedFiles];
-      _.find(loadedFiles, (file, idx) => {
-        if (file == oldFile) loadedFiles[idx] = newFile;
-      });
+  // updateLoadedFile(oldFile, newFile) {
+    
+  //   this.setState(prevState => {
+  //     console.log("======" + prevState + "======");
+  //     const loadedFiles = [...prevState.loadedFiles];
+  //     _.find(loadedFiles, (file, idx) => {
+  //       if (file == oldFile) loadedFiles[idx] = newFile;
+  //     });
 
-      return { loadedFiles };
-    });
+  //     return { loadedFiles };
+  //   });
 
-    return newFile;
-  }
+  //   return newFile;
+  // }
 
   render() {
     let curToken = localStorage.getItem("token");
-    const { loadedFiles, longitude, latitude, issueType } = this.state;
+    // const { loadedFiles, longitude, latitude, issueType } = this.state;
+    let {
+      issueType,
+      longitude,
+      latitude,
+      loadedFiles,
+      errGetLocation
+    } = this.props;
+    console.log(loadedFiles);
     return (
       <div>
         {curToken == null && (
@@ -283,11 +317,14 @@ class Post extends Component {
                 <label htmlFor="name">Select Type of Issue...</label>
                 <br />
                 <select
-                  value={this.state.issueType}
-                  onChange={this.changeIssueType}
+                  name={"issueType"}
+                  value={issueType}
+                  onChange={this.handleChangeInput}
                 >
-                  <option value=""></option>
-                  <option value="Air">Air</option>
+                  <option name={""} value="" />
+                  <option name={"Air"} value="Air">
+                    Air
+                  </option>
                   <option value="Water">Water</option>
                   <option value="Garbage">Garbage</option>
                   <option value="Hazardous Waste">Hazardous Waste</option>
@@ -304,7 +341,7 @@ class Post extends Component {
                   placeholder="Enter Street Name..."
                   name="street"
                   type="text"
-                  onChange={this.changeStreet}
+                  onChange={this.handleChangeInput}
                   noValidate
                   // onChange={this.handleChange}
                 />
@@ -318,7 +355,7 @@ class Post extends Component {
                   placeholder="Enter City..."
                   name="city"
                   type="text"
-                  onChange={this.changeCity}
+                  onChange={this.handleChangeInput}
                   noValidate
                   // onChange={this.handleChange}
                 />
@@ -333,7 +370,7 @@ class Post extends Component {
                   placeholder="Enter State..."
                   name="state"
                   type="text"
-                  onChange={this.changeState}
+                  onChange={this.handleChangeInput}
                   noValidate
                   // onChange={this.handleChange}
                 />
@@ -347,7 +384,7 @@ class Post extends Component {
                   placeholder="Enter Zipcode..."
                   name="zipcode"
                   type="text"
-                  onChange={this.changeZipcode}
+                  onChange={this.handleChangeInput}
                   noValidate
                   // onChange={this.handleChange}
                 />
@@ -423,8 +460,8 @@ class Post extends Component {
             </div>
 
             <br />
-            
-            <textarea value={this.state.description} onChange={this.changeDescription} />
+
+            <textarea onChange={this.handleChangeInput} />
             <br />
             <button className="submit button" onClick={this.handleSubmit}>
               Submit Issue
@@ -436,4 +473,60 @@ class Post extends Component {
   }
 }
 
-export default Post;
+const mapStateToProps = postState => {
+  // let { postStatus, location, postType } = state.postReducer;
+  let {
+    postStatus,
+    location,
+    postType,
+    fd,
+    file,
+    latitude,
+    longitude,
+    street,
+    city,
+    state,
+    zipcode,
+    issueType,
+    description,
+    imageFile,
+    locationError,
+    loadedFiles
+  } = postState.postReducer;
+  return {
+    // loadedFiles: [],
+    // fd: ""
+    postStatus,
+    location,
+    postType,
+    fd,
+    file,
+    latitude,
+    longitude,
+    street,
+    city,
+    state,
+    zipcode,
+    issueType,
+    description,
+    imageFile,
+    locationError,
+    loadedFiles
+  };
+};
+
+const mapDispatchToProps = {
+  updateForm,
+  setGeoLocation,
+  errGetLocation,
+  addLoadedFile,
+  removeAllLoadedFile,
+  onFileLoad
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Post));
+
+// export default Post;

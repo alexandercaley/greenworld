@@ -5,6 +5,20 @@ export const updateForm = fieldToChange => {
   };
 };
 
+export const setGeoLocation = location => {
+  return {
+    type: "UPDATE_GEOLOCATION",
+    location
+  }
+}
+
+export const errGetLocation = err => {
+  return {
+    type: "ERR_GET_LOCATION",
+    err
+  }
+}
+
 export const onFileLoad = newImage => {
   return {
     type: "LOAD_IMAGE",
@@ -12,10 +26,10 @@ export const onFileLoad = newImage => {
   };
 };
 
-export const addLoadedFile = addToImageList => {
+export const addLoadedFile = imageToAdd => {
   return {
     type: "ADD_TO_IMAGE_LIST",
-    addToImageList
+    imageToAdd
   }
 }
 
