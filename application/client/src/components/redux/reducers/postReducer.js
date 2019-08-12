@@ -1,48 +1,106 @@
-import _ from "lodash";
-
 const INITIAL_STATE = {
   postStatus: "",
   location: "",
   postType: "",
   loadedFiles: [],
-  fd: ""
-  // submitButtonClicked: false
+  fd: "",
+  file: "",
+  latitude: "",
+  longitude: "",
+  street: "",
+  city: "",
+  state: "",
+  zipcode: "",
+  issueType: "",
+  description: "",
+  imageFile: "",
+  locationError: false,
+  geoLocationIsLoading: false,
 };
 
+// Post reducer
 const postReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case "UPDATE_FORM":
       let fieldToChange = action.fieldToChange;
-      console.log(fieldToChange);
+      let keyName = "";
+      let value = "";
+
+      // Seperate keys and values
+      // We can update store with any key 
+      // with any value
+      for( let key in fieldToChange ) {
+        keyName = key;
+        value = fieldToChange[key];
+      }  
+      
       return {
         ...state,
-        fieldToChange
-      };
+        [keyName]: value
+      };  
     case "LOAD_IMAGE":
       let newImage = action.newImage;
-      console.log(newImage);
-      console.log([...state.loadedFiles, newImage]);
-      return {
-        ...state,
-        loadedFiles: [...state.loadedFiles, newImage],
-        fd: newImage
-      };
-    case "ADD_TO_IMAGE_LIST":
-      let addToImageList = action.addToImageList;
-      console.log(addToImageList);
-      // let loadedFiles = state.loadedFiles;
-      // _.find(loadedFiles, (file, idx) => {
-      //   if (file == oldFile) loadedFiles[idx] = newFile;
-      // });
 
       return {
         ...state,
-        loadedFiles: addToImageList
+        imageFile: newImage
       };
+    case "UPDATE_GEOLOCATION":
+      let { latitude, longitude } = action.location;
+      
+      return {
+        ...state,
+        latitude: latitude,
+        longitude: longitude
+      };
+    case "ADD_TO_IMAGE_LIST":
+      let imageToAdd = action.imageToAdd;
+      
+      return {
+        ...state,
+        loadedFiles: [...state.loadedFiles, imageToAdd]
+      };
+
+    case "ERR_GET_LOCATION":
+      return {
+        ...state,
+        locationError: true
+      }
+
     case "ADD_TO_IMAGE_LIST":
       return {
         ...state,
         loadedFiles: []
+      };
+    case "GEO_LOCATION_LOADING":
+      return{
+        ...state,
+        geoLocationIsLoading: true,
+      };
+    case "GEO_LOCATION_DONE_LOADING":
+      return {
+        ...state,
+        geoLocationIsLoading: false,
+      }
+    case "RESET_REDUCER":
+      return {
+        postStatus: "",
+        location: "",
+        postType: "",
+        loadedFiles: [],
+        fd: "",
+        file: "",
+        latitude: "",
+        longitude: "",
+        street: "",
+        city: "",
+        state: "",
+        zipcode: "",
+        issueType: "",
+        description: "",
+        imageFile: "",
+        locationError: "",
+        geoLocationIsLoading: false, 
       }
     default:
       return state;

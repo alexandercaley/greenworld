@@ -1,102 +1,122 @@
 import React, { Component } from "react";
-import { Dropdown } from "react-bootstrap";
-import glenCanyonPark from "./assets/glenCanyonPark.jpg";
-import washington from "./assets/washingtonSquare.jpg";
-import Products from "./HomepageList/Products";
+import { Dropdown, Navbar } from "react-bootstrap";
 
 import axios from "axios";
+import { Container, Row } from "reactstrap";
 
-// import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { Link } from "react-router-dom";
-import FirstArrayExample from "./FirstArrayExample";
-import DropdownMenu from "./DropdownMenu";
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  CardText,
-  CardBody,
-  CardFooter
-} from "reactstrap";
-import GoogleMapReact from "google-map-react";
-import JsonApi from "./JsonApi";
-// import { recipes } from "./HomepageList/tempList";
 import ProductsList from "./HomepageList/ProductsList";
 import ProductDetails from "./HomepageList/ProductDetails";
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
-
 class Home extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     // data: [],
-  //     details_id: 1,
-  //     pageIndex: 1
-  //   };
-  // }
+  state = {
+    data: [],
 
-  componentDidMount() {
-    axios
-      .get("/api/postings")
-      .then(res => {
+    details_id: 35382,
+    pageIndex: 1,
+    search: ""
+  };
+
+  async getProduct() {
+    try {
+      //const filler = await fetch(this.state.data);
+      const res = await axios.get("/api/postings").then(res => {
         console.log(res.data);
+
         this.setState({
           data: res.data
         });
-      })
-      .catch(err => {
-        console.log(err);
       });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  // displayPage = index => {
-  //   switch (index) {
-  //     case 0:
-  //       return (
-  //         <ProductDetails
-  //           id={this.state.details_id}
-  //           handleIndex={this.handleIndex}
-  //         />
-  //       );
-  //     case 1:
-  //       return (
-  //         <ProductsList
-  //           recipes={this.state.data}
-  //           handleDetails={this.handleDetails}
-  //           handleChange={this.handleChange}
-  //           handleSubmit={this.handleSubmit}
-  //           error={this.state.error}
-  //         />
-  //       );
-  //     default:
-  //   }
-  // };
+  componentDidMount() {
+    this.getProduct();
+  }
 
-  // handleIndex = index => {
-  //   this.setState({
-  //     pageIndex: index
-  //   });
-  // };
-  // handleDetails = (index, id) => {
-  //   this.setState({
-  //     details_id: id,
-  //     pageIndex: index
-  //   });
-  // };
+  displayPage = index => {
+    switch (index) {
+      case 0:
+        return (
+          <ProductDetails
+            id={this.state.details_id}
+            handleIndex={this.handleIndex}
+          />
+        );
+      case 1:
+        return (
+          <ProductsList
+            recipes={this.state.data}
+            handleDetails={this.handleDetails}
+            value={this.state.search}
+            handleChange={this.handleChange}
+            handleSubmit={this.handleSubmit}
+            error={this.state.error}
+          />
+        );
+      default:
+    }
+  };
+
+  handleIndex = index => {
+    this.setState({
+      pageIndex: index
+    });
+  };
+  handleDetails = (index, id) => {
+    this.setState({
+      details_id: id,
+      pageIndex: index
+    });
+  };
+
+  handleChange = e => {
+    // console.log("handle change");
+    this.setState(
+      {
+        search: e.target.value
+      },
+      () => {
+        console.log(this.state.search);
+      }
+    );
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    const { data, search } = this.state;
+    var searchFilter = data.filter(function(x) {
+      return x.postType.toLowerCase().includes(search.toLowerCase());
+    });
+    console.log(searchFilter);
+    this.setState(() => {
+      return { data: searchFilter, search };
+    });
+  };
 
   render() {
     return (
       <div>
-      
-
-            {/* <React.Fragment>
+        <Container className="mt-2">
+          <Row>
+            <div className="container my-6">
+              <Dropdown>
+                <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                  Filter
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item href="#/Park">Park</Dropdown.Item>
+                  <Dropdown.Item href="#/Zipcode">Zip code</Dropdown.Item>
+                  <Dropdown.Item href="#/city">city</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
+            <React.Fragment>
               {this.displayPage(this.state.pageIndex)}
-            </React.Fragment> */}
-            
-          <Products/>
-        
+            </React.Fragment>
+          </Row>
+        </Container>
       </div>
     );
   }

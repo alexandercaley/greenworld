@@ -13,6 +13,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 //we need this for secret information that we don't want on our github
 
+// let connection;
 let connection;
 if (!connection) {
   connection = mysql.createConnection({
@@ -30,6 +31,21 @@ if (!connection) {
       );
   });
 }
+
+// var connection = mysql.createConnection({
+// 	host: "13.56.194.238",
+
+// 	// Your port; if not 3306
+// 	port: 3306,
+
+// 	// Your username
+// 	user: "testuser",
+
+// 	// Your password
+// 	password: "team6",
+// 	database: "csc648team6"
+// });
+
 
 // Register a user with password encryption.
 router.post("/register", function(req, res) {
@@ -109,7 +125,7 @@ router.post('/login', function(req, res) {
     body
   ) {
 
-    if(result[0] == undefined) {
+    if(result == undefined) {
       return res.json({
         message: 'ERR_CANNOT_FIND'
       });
