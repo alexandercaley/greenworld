@@ -61,22 +61,26 @@ class PostForm extends Component {
       street,
       city,
       issueType,
-      state
+      state,
+      description
     } = this.props;
+    
     console.log(latitude, longitude);
     console.log(imageFile);
     let username = localStorage.getItem('username');
+    let user_id = localStorage.getItem('user_id')
     let formData = new FormData();
     formData.append("imageFile", imageFile);
     formData.append("latitude", latitude);
-    formData.append("longtude", longitude);
+    formData.append("longitude", longitude);
     formData.append("street", street);
     formData.append("city", city);
     formData.append("state", state);
     formData.append("zipcode", zipcode);
     formData.append("issueType", issueType);
     formData.append("username", username);
-
+    formData.append("description", description);
+    formData.append("user_id", user_id);
     // specify we are sending form data
     axios({
       method: "post",
@@ -85,10 +89,15 @@ class PostForm extends Component {
       config: { headers: { "Content-Type": "multipart/form-data" } }
     })
       .then(res => {
-        formData.forEach(key => {
-          formData.delete(key);
-        });
-        this.props.resetReducer();
+        // formData.forEach(key => {
+        //   formData.delete(key);
+        // });
+        // this.props.resetReducer();
+        console.log(res);
+        if(res.data == "SUCCESS") {
+          this.props.history.push("/home");
+        }
+        
       })
       .catch(err => {
         console.log(err);
@@ -223,8 +232,9 @@ class PostForm extends Component {
           <br />
           <ImageUpload />
           <br />
-
-          <textarea onChange={this.handleChangeInput} />
+          Description
+          <br />
+          <textarea name="description" onChange={this.handleChangeInput} />
           <br />
           <button className="submit button" onClick={this.handleSubmit}>
             Submit Issue

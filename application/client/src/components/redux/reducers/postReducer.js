@@ -25,7 +25,9 @@ const postReducer = (state = INITIAL_STATE, action) => {
       let fieldToChange = action.fieldToChange;
       let keyName = "";
       let value = "";
-
+      console.log(keyName);
+      console.log(value);
+      console.log(fieldToChange);
       // Seperate keys and values
       // We can update store with any key 
       // with any value

@@ -8,6 +8,7 @@ const upload = multer({ dest: "uploads/" });
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 
+// Connecting to database
 let connection;
 if (!connection) {
   connection = mysql.createConnection({
@@ -33,67 +34,52 @@ router.get("/", function(req, res) {
   });
 });
 
-
-router.post("/", function(req, res) {
+// Postings into database from post form
+router.post("/", upload.single("imageFile"), function(req, res, next) {
   console.log("POST!!!!");
-  var {
-    users_id,
+  console.log(req.file);
+  console.log(req.body);
+  let {
+    latitude,
+    longitude,
     street,
     city,
-    state,
     zipcode,
+    state,
+    issueType,
     description,
-    picture,
-    status,
-    date_witnessed,
-    topic,
-    long,
-    lat
+    user_id
   } = req.body;
-  console.log(
-    users_id,
-    street,
-    city,
-    state,
-    zipcode,
-    description,
-    picture,
-    status,
-    date_witnessed,
-    topic,
-    long,
-    lat
+  let { imageFile } = req.file;
+    let image = JSON.stringify(imageFile);
+  let query =
+    "INSERT INTO postings (user_id, latitude, longitude, street, city, zipcode, state, issueType, imageFile, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+  connection.query(
+    query,
+    [
+      user_id,
+      latitude,
+      longitude,
+      street,
+      city,
+      zipcode,
+      state,
+      zipcode,
+      issueType,
+      image,
+      description
+    ],
+    function(err, result) {
+      if (err) {
+        console.log(err);
+        res.send("Error");
+      } else {
+        console.log("success");
+        res.send("SUCCESS");
+      }
+    }
   );
-
-  // let query =
-  //   "INSERT INTO postings (street, city, state, zipcode, description, picture, status, topic, long, lat) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-
-  // connection.query(
-  //   query,
-  //   [
-  //     users_id,
-  //     street,
-  //     city,
-  //     state,
-  //     zipcode,
-  //     description,
-  //     picture,
-  //     status,
-  //     date_witnessed,
-  //     topic,
-  //     long,
-  //     lat
-  //   ],
-  //   function(err, result) {
-  //     if (err) {
-  //       console.log(err);
-  //       res.send("Error");
-  //     } else {
-  //       console.log("success");
-  //       res.send("Success");
-  //     }
-  //   }
-  // );
 });
 
 module.exports = router;

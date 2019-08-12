@@ -37,6 +37,7 @@ class Login extends Component {
           }
           this.props.validateStatus(validate);
           localStorage.setItem('token', res.data.token);
+          localStorage.setItem('user_id', res.data.result[0].id)
           localStorage.setItem('username', username)
           console.log(localStorage)
 
