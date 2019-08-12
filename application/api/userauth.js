@@ -13,14 +13,13 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 //we need this for secret information that we don't want on our github
 
-// let connection;
 let connection;
 if (!connection) {
   connection = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "password",
-    database: "VerticalPrototype"
+    database: "csc648_team6"
   });
 
   connection.connect(err => {
@@ -32,130 +31,108 @@ if (!connection) {
   });
 }
 
-// var connection = mysql.createConnection({
-// 	host: "13.56.194.238",
-
-// 	// Your port; if not 3306
-// 	port: 3306,
-
-// 	// Your username
-// 	user: "testuser",
-
-// 	// Your password
-// 	password: "team6",
-// 	database: "csc648team6"
-// });
-
-
 // Register a user with password encryption.
 router.post("/register", function(req, res) {
-  console.log(req.body)
   let { username, email, password } = req.body;
-  //   const queryCheck = "SELECT * FROM users WHERE username = ? AND email = ?";
+  console.log(req.body);
   const queryCheck = "SELECT * FROM users WHERE username = ? ";
-  connection.query(queryCheck, [username], function(
-    error,
-    result
-  ) {
-    if (error || result == undefined) 
-      return res.json({ message: "ERR_INSERT_UNDEFINED" });;
-        
-    if ( result.length != 0)
-      return res.json({ message: "ERR_USER_ALREADY_EXISTS" });
+  connection.query(queryCheck, [username], function(error, result) {
+    console.log(result);
+    if (error || result == undefined)
+      return res.status(405).json({ error: "ERR_INSERT_UNDEFINED" });
+
+    if (result.length != 0)
+      return res.status(404).json({ error: "ERR_USER_ALREADY_EXISTS" });
 
     if (!req.body.password)
-      return res.json({ message: "ERR_NO_PASSWORD" });
+      return res.status(401).json({ error: "ERR_NO_PASSWORD" });
 
     if (password.length <= 2 && password)
       return res
         .status(401)
-        .json({ error: "ERR_PASSWORD_LESS_THAN_5" });
+        .json({ error: "password length must be greater than 5" });
+    if (result.length == 0) {
+      bcrypt.genSalt(10, function(err, salt) {
+        if (err) console.log(err);
+        bcrypt.hash(req.body.password, salt, function(err, hash) {
+          let queryInsert =
+            "INSERT INTO users (username, password, firstname, lastname, email) VALUES (?,?,?,?,?)";
 
-    bcrypt.genSalt(10, function(err, salt) {
-      if(err) console.log(err);
-      bcrypt.hash(req.body.password, salt, function(err, hash) {
+          let payload = {
+            isLoggedIn: true,
+            _id: result._id,
+            username: result.username,
+            email: result.email,
+            firstname: result.firstname,
+            lastname: result.lastname,
+            create_date: result.create_date
+          };
 
-        let queryInsert =
-          "INSERT INTO users (username, password, firstname, lastname) VALUES (?,?,?,?)";
+          let token = jwt.sign(payload, secretKey, {
+            expiresIn: "4h"
+          });
 
-        let payload = {
-          isLoggedIn: true,
-          _id: result._id,
-          username: result.username,
-          //   email: result.email,
-          firstname: result.firstname,
-          lastname: result.lastname,
-          create_date: result.create_date
-        };
-
-        let token = jwt.sign(payload, secretKey, {
-          expiresIn: "4h"
-        });
-
-        connection.query(
-          queryInsert,
-          [req.body.username, hash, req.body.firstname, req.body.lastname],
-          function(error, user) {
-            if (error) {      
-              res.send(error);
-            } else {
-              res.json({
-                message: "REGISTER_SUCCESS",
-                token: token,
-                bool: true,
-                username: req.body.username,
-                // email: req.body.email
-              });
+          connection.query(
+            queryInsert,
+            [req.body.username, hash, req.body.firstname, req.body.lastname, req.body.email],
+            function(error, user) {
+              if (error) {
+                console.log(error);
+                res.send(error);
+              } else {
+                res.json({
+                  message: "REGISTER_SUCCESS",
+                  token: token,
+                  bool: true,
+                  username: req.body.username,
+                  email: req.body.email
+                });
+              }
             }
-          }
-        );
+          );
+        });
       });
-    });
+    }
   });
 });
 
-router.post('/login', function(req, res) {
-  console.log('Line 57');
+router.post("/login", function(req, res) {
+  console.log("Line 57");
   console.log(req.body);
-  const query = 'SELECT * FROM users WHERE username = ? ';
+  const query = "SELECT * FROM users WHERE username = ? ";
 
-  connection.query(query, [req.body.username], function(
-    error,
-    result,
-    body
-  ) {
-
-    if(result == undefined) {
+  connection.query(query, [req.body.username], function(error, result, body) {
+    if (result == undefined) {
       return res.json({
-        message: 'ERR_CANNOT_FIND'
+        message: "ERR_CANNOT_FIND"
       });
     }
 
-    console.log('RESULT!!' + JSON.stringify(result[0].id));
+    console.log("RESULT!!" + JSON.stringify(result[0].id));
     let data = result[0];
-    console.log('DATA!!!' + data);
+    console.log("DATA!!!" + data);
 
-    if (!result) return res.status(404).json({ error: 'user not found' });
+    if (!result) return res.status(404).json({ error: "user not found" });
 
     if (!bcrypt.compareSync(req.body.password, result[0].password))
-      return res.status(401).json({ error: 'ERR_INCORRECT_PASS' });
+      return res.status(401).json({ error: "incorrect password " });
 
     let payload = {
       isLoggedIn: true,
       _id: data.id,
       username: data.username,
-      // email: data.email,
+      email: data.email,
       firstname: data.firstname,
       lastname: data.lastname,
       create_date: data.create_date
     };
 
     let token = jwt.sign({ data: payload }, secretKey, {
-      expiresIn: '4h'
+      expiresIn: "4h"
     });
 
     return res.json({
-      message: 'LOGIN_SUCCESS',
+      message: "LOGIN_SUCCESS",
       token: token,
       bool: true,
       result: result

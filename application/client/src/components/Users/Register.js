@@ -4,33 +4,38 @@ import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
-import { validate, formNotFullfilled, registered, userAlreadyExists } from "../redux/actions/registerAction";
+import {
+  validate,
+  formNotFullfilled,
+  registered,
+  userAlreadyExists
+} from "../redux/actions/registerAction";
 
 class Register extends Component {
-
   handleSubmit(event) {
     event.preventDefault();
     event.stopPropagation();
 
     let firstName = event.target.children[0].children[0].children[1].value;
     let lastName = event.target.children[0].children[1].children[1].value;
-    let username = event.target.children[0].children[2].children[1].value;
-    let password = event.target.children[0].children[3].children[1].value;
+    let email = event.target.children[0].children[2].children[1].value;
+    let username = event.target.children[0].children[3].children[1].value;
+    let password = event.target.children[0].children[4].children[1].value;
 
     // check if names have spacing
     if (
       username.includes(" ") ||
       firstName.includes(" ") ||
+      email.includes(" ") ||
       lastName.includes(" ")
     ) {
-
       let validate = {
         validated: false,
         registered: false,
         USER_ALREADY_EXISTS: false,
         FORM_NOT_FULLFILLED: false,
         SPACE_IN_USERNAME: true
-      }
+      };
 
       this.props.validate(validate);
       return 0;
@@ -39,23 +44,26 @@ class Register extends Component {
     // split into arrays to guarentee no spacing
     let firstName1 = firstName.split(" ");
     let lastName1 = lastName.split(" ");
+    let email1 = email.split(" ")
     let username1 = username.split(" ");
     let password1 = password.split(" ");
-    
+
     // check if any fields are empty
     // If any field is empty change state in registerReducer of formNotFullfilled to true
     if (
       firstName1[0] === "" ||
       lastName1[0] === "" ||
+      email1[0] === "" ||
       username1[0] === "" ||
       password1[0] === ""
     ) {
-      console.log(password1)
+      console.log(password1);
       this.props.formNotFullfilled();
     } else {
       let obj = {
         firstname: firstName,
         lastname: lastName,
+        email: email,
         username: username,
         password: password
       };
@@ -63,24 +71,23 @@ class Register extends Component {
       axios
         .post("/userauth/register", obj)
         .then(res => {
-          
           // if(res.data.error) {
           //   let error = res.data.error;
-          //   if(error === "USER_ALREADY_EXISTS")            
+          //   if(error === "USER_ALREADY_EXISTS")
           // }
           // if(res.data.message) {
-            let message = res.data.message;
-            if(message === "REGISTER_SUCCESS"){
-              this.props.registered();
-              const path = "/login";
-              this.props.history.push(path);          
-            } else if(message === "USER_ALREADY_EXISTS") {
-              console.log("user already exists");
-            } else if(message === "ERR_NO_PASSWORD") {
-              console.log("handle no password error")
-            }
+          let message = res.data.message;
+          console.log(res);
+          if (message === "REGISTER_SUCCESS") {
+            this.props.registered();
+            const path = "/login";
+            this.props.history.push(path);
+          } else if (message === "USER_ALREADY_EXISTS") {
+            console.log("user already exists");
+          } else if (message === "ERR_NO_PASSWORD") {
+            console.log("handle no password error");
+          }
           // }
-
         })
         .catch(err => {
           console.log(err.message);
@@ -127,6 +134,11 @@ class Register extends Component {
                 />
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
+              <Form.Group as={Col} md="8" controlId="email">
+                <Form.Label>Email</Form.Label>
+                <Form.Control type="text" placeholder="Email" />
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+              </Form.Group>
               <Form.Group as={Col} md="8" controlId="username">
                 <Form.Label>Username</Form.Label>
                 <Form.Control type="text" placeholder="User Name" />
@@ -156,7 +168,7 @@ class Register extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   let {
     username,
     password,
@@ -164,7 +176,7 @@ const mapStateToProps = (state) => {
     isRegistered,
     USER_ALREADY_EXISTS,
     FORM_NOT_FULLFILLED,
-    SPACE_IN_USERNAME 
+    SPACE_IN_USERNAME
   } = state.registerReducer;
   console.log(state);
   return {
@@ -174,9 +186,9 @@ const mapStateToProps = (state) => {
     isRegistered,
     USER_ALREADY_EXISTS,
     FORM_NOT_FULLFILLED,
-    SPACE_IN_USERNAME 
+    SPACE_IN_USERNAME
   };
-}
+};
 
 const mapDispatchToProps = {
   validate,
@@ -187,5 +199,5 @@ const mapDispatchToProps = {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(Register);
