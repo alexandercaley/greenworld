@@ -34,7 +34,6 @@ CREATE TABLE `postings` (
   `description` varchar(300) NOT NULL DEFAULT ' ',
   `picture` varchar(50) NOT NULL,
   `status` varchar(20) NOT NULL DEFAULT 'Pending',
-  `date_witnessed` varchar(30) NOT NULL,
   `date_posted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `topic` varchar(20) NOT NULL,
   `long` decimal(25,15) NOT NULL DEFAULT '0.000000000000000',
@@ -62,4 +61,4 @@ CREATE TABLE `postings` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-08-10 21:13:13
+-- Dump completed on 2019-08-11 21:53:33
