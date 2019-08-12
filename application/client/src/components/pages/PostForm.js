@@ -8,7 +8,8 @@ import {
   errGetLocation,
   resetReducer,
   isLoading,
-  doneLoading
+  doneLoading,
+  needsToLogin,  
 } from "../redux/actions/postAction";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
@@ -52,57 +53,70 @@ class PostForm extends Component {
   // When user submits issue
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.props);
-    let {
-      latitude,
-      longitude,
-      imageFile,
-      zipcode,
-      street,
-      city,
-      issueType,
-      state,
-      description
-    } = this.props;
-    
-    console.log(latitude, longitude);
-    console.log(imageFile);
-    let username = localStorage.getItem('username');
-    let user_id = localStorage.getItem('user_id')
-    let formData = new FormData();
-    formData.append("imageFile", imageFile);
-    formData.append("latitude", latitude);
-    formData.append("longitude", longitude);
-    formData.append("street", street);
-    formData.append("city", city);
-    formData.append("state", state);
-    formData.append("zipcode", zipcode);
-    formData.append("issueType", issueType);
-    formData.append("username", username);
-    formData.append("description", description);
-    formData.append("user_id", user_id);
-    // specify we are sending form data
-    axios({
-      method: "post",
-      url: "/api/postings",
-      data: formData,
-      config: { headers: { "Content-Type": "multipart/form-data" } }
-    })
-      .then(res => {
-        // formData.forEach(key => {
-        //   formData.delete(key);
-        // });
-        // this.props.resetReducer();
-        console.log(res);
-        if(res.data == "SUCCESS") {
-          this.props.history.push("/home");
-        }
-        
+
+    const curToken = localStorage.getItem("token");
+
+    // If user is not logged in, send them to login page
+    // and give message that they need to login before they 
+    // can finish posting
+    if(curToken == undefined || curToken == "") {
+      // run action to set needsToLogin to true
+      this.props.needsToLogin();
+      this.props.history.push("/login");
+    } else {
+      console.log(this.props);
+      let {
+        latitude,
+        longitude,
+        imageFile,
+        zipcode,
+        street,
+        city,
+        issueType,
+        state,
+        description
+      } = this.props;
+      
+      console.log(latitude, longitude);
+      console.log(imageFile);
+      let username = localStorage.getItem('username');
+      let user_id = localStorage.getItem('user_id')
+      let formData = new FormData();
+      
+      formData.append("imageFile", imageFile);
+      formData.append("latitude", latitude);
+      formData.append("longitude", longitude);
+      formData.append("street", street);
+      formData.append("city", city);
+      formData.append("state", state);
+      formData.append("zipcode", zipcode);
+      formData.append("issueType", issueType);
+      formData.append("username", username);
+      formData.append("description", description);
+      formData.append("user_id", user_id);
+      
+      // specify we are sending form data
+      axios({
+        method: "post",
+        url: "/api/postings",
+        data: formData,
+        config: { headers: { "Content-Type": "multipart/form-data" } }
       })
-      .catch(err => {
-        console.log(err);
-      });
-    console.log();
+        .then(res => {
+          // formData.forEach(key => {
+          //   formData.delete(key);
+          // });
+          // this.props.resetReducer();
+          console.log(res);
+          if(res.data == "SUCCESS") {
+            this.props.history.push("/home");
+          }
+          
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   };
 
   // One function handles all input changnes
@@ -286,7 +300,8 @@ const mapDispatchToProps = {
   errGetLocation,
   resetReducer,
   isLoading,
-  doneLoading
+  doneLoading,
+  needsToLogin
 };
 
 export default connect(

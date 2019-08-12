@@ -16,6 +16,7 @@ const INITIAL_STATE = {
   imageFile: "",
   locationError: false,
   geoLocationIsLoading: false,
+  TRIED_POSTING_ISSUE: false,
 };
 
 // Post reducer
@@ -83,6 +84,21 @@ const postReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         geoLocationIsLoading: false,
+      }
+
+    // Case TRIED_POSTING_ISSUE and FINISHED_LOGGING_IN_AFTER_TRYING_TO_POST
+    // are just used to set TRIED_POSTING_ISSUE to true and false
+    // it will turn true if user tries to post without logging in,
+    // It will turn false after the user has succesfully logged in.
+    case "TRIED_POSTING_ISSUE":
+      return {
+        ...state,
+        TRIED_POSTING_ISSUE: true,
+      }
+    case "FINISHED_LOGGING_IN_AFTER_TRYING_TO_POST":
+      return{
+        ...state,
+        TRIED_POSTING_ISSUE: false,
       }
     case "RESET_REDUCER":
       return {

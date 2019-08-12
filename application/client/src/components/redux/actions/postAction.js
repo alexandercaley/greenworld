@@ -55,3 +55,15 @@ export const doneLoading = () => {
     type: "GEO_LOCATION_DONE_LOADING"
   }
 }
+
+export const needsToLogin = () => {
+  return {
+    type: "TRIED_POSTING_ISSUE"
+  }
+}
+
+export const finishedLoggingIn = () => {
+  return {
+    type: "FINISHED_LOGGING_IN_AFTER_TRYING_TO_POST"
+  }
+} 
