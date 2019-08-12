@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Form, Col, Button } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
-import { validateStatus } from "../redux/actions/loginAction";
+import { validateStatus, reRouteAfterCompleteLogin } from "../redux/actions/loginAction";
 import { finishedLoggingIn } from "../redux/actions/postAction";
 import axios from "axios";
 
@@ -41,8 +41,21 @@ class Login extends Component {
           localStorage.setItem('token', res.data.token);
           localStorage.setItem('user_id', res.data.result[0].id)
           localStorage.setItem('username', username)
-          this.props.history.goBack();
+          
+          let path = "";	
 
+           // put somet path here where you want to redirect after loging in 	
+          if(this.props.ROUTE != undefined) {	
+            // path =  this.props.ROUTE;	
+            // console.log(path);	
+            // console.log(this.props.history);	
+            // this.props.history.push(path);	
+            this.props.history.goBack();
+          } else {	
+            path = "/";	
+            this.props.history.push(path);	
+            console.log(path);	
+          } 
         } 
         // If cannot find user 
         else if (message === "USER_NOT_FOUND") {
@@ -73,6 +86,17 @@ class Login extends Component {
         console.log(err);
       });
   }
+
+  componentDidMount() {	
+    console.log("hi");	
+    console.log(this.props.route)	
+
+     // get route passed from post page route	
+    // We do this so we can redirect back to post page	
+    let route = this.props.route	
+    this.props.reRouteAfterCompleteLogin(this.props.route);	
+  }	
+
 
   render() {
     const {
@@ -146,7 +170,8 @@ const mapStateToProps = (state) => {
 // can also import different actions from different files
 const mapDispatchToProps = {
   validateStatus,
-  finishedLoggingIn
+  finishedLoggingIn,
+  reRouteAfterCompleteLogin
 };
 
 export default connect(
