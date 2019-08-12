@@ -12,7 +12,7 @@ if (!connection) {
         host: 'localhost',
         user: 'root',
         password: 'password',
-        database: 'VerticalPrototype'
+        database: 'csc648_team6'
     });
 
     connection.connect((err) => {
@@ -55,7 +55,7 @@ if (!connection) {
 // }
 
 router.get('/', function (req, res) {
-    connection.query("SELECT * FROM VerticalPrototype.postings", function (err, result, fields) {
+    connection.query("SELECT * FROM csc648_team6.postings", function (err, result, fields) {
         if (err) throw err;
         res.json(result);
     });
@@ -69,12 +69,12 @@ router.get('/', function (req, res) {
 
 router.post('/', function (req, res) {
     console.log("POST!!!!")
-    var {id, location, postType, postStatus, picture} = req.body;
-    console.log(id, postType, postStatus, picture)
+    var {users_id, street, city, state, zipcode, description, picture, status, date_witnessed, topic, long, lat} = req.body;
+    console.log(users_id, street, city, state, zipcode, description, picture, status, date_witnessed, topic, long, lat)
 
-    let query = "INSERT INTO postings (location, postType, postStatus, picture) VALUES (?,?,?,?)"
+    let query = "INSERT INTO postings (users_id, street, city, state, zipcode, description, picture, status, date_witnessed, topic, long, lat) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"
 
-    connection.query(query, [location, postType, postStatus, picture],
+    connection.query(query, [users_id, street, city, state, zipcode, description, picture, status, date_witnessed, topic, long, lat],
         function (err, result) {
             if (err) {
                 console.log(err);

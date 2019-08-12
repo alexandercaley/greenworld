@@ -19,7 +19,7 @@ if (!connection) {
     host: "localhost",
     user: "root",
     password: "password",
-    database: "VerticalPrototype"
+    database: "csc648_team6"
   });
 
   connection.connect(err => {
@@ -33,9 +33,9 @@ if (!connection) {
 
 // Register a user with password encryption.
 router.post("/register", function(req, res) {
-  let { username, email, password } = req.body;
+  let { username, password, email, firstName, lastName, admin} = req.body;
   //   const queryCheck = "SELECT * FROM users WHERE username = ? AND email = ?";
-  const queryCheck = "SELECT * FROM users WHERE username = ? ";
+  const queryCheck = "SELECT * FROM csc648_team6.users_registration WHERE username = ? ";
   connection.query(queryCheck, [username], function(
     error,
     result
@@ -60,16 +60,13 @@ router.post("/register", function(req, res) {
       bcrypt.hash(req.body.password, salt, function(err, hash) {
 
         let queryInsert =
-          "INSERT INTO users (username, password, firstname, lastname) VALUES (?,?,?,?)";
+          "INSERT INTO csc648_team6.users_registration (username, password, email, firstName, lastName, admin) VALUES (?,?,?,?,?,?)";
 
         let payload = {
           isLoggedIn: true,
-          _id: result._id,
+          id: result.id,
           username: result.username,
-          //   email: result.email,
-          firstname: result.firstname,
-          lastname: result.lastname,
-          create_date: result.create_date
+        
         };
 
         let token = jwt.sign(payload, secretKey, {
@@ -78,7 +75,7 @@ router.post("/register", function(req, res) {
 
         connection.query(
           queryInsert,
-          [req.body.username, hash, req.body.firstname, req.body.lastname],
+          [req.body.username, hash],
           function(error, user) {
             if (error) {      
               res.send(error);
@@ -101,7 +98,7 @@ router.post("/register", function(req, res) {
 router.post('/login', function(req, res) {
   console.log('Line 57');
   console.log(req.body);
-  const query = 'SELECT * FROM users WHERE username = ? ';
+  const query = 'SELECT * FROM csc648_team6.users_registration WHERE username = ? ';
 
   connection.query(query, [req.body.username], function(
     error,
@@ -126,12 +123,9 @@ router.post('/login', function(req, res) {
 
     let payload = {
       isLoggedIn: true,
-      _id: data.id,
+      id: data.id,
       username: data.username,
       // email: data.email,
-      firstname: data.firstname,
-      lastname: data.lastname,
-      create_date: data.create_date
     };
 
     let token = jwt.sign({ data: payload }, secretKey, {
