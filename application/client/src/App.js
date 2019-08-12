@@ -9,8 +9,6 @@ import { Switch, Route } from "react-router-dom";
 // Import Pages
 import showPostings from "./components/pages/showPostings";
 import Home from "./components/pages/Home";
-import News from "./components/pages/News";
-import AboutUs from "./components/pages/AboutUs";
 import Post from "./components/pages/Post";
 
 import { BrowserRouter as Router } from "react-router-dom";
@@ -25,8 +23,6 @@ class App extends Component {
           <Navbar />
           <Switch>
             <Route exact path="/home" component={Home} />
-            <Route exact path="/news" component={News} />
-            <Route exact path="/aboutUs" component={AboutUs} />
             <Route exact path="/post" component={Post} />
             <Route exact path="/showPostings" component={showPostings} />
             <Route exact path="/login" component={Login} />
