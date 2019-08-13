@@ -10,6 +10,7 @@ import {
   registered,
   userAlreadyExists
 } from "../redux/actions/registerAction";
+import { reRouteAfterCompleteLogin } from "../redux/actions/loginAction";
 
 class Register extends Component {
   handleSubmit(event) {
@@ -71,14 +72,12 @@ class Register extends Component {
       axios
         .post("/userauth/register", obj)
         .then(res => {
-          // if(res.data.error) {
-          //   let error = res.data.error;
-          //   if(error === "USER_ALREADY_EXISTS")
-          // }
-          // if(res.data.message) {
+
           let message = res.data.message;
           console.log(res);
           if (message === "REGISTER_SUCCESS") {
+            // const pathAfterLogin = "/home"
+            // reRouteAfterCompleteLogin(pathAfterLogin);
             this.props.registered();
             const path = "/login";
             this.props.history.push(path);
@@ -94,6 +93,15 @@ class Register extends Component {
         });
     }
   }
+
+  componentDidMount = () => {
+
+    // update path so if you're logged in Login knows
+    // last path is "/register"
+    let path = "/register"
+    this.props.reRouteAfterCompleteLogin(path);
+    console.log(this.props.ROUTE)
+  };
 
   render() {
     console.log(this.props);
@@ -174,6 +182,7 @@ const mapStateToProps = state => {
     FORM_NOT_FULLFILLED,
     SPACE_IN_USERNAME
   } = state.registerReducer;
+  let { ROUTE } = state.loginReducer;
   console.log(state);
   return {
     username,
@@ -182,7 +191,8 @@ const mapStateToProps = state => {
     isRegistered,
     USER_ALREADY_EXISTS,
     FORM_NOT_FULLFILLED,
-    SPACE_IN_USERNAME
+    SPACE_IN_USERNAME,
+    ROUTE
   };
 };
 
@@ -190,7 +200,8 @@ const mapDispatchToProps = {
   validate,
   formNotFullfilled,
   registered,
-  userAlreadyExists
+  userAlreadyExists,
+  reRouteAfterCompleteLogin
 };
 
 export default connect(

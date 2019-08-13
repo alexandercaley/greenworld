@@ -23,7 +23,7 @@ class Login extends Component {
       .post("/userauth/login", obj)
       .then(res => {
         console.log(res);
-
+        console.log(this.props.ROUTE)
         // Handle code based on message response from backend
         let message = res.data.message;
 
@@ -43,18 +43,21 @@ class Login extends Component {
           localStorage.setItem('username', username)
           
           let path = "";	
-
+          // to figure out what was the last route
+          let historyLength = this.props.history.length - 1;
+          
            // put somet path here where you want to redirect after loging in 	
-          if(this.props.ROUTE != undefined) {	
+          if(this.props.ROUTE == "/register") {	
             // path =  this.props.ROUTE;	
             // console.log(path);	
             // console.log(this.props.history);	
             // this.props.history.push(path);	
-            this.props.history.goBack();
-          } else {	
+            this.props.reRouteAfterCompleteLogin("/");
             path = "/";	
-            this.props.history.push(path);	
             console.log(path);	
+            this.props.history.push(path);	
+          } else {
+            this.props.history.goBack();
           } 
         } 
         // If cannot find user 
@@ -68,7 +71,7 @@ class Login extends Component {
           }
 
           this.props.validateStatus(notFound);
-        } 
+        }
         // If username or password was incorrect.
         else if (message === "INCORRECT_USERNAME_OR_PASSWORD") {
 
@@ -87,16 +90,23 @@ class Login extends Component {
       });
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log(this.props.location)
+    console.log(nextProps.location);
+    if (nextProps.location !== this.props.location) {
+      console.log("line 94")
+    }
+  }
+
   componentDidMount() {	
     console.log("hi");	
-    console.log(this.props.route)	
+    console.log(this.props.ROUTE)
 
-     // get route passed from post page route	
+    // get route passed from post page route	
     // We do this so we can redirect back to post page	
-    let route = this.props.route	
-    this.props.reRouteAfterCompleteLogin(this.props.route);	
-  }	
-
+    let route = this.props.ROUTE	
+    // this.props.reRouteAfterCompleteLogin(this.props.route);	
+  }
 
   render() {
     const {

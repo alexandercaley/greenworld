@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   LOGGEDIN: false,
   USER_NOT_FOUND: false,
   INCORRECT_USERNAME_OR_PASSWORD: false,
+  ROUTE: ""
 };
 
 const loginReducer = (state = INITIAL_STATE, action) => {
@@ -23,11 +24,19 @@ const loginReducer = (state = INITIAL_STATE, action) => {
         USER_NOT_FOUND: USER_NOT_FOUND,
         INCORRECT_USERNAME_OR_PASSWORD: INCORRECT_USERNAME_OR_PASSWORD
       };
+    case "REDIRECT":
+      let route = action.route;
+      console.log(route);
+      return {
+        ...state,
+        // REDIRECT: true,
+        ROUTE: route
+      };
     case "LOGGOUT":
       return {
         ...state,
         LOGGEDIN: false
-      }
+      };
       console.log("logout action");
     default:
       return state;
