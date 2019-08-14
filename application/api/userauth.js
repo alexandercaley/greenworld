@@ -13,13 +13,37 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 //we need this for secret information that we don't want on our github
 
+// let connection;
+// if (!connection) {
+//   connection = mysql.createConnection({
+//     host: "localhost",
+//     user: "root",
+//     password: "password",
+//     database: "csc648_team6"
+//   });
+
+//   connection.connect(err => {
+//     if (!err) console.log("Connected to the MySQL server!");
+//     else
+//       console.log(
+//         "Connection failed \n Error: " + JSON.stringify(err, undefined, 2)
+//       );
+//   });
+// }
 let connection;
 if (!connection) {
   connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "password",
-    database: "csc648_team6"
+    host: "18.144.30.72",
+
+    // Your port; if not 3306
+    port: 3306,
+  
+    // Your username
+    user: "testuser",
+  
+    // Your password
+    password: "team6",
+    database: "csc648team6"
   });
 
   connection.connect(err => {
