@@ -9,7 +9,8 @@ import {
   updateData,
   updateClickedDetails,
   handleIndex,
-  updateHomepage
+  updateHomepage,
+  clickedItem
 } from "../redux/actions/homepageAction";
 
 class Home extends Component {
@@ -22,9 +23,6 @@ class Home extends Component {
         let { data } = res;
         console.log(data);
         this.props.updateData(data);
-        // this.setState({
-        //   data: res.data
-        // });
       });
     } catch (error) {
       console.log(error);
@@ -47,7 +45,6 @@ class Home extends Component {
           // console.log(x)
           return x.issueType.toLowerCase().includes(search.toLowerCase());
 
-          // .toLowerCase().includes(search.toLowerCase());
         });
         console.log(searchFilter);
         console.log("=======================================");
@@ -60,8 +57,10 @@ class Home extends Component {
 
 
   goToDetails = (data )=> {
+    console.log(data);
     const path = "/productdetails";
-    this.props.history.push(path);
+    this.props.clickedItem(data);
+    this.props.history.push(path); 
   }
 
   handleChange = e => {
@@ -148,11 +147,6 @@ class Home extends Component {
                       </div>
                     );
                   })}
-                  {/* {error ? (
-                <h1 className="text-danger text-center">{error}</h1>
-              ) : (
- 
-              )} */}
                 </div>
               </div>
             </React.Fragment>
@@ -179,7 +173,8 @@ const mapDispatchToProps = {
   updateData,
   updateClickedDetails,
   handleIndex,
-  updateHomepage
+  updateHomepage,
+  clickedItem
 };
 
 export default connect(

@@ -4,6 +4,7 @@ const INITIAL_STATE = {
   search: "",
   details_id: "",
   toUpdateHomepage: false,
+  detailsData: {},
 };
 
 const homepageReducer = (state = INITIAL_STATE, action) => {
@@ -40,6 +41,11 @@ const homepageReducer = (state = INITIAL_STATE, action) => {
         return {
             ...state,
             toUpdateHomepage: bool
+        }
+    case "CLICKED_ITEM":
+        return {
+            ...state,
+            detailsData: action.data
         }
     default:
       return state;

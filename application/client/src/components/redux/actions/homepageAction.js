@@ -34,3 +34,10 @@ export const updateHomepage = bool => {
         bool
     }
 }
+
+export const clickedItem = data => {
+    return {
+        type: "CLICKED_ITEM",
+        data
+    }
+}
