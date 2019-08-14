@@ -14,24 +14,18 @@ import {
 } from "../redux/actions/homepageAction";
 
 class Home extends Component {
-
-  async getProduct() {
-    try {
-      //const filler = await fetch(this.state.data);
-      const res = await axios.get("/api/postings").then(res => {
-        console.log(res.data);
-        let { data } = res;
-        console.log(data);
-        this.props.updateData(data);
-      });
-    } catch (error) {
-      console.log(error);
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      somedata: []
+    };
   }
 
   componentDidMount() {
     // when homepage mounts, get all data from backend
     // and store it in store
+    this.forceUpdate();
+    console.log("line 35 ======");
     axios.get("/api/postings").then(res => {
       console.log("=======================================");
       let { data } = res;
@@ -44,88 +38,51 @@ class Home extends Component {
         var searchFilter = data.filter(x => {
           // console.log(x)
           return x.issueType.toLowerCase().includes(search.toLowerCase());
-
+        });
+        this.setState({
+          somedata: searchFilter
         });
         console.log(searchFilter);
         console.log("=======================================");
         this.props.updateData(searchFilter);
         this.forceUpdate();
+      } else {
+        this.props.updateData(data);
+        this.setState({
+          somedata: data
+        });
+        this.forceUpdate();
       }
-      this.props.updateData(data);
     });
   }
 
-
-  goToDetails = (data )=> {
+  goToDetails = data => {
     console.log(data);
     const path = "/productdetails";
     this.props.clickedItem(data);
-    this.props.history.push(path); 
-  }
-
-  handleChange = e => {
-    // console.log("handle change");
-    this.setState(
-      {
-        search: e.target.value
-      },
-      () => {
-        console.log(this.state.search);
-      }
-    );
-  };
-
-  handleSubmit = e => {
-    e.preventDefault();
-    const { data, search } = this.state;
-    var searchFilter = data.filter(function(x) {
-      return x.postType.toLowerCase().includes(search.toLowerCase());
-    });
-    console.log(searchFilter);
-
-    this.setState(() => {
-      return { data: searchFilter, search };
-    });
+    this.props.history.push(path);
   };
 
   render() {
-    const {
-      recipes,
-      handleDetails,
-      value,
-      handleSubmit,
-      handleChange,
-      error,
-      data,
-    } = this.props;
+    const { data } = this.props;
+    const { somedata } = this.state;
     return (
       <div>
         <Container className="mt-2">
           <Row>
             <div className="container my-6">
-              {/* <Dropdown>
-                <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                  Filter
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item href="#/Park">Park</Dropdown.Item>
-                  <Dropdown.Item href="#/Zipcode">Zip code</Dropdown.Item>
-                  <Dropdown.Item href="#/city">city</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown> */}
             </div>
             <React.Fragment>
-              {/* {this.displayPage(this.props.pageIndex)} */}
               <div className="rwo" />
               <div className="container my-6">
                 <div className="row">
-                  {data.map(i => {
+                  {somedata.map(i => {
                     return (
                       <div className="col-10 mx-auto col-md-6 col-lg-4 my-3">
                         <div onClick={() => this.goToDetails(i)}>
                           <div className="card">
                             <img
-                              // src={}
+                              src={require("./HomepageList/uploads/b.png")}
                               className="img-card-top"
                               alt="Issue Image"
                               style={{ height: "14rem" }}
@@ -158,7 +115,6 @@ class Home extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
   let {
     data,
     details_id,

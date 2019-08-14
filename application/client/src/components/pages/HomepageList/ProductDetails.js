@@ -66,7 +66,7 @@ class ProductDetails extends Component {
             <div className="row">
               <div className="col-10 mx-auto col-md-6 my-3">
                 <img
-                  src={require(imagepath)}
+                  // src={require(imagepath)}
                   className="img-card-top"
                   alt="recipe"
                   style={{ height: "14rem" }}

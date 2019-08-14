@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // import "./Navbar.css";
 import { Link } from "react-router-dom";
 import UserAuth from "../Users/UserAuth";
-
+import axios from "axios";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import {
@@ -15,16 +15,44 @@ import {
   updateHomepage
 } from "../redux/actions/homepageAction";
 
-import ProductSearch from "../pages/HomepageList/ProductSearch";
+import Home from "../pages/Home";
 
 // import DropdownMenu from "../pages/DropdownMenu";
 class Navbar extends Component {
   handleSearch = event => {
     event.preventDefault();
-    console.log(event.target.search.value);
     this.props.updateHomepage(true);
+    this.forceUpdate();
+    // console.log("line 35 ======");
+    axios.get("/api/postings").then(res => {
+      // console.log("=======================================");
+      let { data } = res;
+
+      if (this.props.toUpdateHomepage == true) {
+        this.props.updateHomepage(false);
+        let { data, search } = this.props;
+        console.log(data, search);
+        var searchFilter = data.filter(x => {
+          // console.log(x)
+          return x.issueType.toLowerCase().includes(search.toLowerCase());
+        });
+        // this.setState({
+        //   somedata: searchFilter
+        // });
+        // console.log(searchFilter);
+        // console.log("=======================================");
+        this.props.updateData(searchFilter);
+        this.forceUpdate();
+      } else {
+        this.props.updateData(data);
+        this.setState({
+          somedata: data
+        });
+        this.forceUpdate();
+      }
+    });
     const path = "/home";
-    this.props.history.push(path);
+    this.props.history.push(path);    
   };
 
   handleChange = event => {
@@ -36,7 +64,7 @@ class Navbar extends Component {
 
   render() {
     const { search } = this.props;
-    console.log(search);
+    // console.log(search);
     return (
       <React.Fragment>
         <nav className="navbar navbar-expand-lg navbar-light bg-warning">
@@ -70,7 +98,8 @@ class Navbar extends Component {
             <li className="nav-item">
               <Link
                 className="nav-link text-white text-uppercase ml-5"
-                to="/post"
+                to={{pathname:"/post",state: this.props.search}}
+                
               >
                 Post
               </Link>
