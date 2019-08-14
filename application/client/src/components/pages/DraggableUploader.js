@@ -136,7 +136,7 @@ class DraggableUploader extends Component {
 
   render() {
     const { loadedFiles } = this.state;
-
+    console.log(loadedFiles[0].data);
     return (
       <div
         className="inner-container"

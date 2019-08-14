@@ -23,6 +23,7 @@ class ImageUpload extends Component {
 
     this.props.onFileLoad(imageFile);
     fileReader.onload = () => {
+      console.log(fileReader.result)
       const file = {
         data: fileReader.result,
         isUploading: false

@@ -56,14 +56,14 @@ class Home extends Component {
       case 0:
         return (
           <ProductDetails
-          // id={this.state.details_id}
-          // handleIndex={this.handleIndex}
+          id={this.state.details_id}
+          handleIndex={this.handleIndex}
           />
         );
       case 1:
         return (
           <ProductsList
-            recipes={this.data}
+            issue={this.data}
             handleDetails={this.handleDetails}
             value={this.state.search}
             handleChange={this.handleChange}

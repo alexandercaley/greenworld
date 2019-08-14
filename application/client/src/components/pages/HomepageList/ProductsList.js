@@ -75,7 +75,7 @@ class ProductsList extends Component {
                 return (
                   <Products
                     key={i.recipe_id}
-                    recipe={i}
+                    issue={i}
                     handleDetails={handleDetails}
                   />
                 );
