@@ -19,31 +19,54 @@ class ProductDetails extends Component {
   };
 
   async componentDidMount() {
-    console.log(this.props.id);
+    console.log(this.props.detailsData);
   }
 
   render() {
-    console.log("line 19")
-    const { id, picture, postType } = this.props;
-    // const { handleIndex } = this.props;
-    let location = {
-      lat: 37.774929,
-      lng: -122.419416
+    console.log("line 19");
+    let imgObj = "";
+    let dest = "";
+    let filename = "";
+    let imagepath = "";
+    let location = {};
+    const {
+      id,
+      city,
+      imageFile,
+      issueType,
+      latitude,
+      longitude,
+      postings_created_date,
+      state,
+      street,
+      zipcode,
+      postType
+    } = this.props.detailsData;
+    if (imageFile == undefined) {
+      this.props.history.push("/home");
+    } else {
+      console.log(imageFile);
+      imgObj = JSON.parse(imageFile);
+      console.log(imgObj);
+      dest = "src/uploads/";
+      filename = imgObj.filename;
+      imagepath = dest + filename;
+      console.log(imagepath);
+      console.log(latitude, longitude);
+      location = {
+        lat: latitude,
+        lng: longitude
+      };
     }
+
     return (
       <div>
         <React.Fragment>
-          <button
-            className="btn btn-warning text-capitalize mb-5"
-            onClick={() => this.props.handleIndex(1)}
-          >
-            back to home page
-          </button>
           <div className="container">
             <div className="row">
               <div className="col-10 mx-auto col-md-6 my-3">
                 <img
-                  // src={picture}
+                  // src={require(imagepath)}
                   className="img-card-top"
                   alt="recipe"
                   style={{ height: "14rem" }}
@@ -60,8 +83,8 @@ class ProductDetails extends Component {
                   defaultZoom={11}
                 >
                   <Marker
-                    lat={37.774929}
-                    lng={-122.419416}
+                    lat={latitude}
+                    lng={longitude}
                     name="My Marker"
                     color="red"
                   />
@@ -81,9 +104,8 @@ class ProductDetails extends Component {
 // export default Products;
 const mapStateToProps = state => {
   console.log(state);
-  let { data, details_id, pageIndex } = state.homepageReducer;
-;
-  return { data, details_id, pageIndex };
+  let { data, details_id, pageIndex, detailsData } = state.homepageReducer;
+  return { data, details_id, pageIndex, detailsData };
 };
 
 const mapDispatchToProps = {

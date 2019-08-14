@@ -23,10 +23,12 @@ CREATE TABLE postings (
     zipcode VARCHAR(255) DEFAULT NULL,
     issueType VARCHAR(20) DEFAULT NULL,
     description TEXT DEFAULT NULL,
-    imageFile VARCHAR(255) DEFAULT NULL,
+    imageFile TEXT DEFAULT NULL,
     longitude DECIMAL(25,15) NOT NULL DEFAULT 0.000000000000000,
     latitude DECIMAL(25,15) NOT NULL DEFAULT 0.000000000000000,
     postings_created_date DATETIME NOT NULL DEFAULT NOW(),
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES users(id)
-); 
+);
+
+drop table postings; 

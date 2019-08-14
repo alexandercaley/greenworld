@@ -20,3 +20,24 @@ export const handleIndex = index => {
         index
     }
 }
+
+export const updateSearch = input => {
+    return {
+        type: "UPDATE_SEARCH",
+        input
+    }
+}
+
+export const updateHomepage = bool => {
+    return {
+        type: "UPDATE_HOMEPAGE",
+        bool
+    }
+}
+
+export const clickedItem = data => {
+    return {
+        type: "CLICKED_ITEM",
+        data
+    }
+}

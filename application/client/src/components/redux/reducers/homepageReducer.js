@@ -3,15 +3,14 @@ const INITIAL_STATE = {
   pageIndex: 1,
   search: "",
   details_id: "",
+  toUpdateHomepage: false,
+  detailsData: {},
 };
 
 const homepageReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case "UPDATE_DATA":
-      console.log(action);
       let { data } = action;
-      console.log(data);
-      console.log(state.data);
       return {
         ...state,
         data: [...data]
@@ -29,6 +28,25 @@ const homepageReducer = (state = INITIAL_STATE, action) => {
           ...state,
           pageIndex:index
       };
+    case "UPDATE_SEARCH":
+        let input = action.input
+        console.log(input)
+        return {
+            ...state,
+            search: input
+        }
+    case "UPDATE_HOMEPAGE":
+        let bool = action.bool
+        console.log(bool)
+        return {
+            ...state,
+            toUpdateHomepage: bool
+        }
+    case "CLICKED_ITEM":
+        return {
+            ...state,
+            detailsData: action.data
+        }
     default:
       return state;
   }
