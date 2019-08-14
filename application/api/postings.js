@@ -13,7 +13,7 @@ let connection;
 if (!connection) {
   connection = mysql.createConnection({
     host: "54.219.118.33",
-    user: "root",
+    user: "testuser",
     password: "team6",
     database: "csc648team6"
   });
