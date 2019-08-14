@@ -40,6 +40,7 @@ class ProductDetails extends Component {
       state,
       street,
       zipcode,
+      description,
       postType
     } = this.props.detailsData;
     if (imageFile == undefined) {
@@ -91,8 +92,16 @@ class ProductDetails extends Component {
                 </GoogleMapReact>
               </div>
               <div className="card-body text-capitalized">
-                <h6>id: {id}</h6>
-                <h6>other details goes here</h6>
+                <h6>Street: {street}</h6>
+                <h6>City: {city}</h6>
+                <h6>Zipcode: {zipcode}</h6>
+                <h6>State: {state}</h6>
+                <h6 className="text-warning text-slanted">
+                  Issue Type: {issueType}
+                </h6>
+                <h6 className="text-warning text-slanted">
+                  Description: {description}
+                </h6>
               </div>
             </div>
           </div>

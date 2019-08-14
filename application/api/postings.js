@@ -12,10 +12,10 @@ router.use(bodyParser.urlencoded({ extended: true }));
 let connection;
 if (!connection) {
   connection = mysql.createConnection({
-    host: "localhost",
+    host: "54.219.118.33",
     user: "root",
-    password: "password",
-    database: "csc648_team6"
+    password: "team6",
+    database: "csc648team6"
   });
 
   connection.connect(err => {
