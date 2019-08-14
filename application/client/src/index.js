@@ -13,13 +13,15 @@ import loginReducer from "./components/redux/reducers/loginReducer";
 import registerReducer from "./components/redux/reducers/registerReducer";
 import userauthReducer from "./components/redux/reducers/userauthReducer"
 import postReducer from "./components/redux/reducers/postReducer"
+import homepageReducer from "./components/redux/reducers/homepageReducer"
 
 // combine reducers
 const rootReducer = combineReducers({
   loginReducer,
   registerReducer,
   userauthReducer,
-  postReducer
+  postReducer,
+  homepageReducer
 });
 
 

@@ -26,11 +26,15 @@ DROP TABLE IF EXISTS `postings`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `postings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` INT NULL,
   `location` varchar(100) DEFAULT NULL,
   `postType` varchar(20) DEFAULT NULL,
   `postStatus` varchar(20) DEFAULT NULL,
-  `picture` varchar(100) DEFAULT NULL,
+  `imageUpload` varchar(100) DEFAULT NULL,
+	`long` decimal(25,15) NOT NULL DEFAULT '0.000000000000000',
+  `lat` decimal(25,15) NOT NULL DEFAULT '0.000000000000000',
   PRIMARY KEY (`id`)
+  FOREIGN KEY (user_id) REFERENCES users(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

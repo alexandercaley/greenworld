@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Form, Col, Button } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 import { validateStatus, reRouteAfterCompleteLogin } from "../redux/actions/loginAction";
+import { finishedLoggingIn } from "../redux/actions/postAction";
 import axios from "axios";
 
 class Login extends Component {
@@ -22,7 +23,7 @@ class Login extends Component {
       .post("/userauth/login", obj)
       .then(res => {
         console.log(res);
-
+        console.log(this.props.ROUTE)
         // Handle code based on message response from backend
         let message = res.data.message;
 
@@ -32,46 +33,52 @@ class Login extends Component {
           let validate = {
             USER_NOT_FOUND: false,
             validated: true,
-            LOOGEDIN: true,
+            LOGGEDIN: true,
             INCORRECT_USERNAME_OR_PASSWORD: false
           }
           this.props.validateStatus(validate);
+          this.props.finishedLoggingIn();
           localStorage.setItem('token', res.data.token);
-          console.log(localStorage)
-
-          let path = "";
-
-          // put somet path here where you want to redirect after loging in 
-          if(this.props.ROUTE != undefined) {
-            path =  this.props.ROUTE;
-            console.log(path);
-            console.log(this.props.history);
-            this.props.history.push(path);
+          localStorage.setItem('user_id', res.data.result[0].id)
+          localStorage.setItem('username', username)
+          
+          let path = "";	
+          // to figure out what was the last route
+          let historyLength = this.props.history.length - 1;
+          
+           // put somet path here where you want to redirect after loging in 	
+          if(this.props.ROUTE == "/register") {	
+            // path =  this.props.ROUTE;	
+            // console.log(path);	
+            // console.log(this.props.history);	
+            // this.props.history.push(path);	
+            this.props.reRouteAfterCompleteLogin("/");
+            path = "/";	
+            console.log(path);	
+            this.props.history.push(path);	
           } else {
-            path = "/";
-            this.props.history.push(path);
-            console.log(path);
+            this.props.history.goBack();
           } 
-        } 
+        }
         // If cannot find user 
         else if (message === "USER_NOT_FOUND") {
 
           let notFound = {
             USER_NOT_FOUND: true,
             validated: false,
-            LOOGEDIN: false,
+            LOGGEDIN: false,
             INCORRECT_USERNAME_OR_PASSWORD: false
           }
 
           this.props.validateStatus(notFound);
-        } 
+        }
         // If username or password was incorrect.
         else if (message === "INCORRECT_USERNAME_OR_PASSWORD") {
 
           let incorrectData = {
             USER_NOT_FOUND: false,
             validated: false,
-            LOOGEDIN: false,
+            LOGGEDIN: false,
             INCORRECT_USERNAME_OR_PASSWORD: true
           }
 
@@ -83,25 +90,35 @@ class Login extends Component {
       });
   }
 
-  componentDidMount() {
-    console.log("hi");
-    console.log(this.props.route)
+  componentWillReceiveProps(nextProps) {
+    console.log(this.props.location)
+    console.log(nextProps.location);
+    if (nextProps.location !== this.props.location) {
+      console.log("line 94")
+    }
+  }
 
-    // get route passed from post page route
-    // We do this so we can redirect back to post page
-    let route = this.props.route
-    this.props.reRouteAfterCompleteLogin(this.props.route);
+  componentDidMount() {	
+    console.log("hi");	
+    console.log(this.props.ROUTE)
+
+    // get route passed from post page route	
+    // We do this so we can redirect back to post page	
+    let route = this.props.ROUTE	
+    // this.props.reRouteAfterCompleteLogin(this.props.route);	
   }
 
   render() {
     const {
       validated,
-      LOOGEDIN,
+      LOGGEDIN,
       INCORRECT_USERNAME_OR_PASSWORD,
-      USER_NOT_FOUND
+      USER_NOT_FOUND,
+      TRIED_POSTING_ISSUE
     } = this.props;
     return (
       <div>
+          {TRIED_POSTING_ISSUE == true && "Please Login Before Posting Item"}
           <Form
             noValidate
             validated={validated}
@@ -134,12 +151,15 @@ const mapStateToProps = (state) => {
     username,
     password,
     validated,
-    LOOGEDIN,
+    LOGGEDIN,
     USER_NOT_FOUND,
     INCORRECT_USERNAME_OR_PASSWORD,
     REDIRECT,
     ROUTE
   } = state.loginReducer;
+
+  let { TRIED_POSTING_ISSUE } = state.postReducer;
+  console.log(TRIED_POSTING_ISSUE);
   console.log(state.loginReducer)
   console.log(state.registerReducer)
   console.log(state);
@@ -147,11 +167,12 @@ const mapStateToProps = (state) => {
     username,
     password,
     validated,
-    LOOGEDIN,
+    LOGGEDIN,
     USER_NOT_FOUND,
     INCORRECT_USERNAME_OR_PASSWORD,
     REDIRECT,
-    ROUTE
+    ROUTE,
+    TRIED_POSTING_ISSUE
   };
 }
 
@@ -159,6 +180,7 @@ const mapStateToProps = (state) => {
 // can also import different actions from different files
 const mapDispatchToProps = {
   validateStatus,
+  finishedLoggingIn,
   reRouteAfterCompleteLogin
 };
 
