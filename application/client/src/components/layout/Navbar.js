@@ -11,7 +11,8 @@ import {
   updateData,
   updateClickedDetails,
   handleIndex,
-  updateSearch
+  updateSearch,
+  updateHomepage
 } from "../redux/actions/homepageAction";
 
 import ProductSearch from "../pages/HomepageList/ProductSearch";
@@ -22,6 +23,8 @@ class Navbar extends Component {
     event.preventDefault();
     console.log(event.target.search.value);
     this.props.updateHomepage(true);
+    const path = "/home";
+    this.props.history.push(path);
   };
 
   handleChange = event => {
@@ -32,7 +35,7 @@ class Navbar extends Component {
   };
 
   render() {
-    const { value, handleSubmit, handleChange, search } = this.props;
+    const { search } = this.props;
     console.log(search);
     return (
       <React.Fragment>
@@ -105,7 +108,8 @@ const mapDispatchToProps = {
   updateData,
   updateClickedDetails,
   handleIndex,
-  updateSearch
+  updateSearch,
+  updateHomepage
 };
 
 export default connect(

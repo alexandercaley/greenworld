@@ -33,12 +33,6 @@ class ProductDetails extends Component {
     return (
       <div>
         <React.Fragment>
-          <button
-            className="btn btn-warning text-capitalize mb-5"
-            onClick={() => this.props.handleIndex(1)}
-          >
-            back to home page
-          </button>
           <div className="container">
             <div className="row">
               <div className="col-10 mx-auto col-md-6 my-3">

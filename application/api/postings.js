@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const bodyParser = require("body-parser");
 const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
+const upload = multer({ dest: "../client/src/uploads/" });
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
