@@ -2,14 +2,18 @@ import React, { Component } from "react";
 import Products from "./Products";
 import ProductSearch from "../HomepageList/ProductSearch";
 import axios from "axios";
+import { updateData, updateClickedDetails } from "../../redux/actions/homepageAction";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
-export default class ProductsList extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //   data: []
-  //   };
-  // }
+// export default class ProductsList extends Component {
+
+// constructor(props) {
+//   super(props);
+//   this.state = {
+//   data: []
+//   };
+// }
 
 //   async getProduct() {
 //     try {
@@ -26,59 +30,61 @@ export default class ProductsList extends Component {
 //   }
 
 // componentDidMount() {
-//   this.getProduct();
+//   axios
+//   .get("/api/postings")
+//   .then(res => {
+//     console.log(res.data);
+//     this.setState({
+//       data: res.data
+//     });
+//   })
+//   .catch(err => {
+//     console.log(err);
+//   });
 // }
-
-  // componentDidMount() {
-  //   axios
-  //   .get("/api/postings")
-  //   .then(res => {
-  //     console.log(res.data);
-  //     this.setState({
-  //       data: res.data
-  //     });
-  //   })
-  //   .catch(err => {
-  //     console.log(err);
-  //   });
-  // }
-
+class ProductsList extends Component {
   render() {
-    const { 
+    const {
       recipes,
-      handleDetails, 
+      handleDetails,
       value,
       handleSubmit,
       handleChange,
-      error } = this.props;
+      error,
+      data
+    } = this.props;
 
+    console.log(this.props);
+    // console.log(data)
+    // let data = [];
+    console.log(data)
     return (
       <div>
-        <React.Fragment>   
-
-        <ProductSearch
+        <React.Fragment>
+          <ProductSearch
             value={value}
             handleChange={handleChange}
             handleSubmit={handleSubmit}
-            /> 
-             
+          />
+
           <div className="rwo" />
           <div className="container my-6">
             <div className="row">
-              {error ? (
+              {data.map(i => {
+                //   let {id, location, postType } = i;
+                return (
+                  <Products
+                    key={i.recipe_id}
+                    recipe={i}
+                    handleDetails={handleDetails}
+                  />
+                );
+              })}
+              {/* {error ? (
                 <h1 className="text-danger text-center">{error}</h1>
               ) : (
-                recipes.map(i => {
-             //   let {id, location, postType } = i;
-                  return (
-                    <Products
-                      key={i.recipe_id}
-                      recipe={i}
-                      handleDetails={handleDetails}
-                    />
-                  );
-                })
-              )}
+ 
+              )} */}
             </div>
           </div>
         </React.Fragment>
@@ -86,3 +92,18 @@ export default class ProductsList extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  let { data, details_id, pageIndex } = state.homepageReducer;
+  return { data, details_id, pageIndex };
+};
+
+const mapDispatchToProps = {
+  updateData,
+  updateClickedDetails
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(ProductsList));

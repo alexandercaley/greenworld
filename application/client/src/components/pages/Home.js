@@ -1,11 +1,17 @@
 import React, { Component } from "react";
 import { Dropdown, Navbar } from "react-bootstrap";
-
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 import axios from "axios";
 import { Container, Row } from "reactstrap";
 
 import ProductsList from "./HomepageList/ProductsList";
 import ProductDetails from "./HomepageList/ProductDetails";
+
+import {
+  updateData,
+  updateClickedDetails
+} from "../redux/actions/homepageAction";
 
 class Home extends Component {
   state = {
@@ -21,10 +27,12 @@ class Home extends Component {
       //const filler = await fetch(this.state.data);
       const res = await axios.get("/api/postings").then(res => {
         console.log(res.data);
-
-        this.setState({
-          data: res.data
-        });
+        let { data } = res;
+        console.log(data);
+        this.props.updateData(data);
+        // this.setState({
+        //   data: res.data
+        // });
       });
     } catch (error) {
       console.log(error);
@@ -32,22 +40,30 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.getProduct();
+    // when homepage mounts, get all data from backend
+    // and store it in store
+    axios.get("/api/postings").then(res => {
+      console.log(res.data);
+      let { data } = res;
+      console.log(data);
+      this.props.updateData(data);
+    });
   }
 
   displayPage = index => {
+    
     switch (index) {
       case 0:
         return (
           <ProductDetails
-            id={this.state.details_id}
-            handleIndex={this.handleIndex}
+          // id={this.state.details_id}
+          // handleIndex={this.handleIndex}
           />
         );
       case 1:
         return (
           <ProductsList
-            recipes={this.state.data}
+            recipes={this.data}
             handleDetails={this.handleDetails}
             value={this.state.search}
             handleChange={this.handleChange}
@@ -64,11 +80,13 @@ class Home extends Component {
       pageIndex: index
     });
   };
+
   handleDetails = (index, id) => {
-    this.setState({
-      details_id: id,
-      pageIndex: index
-    });
+    // this.setState({
+    //   details_id: id,
+    //   pageIndex: index
+    // });
+    this.props.updateClickedDetails();
   };
 
   handleChange = e => {
@@ -96,6 +114,7 @@ class Home extends Component {
   };
 
   render() {
+    this.getProduct()
     return (
       <div>
         <Container className="mt-2">
@@ -113,7 +132,7 @@ class Home extends Component {
               </Dropdown>
             </div>
             <React.Fragment>
-              {this.displayPage(this.state.pageIndex)}
+              {this.displayPage(1)}
             </React.Fragment>
           </Row>
         </Container>
@@ -122,4 +141,17 @@ class Home extends Component {
   }
 }
 
-export default Home;
+const mapStateToProps = state => {
+  let { data, details_id, pageIndex } = state.postReducer;
+  return { data, details_id, pageIndex };
+};
+
+const mapDispatchToProps = {
+  updateData,
+  updateClickedDetails
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Home));

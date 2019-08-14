@@ -59,7 +59,7 @@ class Login extends Component {
           } else {
             this.props.history.goBack();
           } 
-        } 
+        }
         // If cannot find user 
         else if (message === "USER_NOT_FOUND") {
 

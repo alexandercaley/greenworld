@@ -38,5 +38,3 @@ class Products extends Component {
   }
 }
 export default Products;
-
-// >>>>>>> fdcfb15bc3ecab8e1249f6dc839f894019565879

@@ -50,7 +50,8 @@ router.post("/", upload.single("imageFile"), function(req, res, next) {
     description,
     user_id
   } = req.body;
-  let { imageFile } = req.file;
+  let imageFile = req.file;
+  console.log()
     let image = JSON.stringify(imageFile);
   let query =
     "INSERT INTO postings (user_id, latitude, longitude, street, city, zipcode, state, issueType, imageFile, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -62,10 +63,9 @@ router.post("/", upload.single("imageFile"), function(req, res, next) {
       latitude,
       longitude,
       street,
-      city,
+      city,      
       zipcode,
       state,
-      zipcode,
       issueType,
       image,
       description

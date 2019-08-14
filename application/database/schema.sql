@@ -17,7 +17,6 @@ CREATE TABLE users(
 CREATE TABLE postings (
     id int(11) NOT NULL AUTO_INCREMENT,
     user_id INT NULL,
-    location VARCHAR(100) DEFAULT NULL,
     street VARCHAR(255) DEFAULT NULL,
     city VARCHAR(255) DEFAULT NULL,
     state VARCHAR(255) DEFAULT NULL,
