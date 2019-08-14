@@ -76,6 +76,11 @@ class PostForm extends Component {
         state,
         description
       } = this.props;
+
+      if(latitude == "" || longitude == "") {
+        latitude = 0.0000000;
+        longitude = 0.0000000;
+      }
       
       console.log(latitude, longitude);
       console.log(imageFile);
