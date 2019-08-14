@@ -13,3 +13,10 @@ export const updateClickedDetails = (id, index) => {
         tempObj
     }
 }
+
+export const handleIndex = index => {
+    return {
+        type: "UPDATE_INDEX",
+        index
+    }
+}

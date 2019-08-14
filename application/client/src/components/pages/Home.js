@@ -10,7 +10,8 @@ import ProductDetails from "./HomepageList/ProductDetails";
 
 import {
   updateData,
-  updateClickedDetails
+  updateClickedDetails,
+  handleIndex
 } from "../redux/actions/homepageAction";
 
 class Home extends Component {
@@ -50,20 +51,23 @@ class Home extends Component {
     });
   }
 
+  // index always have value of 0 or 1
+  // depending on the value changed, is what page renders
   displayPage = index => {
-    
+    console.log(index);
     switch (index) {
       case 0:
         return (
           <ProductDetails
-          id={this.state.details_id}
-          handleIndex={this.handleIndex}
+          id={this.props.details_id}
+          // handleIndex={this.handleIndex}
           />
         );
       case 1:
+        console.log("case1")
         return (
           <ProductsList
-            issue={this.data}
+            issue={this.props.data}
             handleDetails={this.handleDetails}
             value={this.state.search}
             handleChange={this.handleChange}
@@ -76,9 +80,10 @@ class Home extends Component {
   };
 
   handleIndex = index => {
-    this.setState({
-      pageIndex: index
-    });
+    this.props.handleIndex(index)
+    // this.setState({
+    //   pageIndex: index
+    // });
   };
 
   handleDetails = (index, id) => {
@@ -86,7 +91,7 @@ class Home extends Component {
     //   details_id: id,
     //   pageIndex: index
     // });
-    this.props.updateClickedDetails();
+    this.props.updateClickedDetails(id, index);
   };
 
   handleChange = e => {
@@ -114,13 +119,14 @@ class Home extends Component {
   };
 
   render() {
-    this.getProduct()
+    
+    console.log(this.props)
     return (
       <div>
         <Container className="mt-2">
           <Row>
             <div className="container my-6">
-              <Dropdown>
+              {/* <Dropdown>
                 <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                   Filter
                 </Dropdown.Toggle>
@@ -129,10 +135,10 @@ class Home extends Component {
                   <Dropdown.Item href="#/Zipcode">Zip code</Dropdown.Item>
                   <Dropdown.Item href="#/city">city</Dropdown.Item>
                 </Dropdown.Menu>
-              </Dropdown>
+              </Dropdown> */}
             </div>
             <React.Fragment>
-              {this.displayPage(1)}
+              {this.displayPage(this.props.pageIndex)}
             </React.Fragment>
           </Row>
         </Container>
@@ -142,13 +148,16 @@ class Home extends Component {
 }
 
 const mapStateToProps = state => {
-  let { data, details_id, pageIndex } = state.postReducer;
+  console.log(state);
+  let { data, details_id, pageIndex } = state.homepageReducer;
+;
   return { data, details_id, pageIndex };
 };
 
 const mapDispatchToProps = {
   updateData,
-  updateClickedDetails
+  updateClickedDetails,
+  handleIndex
 };
 
 export default connect(

@@ -1,44 +1,44 @@
-import React from "react";
+import React, { Component } from "react";
 import logo from "../../assets/donkey.jpg";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import "./Navbar.css";
 import { Link } from "react-router-dom";
-import UserAuth from "../Users/UserAuth"
+import UserAuth from "../Users/UserAuth";
 
 import ProductSearch from "../pages/HomepageList/ProductSearch";
 
 // import DropdownMenu from "../pages/DropdownMenu";
-class Navbar extends React.Component {
-
+class Navbar extends Component {
+  handleSearch = event => {
+    event.preventDefault();
+    console.log(event.target.search.value);
+  };
+  handleChange = event => {
+    console.log(event.target.search.value);
+  }
   render() {
-    const {
-      value,
-      handleSubmit,
-      handleChange
-    } = this.props;
+    const { value, handleSubmit, handleChange } = this.props;
 
     return (
       <React.Fragment>
-      <nav className="navbar navbar-expand-lg navbar-light bg-warning">
-        
-        <a className="navbar-brand ml-5" href="#">
-          <h1>Team 06</h1>
-        </a>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span>
-            <i className="fas fa-bars" style={{ color: "#fff" }} />
-          </span>
-        </button>
+        <nav className="navbar navbar-expand-lg navbar-light bg-warning">
+          <a className="navbar-brand ml-5" href="#">
+            <h1>Team 06</h1>
+          </a>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span>
+              <i className="fas fa-bars" style={{ color: "#fff" }} />
+            </span>
+          </button>
 
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav m-auto">
             <li className="nav-item active">
               <Link
@@ -56,11 +56,24 @@ class Navbar extends React.Component {
               >
                 Post
               </Link>
-            </li>            
+            </li>
           </ul>
-          <UserAuth/>
-        </div>
-      </nav>
+          <form className="search" onSubmit={this.handleSearch}>
+            <input
+              type="text"
+              className="searchInput"
+              name="search"
+              placeholder="Search by"
+              value={value}
+              onChange={this.handleChange}
+            />
+            <button type="submit" className="searchButton">
+              Search
+              <i className="fas fa-search" />
+            </button>
+          </form>
+          <UserAuth />
+        </nav>
       </React.Fragment>
     );
   }

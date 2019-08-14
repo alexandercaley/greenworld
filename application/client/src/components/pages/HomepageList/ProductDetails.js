@@ -1,8 +1,15 @@
 import React, { Component } from "react";
 import GoogleMapReact from "google-map-react";
 import Marker from "./Marker";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import {
+  updateData,
+  updateClickedDetails,
+  handleIndex
+} from "../../redux/actions/homepageAction";
 
-export default class ProductDetails extends Component {
+class ProductDetails extends Component {
   static defaultProps = {
     location: {
       lat: 37.774929,
@@ -16,15 +23,19 @@ export default class ProductDetails extends Component {
   }
 
   render() {
-    const { id, location, picture, postType } = this.props;
-    const { handleIndex } = this.props;
-
+    console.log("line 19")
+    const { id, picture, postType } = this.props;
+    // const { handleIndex } = this.props;
+    let location = {
+      lat: 37.774929,
+      lng: -122.419416
+    }
     return (
       <div>
         <React.Fragment>
           <button
             className="btn btn-warning text-capitalize mb-5"
-            onClick={() => handleIndex(1)}
+            onClick={() => this.props.handleIndex(1)}
           >
             back to home page
           </button>
@@ -45,8 +56,8 @@ export default class ProductDetails extends Component {
                     //Google API key
                     // AIzaSyBUHdcZt1CDRo9chaTXDHda-Wkj4HFh7yE
                   }}
-                  defaultCenter={this.props.location}
-                  defaultZoom={this.props.zoom}
+                  defaultCenter={location}
+                  defaultZoom={11}
                 >
                   <Marker
                     lat={37.774929}
@@ -67,3 +78,21 @@ export default class ProductDetails extends Component {
     );
   }
 }
+// export default Products;
+const mapStateToProps = state => {
+  console.log(state);
+  let { data, details_id, pageIndex } = state.homepageReducer;
+;
+  return { data, details_id, pageIndex };
+};
+
+const mapDispatchToProps = {
+  updateData,
+  updateClickedDetails,
+  handleIndex
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(ProductDetails));
