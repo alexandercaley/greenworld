@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const bodyParser = require("body-parser");
 const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
+const upload = multer({ dest: "./client/src/uploads/" });
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -12,15 +12,8 @@ router.use(bodyParser.urlencoded({ extended: true }));
 let connection;
 if (!connection) {
   connection = mysql.createConnection({
-    host: "18.144.30.72",
-
-    // Your port; if not 3306
-    port: 3306,
-  
-    // Your username
+    host: "54.219.118.33",
     user: "testuser",
-  
-    // Your password
     password: "team6",
     database: "csc648team6"
   });

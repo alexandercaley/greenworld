@@ -4,21 +4,67 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // import "./Navbar.css";
 import { Link } from "react-router-dom";
 import UserAuth from "../Users/UserAuth";
+import axios from "axios";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import {
+  updateData,
+  updateClickedDetails,
+  handleIndex,
+  updateSearch,
+  updateHomepage
+} from "../redux/actions/homepageAction";
 
-import ProductSearch from "../pages/HomepageList/ProductSearch";
+import Home from "../pages/Home";
 
 // import DropdownMenu from "../pages/DropdownMenu";
 class Navbar extends Component {
   handleSearch = event => {
     event.preventDefault();
-    console.log(event.target.search.value);
-  };
-  handleChange = event => {
-    console.log(event.target.search.value);
-  }
-  render() {
-    const { value, handleSubmit, handleChange } = this.props;
+    this.props.updateHomepage(true);
+    this.forceUpdate();
+    // console.log("line 35 ======");
+    axios.get("/api/postings").then(res => {
+      // console.log("=======================================");
+      let { data } = res;
 
+      if (this.props.toUpdateHomepage == true) {
+        this.props.updateHomepage(false);
+        let { data, search } = this.props;
+        console.log(data, search);
+        var searchFilter = data.filter(x => {
+          // console.log(x)
+          return x.issueType.toLowerCase().includes(search.toLowerCase());
+        });
+        // this.setState({
+        //   somedata: searchFilter
+        // });
+        // console.log(searchFilter);
+        // console.log("=======================================");
+        this.props.updateData(searchFilter);
+        this.forceUpdate();
+      } else {
+        this.props.updateData(data);
+        this.setState({
+          somedata: data
+        });
+        this.forceUpdate();
+      }
+    });
+    const path = "/home";
+    this.props.history.push(path);    
+  };
+
+  handleChange = event => {
+    // console.log(event.target.search.value);
+    let searchInput = event.target.value;
+    console.log(searchInput);
+    this.props.updateSearch(searchInput);
+  };
+
+  render() {
+    const { search } = this.props;
+    // console.log(search);
     return (
       <React.Fragment>
         <nav className="navbar navbar-expand-lg navbar-light bg-warning">
@@ -52,7 +98,8 @@ class Navbar extends Component {
             <li className="nav-item">
               <Link
                 className="nav-link text-white text-uppercase ml-5"
-                to="/post"
+                to={{pathname:"/post",state: this.props.search}}
+                
               >
                 Post
               </Link>
@@ -63,8 +110,8 @@ class Navbar extends Component {
               type="text"
               className="searchInput"
               name="search"
+              value={ search }
               placeholder="Search by"
-              value={value}
               onChange={this.handleChange}
             />
             <button type="submit" className="searchButton">
@@ -79,4 +126,22 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar;
+// export default Navbar;
+// export default Products;
+const mapStateToProps = state => {
+  let { data, details_id, pageIndex, search } = state.homepageReducer;
+  return { data, details_id, pageIndex, search };
+};
+
+const mapDispatchToProps = {
+  updateData,
+  updateClickedDetails,
+  handleIndex,
+  updateSearch,
+  updateHomepage
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Navbar));

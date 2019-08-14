@@ -33,6 +33,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
 let connection;
 if (!connection) {
   connection = mysql.createConnection({
+<<<<<<< HEAD
     host: "18.144.30.72",
 
     // Your port; if not 3306
@@ -42,6 +43,10 @@ if (!connection) {
     user: "testuser",
   
     // Your password
+=======
+    host: "54.219.118.33",
+    user: "testuser",
+>>>>>>> 6ade285fcbd2e8744799a733aeb8dc1de60ad74d
     password: "team6",
     database: "csc648team6"
   });

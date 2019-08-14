@@ -1,7 +1,7 @@
 1.	Server URL or IP
 
-	Public DNS(IPv4)[URL]: http://ec2-13-56-194-238.us-west-1.compute.amazonaws.com/
-	IPv6 Public IP: http://13.56.194.238/
+	Public DNS(IPv4)[URL]: http://ec2-54-219-118-33.us-west-1.compute.amazonaws.com/
+	IPv6 Public IP: http://54.219.118.33/
 
 2. & 3. SSH username & SSH password or key.
 
@@ -14,7 +14,7 @@
 
 4.  Database URL or IP and port used.
 
-	IP:		http://13.56.194.238/
+	IP:		http://54.219.118.33/
 	Port: 	3306
 
 5.  Database username
@@ -43,7 +43,7 @@ For steps 4 to 7
 	In mysql workbench, 
 		- create a new connection
 		- Select, Standard(TCP/IP)
-		- Hostname: 13.56.194.238
+		- Hostname: 54.219.118.33
 		- Username: testuser
 		- Port: 3306
 		- Password: team6
