@@ -5,6 +5,15 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 import UserAuth from "../Users/UserAuth";
 
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import {
+  updateData,
+  updateClickedDetails,
+  handleIndex,
+  updateSearch
+} from "../redux/actions/homepageAction";
+
 import ProductSearch from "../pages/HomepageList/ProductSearch";
 
 // import DropdownMenu from "../pages/DropdownMenu";
@@ -12,13 +21,19 @@ class Navbar extends Component {
   handleSearch = event => {
     event.preventDefault();
     console.log(event.target.search.value);
+    this.props.updateHomepage(true);
   };
-  handleChange = event => {
-    console.log(event.target.search.value);
-  }
-  render() {
-    const { value, handleSubmit, handleChange } = this.props;
 
+  handleChange = event => {
+    // console.log(event.target.search.value);
+    let searchInput = event.target.value;
+    console.log(searchInput);
+    this.props.updateSearch(searchInput);
+  };
+
+  render() {
+    const { value, handleSubmit, handleChange, search } = this.props;
+    console.log(search);
     return (
       <React.Fragment>
         <nav className="navbar navbar-expand-lg navbar-light bg-warning">
@@ -63,8 +78,8 @@ class Navbar extends Component {
               type="text"
               className="searchInput"
               name="search"
+              value={ search }
               placeholder="Search by"
-              value={value}
               onChange={this.handleChange}
             />
             <button type="submit" className="searchButton">
@@ -79,4 +94,21 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar;
+// export default Navbar;
+// export default Products;
+const mapStateToProps = state => {
+  let { data, details_id, pageIndex, search } = state.homepageReducer;
+  return { data, details_id, pageIndex, search };
+};
+
+const mapDispatchToProps = {
+  updateData,
+  updateClickedDetails,
+  handleIndex,
+  updateSearch
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Navbar));

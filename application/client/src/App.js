@@ -7,7 +7,6 @@ import Navbar from "./components/layout/Navbar";
 import { Switch, Route } from "react-router-dom";
 
 // Import Pages
-import showPostings from "./components/pages/showPostings";
 import Home from "./components/pages/Home";
 import Post from "./components/pages/Post";
 
@@ -24,7 +23,6 @@ class App extends Component {
           <Switch>
             <Route exact path="/home" component={Home} />
             <Route exact path="/post" component={Post} />
-            <Route exact path="/showPostings" component={showPostings} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
           </Switch>

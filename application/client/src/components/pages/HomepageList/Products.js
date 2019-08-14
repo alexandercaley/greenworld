@@ -25,14 +25,14 @@ class Products extends Component {
     } = this.props.issue;
     let imgObj = JSON.parse(imageFile);
     console.log(imgObj);
-    // application/client/src/components/pages/HomepageList/Products.js
+
     return (
       <React.Fragment>
         <div className="col-10 mx-auto col-md-6 col-lg-4 my-3">
           <div onClick={() => this.props.handleDetails(0, id)}>
             <div className="card" >
               <img
-                src="/uploads/donkey.jpg"
+                src={require("./uploads/08a1f565c9bdeafba912898dfb238881")}
                 className="img-card-top"
                 alt="Issue Image"
                 style={{ height: "14rem" }}
@@ -59,7 +59,6 @@ class Products extends Component {
 
 // export default Products;
 const mapStateToProps = state => {
-  console.log(state);
   let { data, details_id, pageIndex } = state.homepageReducer;
 ;
   return { data, details_id, pageIndex };
